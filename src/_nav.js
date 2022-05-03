@@ -2,6 +2,7 @@ import React from 'react'
 import CIcon from '@coreui/icons-react'
 import { cilSpeedometer } from '@coreui/icons'
 import { CNavItem } from '@coreui/react'
+import { cilList } from '@coreui/icons'
 
 const _nav = [
   {
@@ -9,10 +10,12 @@ const _nav = [
     name: 'Dashboard',
     to: '/dashboard',
     icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
-    badge: {
-      color: 'info',
-      text: 'NEW',
-    },
+  },
+  {
+    component: CNavItem,
+    name: 'Home Equity Application',
+    to: '/homeequity',
+    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
   },
   /*{
     component: CNavTitle,

@@ -1,0 +1,258 @@
+.collapsible .toggle {
+	background: rgb(14, 12, 176);
+	background: linear-gradient(
+		180deg,
+		rgba(14, 12, 176, 1) 0%,
+		rgba(27, 21, 73, 1) 100%
+	);
+	border: unset;
+	color: white;
+	cursor: pointer;
+	font: unset;
+	padding: 0.5rem;
+	padding: 0.3rem;
+	border-radius: 5px;
+	margin-bottom: 0.5rem;
+	height: max-content;
+	width: 100%;
+	color: white;
+	text-align: left;
+	padding-left: 1.5rem;
+	font-size: 1rem;
+	display: inline-flexbox;
+	justify-content: left;
+	vertical-align: middle;
+	font-family: "PT Sans", sans-serif;
+	align-items: center;
+	margin-left: auto;
+    margin-right: auto;
+}
+
+.collapsible .content {
+	padding: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.collapsible .content-parent {
+	height: 0px;
+	overflow: hidden;
+	transition: height ease 0.3s;
+}
+
+.collapsible .content-parent.show {
+	height: auto;
+}
+
+
+
+.column.check {
+	display: flex;
+	flex-direction: row;
+}
+
+.collapsible {
+}
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	flex-grow: 1;
+	flex-shrink: 0;
+	flex-basis: auto;
+}
+
+/*arrange columns and rows*/
+.column {
+	display: flex;
+	flex-direction: column;
+	/*flex-basis: 100%;*/
+	flex: 1;
+}
+
+.row {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding-top: 15px;
+	/*flex-wrap: wrap;*/
+}
+
+.content {
+	font-size: 0.9rem;
+	display: flex;
+	flex-direction: column;
+	font-family: "PT Sans", sans-serif;
+	color: #1b1567;
+	width: 70%;
+	margin-left: 15%;
+	/*text-transform: capitalize;*/
+	/*border: 1px solid #e74c3c;
+	padding: 0.5rem;
+	border-radius: 5px;
+	margin-bottom: 0.5rem;*/
+}
+
+.income input {
+	width: 50%;
+	margin-left: calc(50% / 2);
+}
+
+.income {
+	text-align: center;
+}
+.property-select {
+	width: 100%;
+	margin-left: 1%;
+	font-family: "PT Sans", sans-serif;
+}
+
+.property-select input[type="select"] {
+	width: 30%;
+	font-size: small;
+}
+
+.form-input {
+	margin-bottom: 10px;
+}
+
+input[type="text"].form-control {
+	font-size: small;
+}
+
+input[type="date"] {
+	font-size: small;
+	width: 50%;
+}
+
+input[type="checkbox"] {
+	height: 15px;
+	width: 15px;
+	margin-right: 5px;
+}
+
+input[type="date"] {
+	font-size: small;
+}
+input[type="select"].form-select {
+	font-size: small;
+}
+
+.prefix-text input[type="select"] {
+	width: 10vh;
+}
+
+.suffix {
+	width: 20%;
+}
+#ssn {
+	width: 50%;
+}
+
+#phone-number {
+	width: 50%;
+}
+
+.end-button button,
+.income-button button {
+	padding: 3px;
+	border-width: 1.5px;
+	border-color: #171ea6;
+	cursor: pointer;
+	background-color: white;
+	border-radius: 6px;
+	color: #1b1567;
+	width: 8rem;
+	font-family: "PT Sans", sans-serif;
+	font-size: 1rem;
+	font-weight: lighter;
+	margin-top: 2rem;
+	margin-right: 3rem;
+	outline: none;
+}
+
+.income-button button:hover,
+.end-button button:hover {
+	border-color: #067bf9;
+	color: #067bf9;
+}
+
+/*button:focus {
+	box-shadow: blue;
+	background-color: blue;
+}*/
+
+button.save-button,
+button.end-button {
+	background: rgb(14, 12, 176);
+	background: linear-gradient(
+		180deg,
+		rgba(14, 12, 176, 1) 0%,
+		rgba(27, 21, 73, 1) 100%
+	);
+	color: white;
+	font-weight: normal;
+	border: unset;
+}
+
+button.save-button:hover,
+button.income-button:hover {
+	background: #1a168c;
+	/*background: linear-gradient(
+		0deg,
+		rgba(44, 115, 210) 0%,
+		rgba(75, 123, 185) 100%
+	);*/
+	color: white;
+	font-weight: normal;
+	border: unset;
+}
+
+.end-button {
+	display: flex;
+	justify-content: center;
+}
+.income-button {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.react-icons {
+	vertical-align: left;
+}
+
+/*MEDIA QUERIES*/
+@media (max-width: 600px) {
+	.form {
+		width: 80%;
+		margin-left: 15%;
+	}
+	.column {
+		display: flexbox;
+		flex-direction: column;
+		flex-basis: 100%;
+		flex: 1;
+	}
+
+	.row {
+		display: flex;
+		flex-direction: column;
+		flex-wrap: wrap;
+	}
+
+	.form-control,
+	.form-select {
+		width: 100%;
+	}
+
+	.end-button,
+	.income-button {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+	}
+
+	input.form-control {
+	}
+}
+
