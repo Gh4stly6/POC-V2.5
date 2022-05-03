@@ -1,18 +1,7 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import {
-  cilBell,
-  cilCalculator,
-  cilChartPie,
-  cilCursor,
-  cilDrop,
-  cilNotes,
-  cilPencil,
-  cilPuzzle,
-  cilSpeedometer,
-  cilStar,
-} from '@coreui/icons'
-import { CNavGroup, CNavItem, CNavTitle } from '@coreui/react'
+import { cilSpeedometer } from '@coreui/icons'
+import { CNavItem } from '@coreui/react'
 
 const _nav = [
   {
@@ -25,7 +14,7 @@ const _nav = [
       text: 'NEW',
     },
   },
-  {
+  /*{
     component: CNavTitle,
     name: 'Theme',
   },
@@ -44,8 +33,8 @@ const _nav = [
   {
     component: CNavTitle,
     name: 'Components',
-  },
-  {
+  },*/
+  /*{
     component: CNavGroup,
     name: 'Base',
     to: '/base',
@@ -122,8 +111,8 @@ const _nav = [
         to: '/base/tooltips',
       },
     ],
-  },
-  {
+  },*/
+  /*{
     component: CNavGroup,
     name: 'Buttons',
     to: '/buttons',
@@ -145,8 +134,8 @@ const _nav = [
         to: '/buttons/dropdowns',
       },
     ],
-  },
-  {
+  },*/
+  /*{
     component: CNavGroup,
     name: 'Forms',
     icon: <CIcon icon={cilNotes} customClassName="nav-icon" />,
@@ -192,8 +181,8 @@ const _nav = [
         to: '/forms/validation',
       },
     ],
-  },
-  {
+  },*/
+  /*{
     component: CNavItem,
     name: 'Charts',
     to: '/charts',
@@ -224,8 +213,8 @@ const _nav = [
         to: '/icons/brands',
       },
     ],
-  },
-  {
+  },*/
+  /*{
     component: CNavGroup,
     name: 'Notifications',
     icon: <CIcon icon={cilBell} customClassName="nav-icon" />,
@@ -265,7 +254,8 @@ const _nav = [
   {
     component: CNavTitle,
     name: 'Extras',
-  },
+  },*/
+  /*
   {
     component: CNavGroup,
     name: 'Pages',
@@ -292,7 +282,7 @@ const _nav = [
         to: '/500',
       },
     ],
-  },
+  },*/
 ]
 
 export default _nav
