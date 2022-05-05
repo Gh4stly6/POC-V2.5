@@ -34,7 +34,7 @@ const Navs = () => {
               disabled styling.
             </p>
             <DocsExample href="components/nav#base-nav">
-              <CNav>
+              <CNav colorScheme="light">
                 <CNavItem>
                   <CNavLink href="#" active>
                     Active

@@ -220,9 +220,9 @@ const ApplicationForm = () => {
     <>
       <CRow>
         <CCol>
-          <CCard>
+          <CCard className="mb-3 border-top-primary border-top-3">
             <CCardHeader>
-              <h2>Home Equity Application Form</h2>
+              <h2 className="card-title">Home Equity Application Form</h2>
             </CCardHeader>
             <CCardBody>
               <div className="container">
@@ -240,7 +240,7 @@ const ApplicationForm = () => {
                 </div>
                 {/*Personal information section*/}
                 <div className="collapsible">
-                  <div className="header">
+                  <div className="headerOption">
                     <button className="toggle" onClick={() => setIsPersonalOpen(!isPersonalOpen)}>
                       <BsFillPersonFill size={34} />
                       Step 1: Personal Information
@@ -516,7 +516,7 @@ const ApplicationForm = () => {
 
                 {/*Property Section*/}
                 <div className="collapsible">
-                  <div className="header">
+                  <div className="headerOption">
                     <button className="toggle" onClick={() => setIsPropertyOpen(!isPropertyOpen)}>
                       <BsFillHouseDoorFill size={34} />
                       Step 2: Property Information
@@ -684,7 +684,7 @@ const ApplicationForm = () => {
 
                 {/*Income Section */}
                 <div className="collapsible">
-                  <div className="header">
+                  <div className="headerOption">
                     <button className="toggle" onClick={() => setIsIncomeOpen(!isIncomeOpen)}>
                       <FaCoins size={34} />
                       Step 3: Income and Assets

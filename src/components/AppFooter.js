@@ -5,17 +5,17 @@ const AppFooter = () => {
   return (
     <CFooter>
       <div>
-        <a href="https://coreui.io" target="_blank" rel="noopener noreferrer">
-          CoreUI
+        <a href="https://www.zventus.com/" target="_blank" rel="noopener noreferrer">
+          Zventus
         </a>
         <span className="ms-1">&copy; 2022 creativeLabs.</span>
       </div>
-      <div className="ms-auto">
-        <span className="me-1">Powered by</span>
-        <a href="https://coreui.io/react" target="_blank" rel="noopener noreferrer">
+      {/*<div className="ms-auto">
+        <span className="me-1">Copyright 2022, Zventus</span>
+        <a href="" target="_blank" rel="noopener noreferrer">
           CoreUI React Admin &amp; Dashboard Template
-        </a>
-      </div>
+  </a>
+  </div>*/}
     </CFooter>
   )
 }

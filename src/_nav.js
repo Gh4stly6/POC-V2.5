@@ -1,21 +1,68 @@
 import React from 'react'
 import CIcon from '@coreui/icons-react'
-import { cilSpeedometer } from '@coreui/icons'
-import { CNavItem } from '@coreui/react'
-import { cilList } from '@coreui/icons'
+import { CNavItem, CNavTitle } from '@coreui/react'
+import { AiOutlineBarChart } from 'react-icons/ai'
+import { AiFillDashboard } from 'react-icons/ai'
+import { AiFillCalculator } from 'react-icons/ai'
+import { AiOutlineFileText } from 'react-icons/ai'
+import { AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineUser } from 'react-icons/ai'
+import { AiFillBell } from 'react-icons/ai'
 
 const _nav = [
+  {
+    component: CNavTitle,
+    name: 'General',
+  },
   {
     component: CNavItem,
     name: 'Dashboard',
     to: '/dashboard',
-    icon: <CIcon icon={cilSpeedometer} customClassName="nav-icon" />,
+    icon: <AiFillDashboard className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Decision Analysis',
+    to: '/decisionanalysis',
+    icon: <AiFillCalculator className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Statistics',
+    to: '/statistics',
+    icon: <AiOutlineBarChart className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Reporting',
+    to: '/reporting',
+    icon: <AiOutlineFileText className="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Application',
   },
   {
     component: CNavItem,
     name: 'Home Equity Application',
     to: '/homeequity',
-    icon: <CIcon icon={cilList} customClassName="nav-icon" />,
+    icon: <AiOutlineEdit className="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Settings',
+  },
+  {
+    component: CNavItem,
+    name: 'Profile',
+    to: '/profile',
+    icon: <AiOutlineUser className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Notifications',
+    to: '/notifications',
+    icon: <AiFillBell className="nav-icon" />,
   },
   /*{
     component: CNavTitle,

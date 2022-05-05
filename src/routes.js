@@ -3,7 +3,11 @@ import React from 'react'
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Dashboardpoc = React.lazy(() => import('./views/poc/Dashboardpoc'))
 const ApplicationForm = React.lazy(() => import('./views/poc/ApplicationForm'))
-
+const DecisionAnalysis = React.lazy(() => import('./views/poc/DecisionAnalysis'))
+const Statistics = React.lazy(() => import('./views/poc/Statistics'))
+const Profile = React.lazy(() => import('./views/poc/Profile'))
+const Notification = React.lazy(() => import('./views/poc/Notification'))
+const Reporting = React.lazy(() => import('./views/poc/Reporting'))
 //const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 //const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
 
@@ -58,6 +62,11 @@ const routes = [
   //{ path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/dashboard', name: 'Dashboard', element: Dashboardpoc },
   { path: '/homeequity', name: 'Home Equity Application', element: ApplicationForm },
+  { path: '/decisionanalysis', name: 'Decision Analysis', element: DecisionAnalysis },
+  { path: '/notifications', name: 'Notifications', element: Notification },
+  { path: '/profile', name: 'Profile', element: Profile },
+  { path: '/statistics', name: 'Statistics', element: Statistics },
+  { path: '/reporting', name: 'Reporting', element: Reporting },
   /*{ path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
   { path: '/theme/typography', name: 'Typography', element: Typography },
