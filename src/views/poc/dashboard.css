@@ -1,0 +1,27 @@
+.button-content{
+
+    display: flex;
+    flex-direction: row;
+    justify-items: left;
+    text-align: center;
+
+}
+
+.shortcut-buttons{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.button-text{
+    padding:10px ;
+    vertical-align: middle;
+    margin-top: auto;
+    margin-bottom: auto;
+
+}
+
+button.btn.btn-ghost-primary.rounded-pill{
+
+}

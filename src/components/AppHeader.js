@@ -40,6 +40,21 @@ const AppHeader = () => {
               Dashboard
             </CNavLink>
           </CNavItem>
+          <CNavItem>
+            <CNavLink to="/decisionanalyis" component={NavLink}>
+              Decision Analysis
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink to="/reporting" component={NavLink}>
+              Reporting
+            </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink to="/messages" component={NavLink}>
+              Messages
+            </CNavLink>
+          </CNavItem>
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>

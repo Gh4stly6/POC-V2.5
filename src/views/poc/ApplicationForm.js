@@ -139,7 +139,7 @@ const ApplicationForm = () => {
   }
 
   // *Send Data to API
-  const sendData = (e) => {
+  async function sendData(e) {
     e.preventDefault()
 
     var myHeaders = new Headers()
@@ -193,20 +193,32 @@ const ApplicationForm = () => {
 
     console.log(fullName.trim())
     console.log(data.topics)
-
-    fetch('https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod', requestOptions)
-      .then((response) => response.json()) // the promise
-      .then((res) => {
-        console.log('Data', res)
-      })
-      .finally((loanId) => {
+    try {
+      const response = await fetch(
+        'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
+        requestOptions,
+      )
+      if (response.ok) {
         swal({
           title: 'Loan ID',
           text: `${data.topics}`,
           icon: 'success',
         })
+      } else {
+        swal({
+          title: 'Error',
+          text: `Your application form wasn't submitted successfully`,
+          icon: 'error',
+        })
+      }
+    } catch (error) {
+      swal({
+        title: 'Error',
+        text: `Your application form wasn't submitted successfully`,
+        icon: 'error',
       })
-      .catch((error) => console.log('Error', error))
+      console.log('Error', error)
+    }
 
     //* Reset form after submit
     handleReset()

@@ -8,6 +8,7 @@ import { AiOutlineFileText } from 'react-icons/ai'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlineUser } from 'react-icons/ai'
 import { AiFillBell } from 'react-icons/ai'
+import { AiFillMail } from 'react-icons/ai'
 
 const _nav = [
   {
@@ -57,6 +58,12 @@ const _nav = [
     name: 'Profile',
     to: '/profile',
     icon: <AiOutlineUser className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Messages',
+    to: '/messages',
+    icon: <AiFillMail className="nav-icon" />,
   },
   {
     component: CNavItem,
