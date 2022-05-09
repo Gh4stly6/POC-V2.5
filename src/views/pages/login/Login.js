@@ -1,86 +1,74 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardGroup,
-  CCol,
-  CContainer,
-  CForm,
-  CFormInput,
-  CInputGroup,
-  CInputGroupText,
-  CRow,
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { NavLink } from 'react-router-dom'
+import './login.css'
 
 const Login = () => {
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
-      <CContainer>
-        <CRow className="justify-content-center">
-          <CCol md={8}>
-            <CCardGroup>
-              <CCard className="p-4">
-                <CCardBody>
-                  <CForm>
-                    <h1>Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
-                    <CInputGroup className="mb-3">
-                      <CInputGroupText>
-                        <CIcon icon={cilUser} />
-                      </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
-                    </CInputGroup>
-                    <CInputGroup className="mb-4">
-                      <CInputGroupText>
-                        <CIcon icon={cilLockLocked} />
-                      </CInputGroupText>
-                      <CFormInput
-                        type="password"
-                        placeholder="Password"
-                        autoComplete="current-password"
-                      />
-                    </CInputGroup>
-                    <CRow>
-                      <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
-                          Login
-                        </CButton>
-                      </CCol>
-                      <CCol xs={6} className="text-right">
-                        <CButton color="link" className="px-0">
-                          Forgot password?
-                        </CButton>
-                      </CCol>
-                    </CRow>
-                  </CForm>
-                </CCardBody>
-              </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
+    <div className="maincontainer">
+      <div className="container-fluid">
+        <div className="row no-gutter">
+          <div className="'col-md-6 d-none d-md-flex bg-image"></div>
+
+          <div className="col-md-6 bg-light">
+            <div className="login d-flex align-items-center py-5">
+              <div className="container">
+                <div className="row">
+                  <div className="col-lg-10 col-xl-7 mx-auto">
+                    <h3 className="display-4">Welcome!</h3>
+                    <p className="text-muted mb-4">Please enter your data here to login</p>
+                    <form>
+                      <div className="mb-3">
+                        <input
+                          id="inputEmail"
+                          type="Email"
+                          placeholder="Email"
+                          required=""
+                          autoFocus=""
+                          className="form-control rounded-pill border-0 shadow-sm px-4"
+                        />
+                      </div>
+                      <div className="mb-3">
+                        <input
+                          id="inputPassword"
+                          type="password"
+                          placeholder="Password"
+                          required=""
+                          className="form-control rounded-pill border-0 shadow-sm px-4 text-primary"
+                        />
+                      </div>
+                      <div className="form-check">
+                        <input id="customCheck1" type="checkbox" className="form-check-input" />
+                        <label htmlFor="customCheck1" className="form-check-label">
+                          Remember password
+                        </label>
+                      </div>
+                      <div className="d-grid gap-2 mt-2">
+                        <button
+                          type="submit"
+                          className="btn btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                        >
+                          <NavLink to="/form" className="letter">
+                            Sign in
+                          </NavLink>
+                        </button>
+                      </div>
+
+                      <div className="text-center d-flex justify-content-between mt-4">
+                        <p>
+                          <a href="#" className="font-italic text-muted">
+                            <u>Forgot your password?</u>
+                          </a>
+                        </p>
+                      </div>
+                    </form>
                   </div>
-                </CCardBody>
-              </CCard>
-            </CCardGroup>
-          </CCol>
-        </CRow>
-      </CContainer>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
-
 export default Login
