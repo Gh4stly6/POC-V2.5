@@ -1,6 +1,7 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import './login.css'
+import { CButton } from '@coreui/react'
 
 const Login = () => {
   return (
@@ -43,14 +44,16 @@ const Login = () => {
                         </label>
                       </div>
                       <div className="d-grid gap-2 mt-2">
-                        <button
-                          type="submit"
-                          className="btn btn-block text-uppercase mb-2 rounded-pill shadow-sm"
-                        >
-                          <NavLink to="/form" className="letter">
+                        <NavLink to="/dashboard" className="letter" component={NavLink}>
+                          <CButton
+                            type="submit"
+                            color="primary"
+                            className="btn btn-block text-uppercase mb-2 rounded-pill shadow-sm"
+                            variant="ghost"
+                          >
                             Sign in
-                          </NavLink>
-                        </button>
+                          </CButton>
+                        </NavLink>
                       </div>
 
                       <div className="text-center d-flex justify-content-between mt-4">

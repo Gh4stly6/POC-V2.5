@@ -23,9 +23,9 @@ padding: 0;
 }
 
 button.btn.btn-block.text-uppercase.mb-2.rounded-pill.shadow-sm{
-border-color: #312B59;
+border-color: #321FDB;
+width: 100%;
 
-color: white;
 }
 
 body{
