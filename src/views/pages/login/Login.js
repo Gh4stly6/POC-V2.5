@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import { CNavLink, CWidgetStatsF, CButton } from '@coreui/react'
 import './login.css'
+import Dashboardpoc from 'src/routes'
 
 const Login = () => {
   return (
@@ -8,7 +10,6 @@ const Login = () => {
       <div className="container-fluid">
         <div className="row no-gutter">
           <div className="'col-md-6 d-none d-md-flex bg-image"></div>
-
           <div className="col-md-6 bg-light">
             <div className="login d-flex align-items-center py-5">
               <div className="container">
@@ -47,9 +48,9 @@ const Login = () => {
                           type="submit"
                           className="btn btn-block text-uppercase mb-2 rounded-pill shadow-sm"
                         >
-                          <NavLink to="/form" className="letter">
+                          <CNavLink to="/dashboard" element={Dashboardpoc}>
                             Sign in
-                          </NavLink>
+                          </CNavLink>
                         </button>
                       </div>
 
@@ -66,6 +67,7 @@ const Login = () => {
               </div>
             </div>
           </div>
+          Aqui va una imagen
         </div>
       </div>
     </div>
