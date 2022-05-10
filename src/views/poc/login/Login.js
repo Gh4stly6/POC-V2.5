@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
+import { CNavLink, CWidgetStatsF, CButton } from '@coreui/react'
 import './login.css'
-import { CButton } from '@coreui/react'
 
 const Login = () => {
   return (
@@ -9,7 +9,6 @@ const Login = () => {
       <div className="container-fluid">
         <div className="row no-gutter">
           <div className="'col-md-6 d-none d-md-flex bg-image"></div>
-
           <div className="col-md-6 bg-light">
             <div className="login d-flex align-items-center py-5">
               <div className="container">
@@ -69,6 +68,7 @@ const Login = () => {
               </div>
             </div>
           </div>
+          Aqui va una imagen
         </div>
       </div>
     </div>

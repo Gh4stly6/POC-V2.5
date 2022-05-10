@@ -39,9 +39,8 @@ const ApplicationForm = () => {
     date_of_birth: '',
     marital_status: '',
     preferred_language: '',
-    employment_status: '',
-    anual_income: '',
-    source_of_income: '',
+    CWidgetStatsF: '',
+    CButton: '',
     additional_income: '',
     coapplicant: '',
     //vendor: ''
