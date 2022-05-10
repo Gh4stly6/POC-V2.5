@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import { CNavLink, CWidgetStatsF, CButton } from '@coreui/react'
 //import House from './House-searching-amico.svg'
 import './login.css'
-
+//The image was extracted from https://storyset.com/illustration/house-searching/amico.
 const Login = () => {
   return (
     <div className="maincontainer">
@@ -23,7 +23,7 @@ const Login = () => {
                           id="inputEmail"
                           type="Email"
                           placeholder="Email"
-                          required=""
+                          required
                           autoFocus=""
                           className="form-control rounded-pill border-0 shadow-sm px-4"
                         />

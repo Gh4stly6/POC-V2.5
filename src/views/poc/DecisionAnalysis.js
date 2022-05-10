@@ -2,11 +2,11 @@ import React from 'react'
 //import Header from './Header'
 import './decision.css'
 import { useState, useEffect } from 'react'
-//import ProgressBar from 'react-bootstrap/ProgressBar'
+import { CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
-//import Spinner from 'react-bootstrap/Spinner'
-//import Button from 'react-bootstrap/Button'
-//import Alert from 'react-bootstrap/Alert'
+import { CSpinner } from '@coreui/react'
+import { CButton } from '@coreui/react'
+import { CAlert } from '@coreui/react'
 import { BsCheck2Circle } from 'react-icons/bs'
 import { BsXCircleFill } from 'react-icons/bs'
 //import NavBar from './NavBar'
@@ -460,7 +460,7 @@ const DecisionAnalysis = () => {
                 </button>
               )}
 
-              {/*<ProgressBar now={progress} label={`${progress}%`} />*/}
+              <CProgressBar now={progress} label={`${progress}%`} />
 
               <div>
                 <div className="loading">
@@ -468,8 +468,7 @@ const DecisionAnalysis = () => {
                     <div>
                       <label htmlFor="">Processing Loan</label>
                       <br />
-                      {/*<Spinner animation="border" role="status" variant="primary"></Spinner>
-                       */}
+                      <CSpinner animation="border" role="status" variant="primary"></CSpinner>
                       <br />
                       <label htmlFor="">
                         Calling mutiple external vendors. Message has already been written to the
@@ -485,31 +484,31 @@ const DecisionAnalysis = () => {
                   )}
                 </div>
 
-                {/* {!showDecision && (
-                  <Alert show={show} variant="danger">
-                    <Alert.Heading>Final decision</Alert.Heading>
+                {!showDecision && (
+                  <CAlert show={show} variant="danger">
+                    <CAlert.Heading>Final decision</CAlert.Heading>
                     <p>No</p>
                     <hr />
                     <div className="d-flex justify-content-end">
-                      <Button onClick={() => setShow(false)} variant="outline-danger">
+                      <CButton onClick={() => setShow(false)} variant="outline-danger">
                         Close
-                      </Button>
+                      </CButton>
                     </div>
-                  </Alert>
-               )}*/}
+                  </CAlert>
+                )}
 
-                {/*{showDecision && (
-                  <Alert show={show} variant="success">
-                    <Alert.Heading>Final decision</Alert.Heading>
+                {showDecision && (
+                  <CAlert show={show} variant="success">
+                    <CAlert.Heading>Final decision</CAlert.Heading>
                     <p>Yes</p>
                     <hr />
                     <div className="d-flex justify-content-end">
-                      <Button onClick={() => setShow(false)} variant="outline-success">
+                      <CButton onClick={() => setShow(false)} variant="outline-success">
                         Close
-                      </Button>
+                      </CButton>
                     </div>
-                  </Alert>
-                )}*/}
+                  </CAlert>
+                )}
               </div>
             </div>
           )}
