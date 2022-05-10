@@ -27,112 +27,125 @@ import submit from './assets/img/submit.png'
 import process from './assets/img/process.png'
 import feature from './assets/img/feature.png'
 const Dashboardpoc = () => {
-  /*//Data Table
-  const [loan, setLoan] = useState()
-  var id, name, credit, title, appraisal, employment, date, decision
-
-  //Kaleido endpoint for Lender node
-  const URL = 'https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io'
-  var t = [] //array to save loan id
-
-  //Header for fetch request
-  let requestOptions = {
-    method: 'GET',
-    headers: {
-      Authorization:
-        'Basic dTBqbW1mam12NTphNGV3WjZuNVh1bHBSVElmMXNKX2FWa1pYQjZ3RGtLaFVhSVFUMEVNbVJF',
-      'Content-Type': 'application/json',
-    },
-  }
-
-  //Use effect for retrieving data from Kaleido
-  useEffect(() => {
-    async function get_topics() {
-      const message = await fetch(
-        `${URL}/api/v1/namespaces/default/messages?limit=100`,
-        requestOptions,
-      )
-      const data = await message.json()
-      var topics = []
-
-      //store topics values
-      for (let i = 0; i < data.length; i++) {
-        topics.push(data[i].header.topics[0])
-      }
-
-      //create a new object with filtered topic because previous response returned repeated topics
-      let result = topics.filter((item, index) => {
-        return topics.indexOf(item) == index
-      })
-      const check = []
-      const l = []
-
-      //Request to kaleido all messages with the topic stored in result
-      for (let i = 0; i < result.length; i++) {
-        const loan = await fetch(
-          `${URL}/api/v1/namespaces/default/messages?topics=${result[i]}&limit=100`,
-          requestOptions,
-        )
-        check.push(await loan.json())
-      }
-
-      //Check what is inside of all those messages to verify if tcredit run, appraisal... are done
-      const forLoop = async (_) => {
-        for (let i = 0; i < check.length; i++) {
-          for (let j = 0; i < check[i].length; j++) {
-            let r = await fetch(
-              `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/${check[i][j].header.id}/data`,
-              requestOptions,
-            )
-            let a = await r.json()
-            id = a[0].header.topics[0]
-            if ('body' in a[0].value) {
-              if ('employment_verified' in a[0].value.body) {
-                employment = a[0].value.body.employment_verified
-              } else {
-                if ('title_run_done' in a[0].value.body) {
-                  title = a[0].value.body.title_run_done
-                } else {
-                  if ('appraisal_done' in a[0].value.body) {
-                    appraisal = a[0].value.body.appraisal_done
-                  } else {
-                    if ('credit_check_ran' in a[0].value.body) {
-                      credit = a[0].value.body.credit_check_ran
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-      console.log(check)
-    }
-
-    get_topics()
-  }, [])*/
-
   const columns = [
     {
-      name: 'Title',
-      selector: (row) => row.title,
+      name: 'Product',
+      selector: (row) => row.product,
+      sortable: true,
     },
     {
-      name: 'Year',
-      selector: (row) => row.year,
+      name: 'Date',
+      selector: (row) => row.date,
+      sortable: true,
+    },
+    {
+      name: 'Loan ID',
+      selector: (row) => row.loan_id,
+      sortable: true,
+    },
+    {
+      name: 'Client',
+      selector: (row) => row.client,
+      sortable: true,
+    },
+    {
+      name: 'Credit Score',
+      selector: (row) => row.credit_score,
+      sortable: true,
+    },
+    {
+      name: 'Title Run',
+      selector: (row) => row.title_run,
+      sortable: true,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.title_run === 'Done',
+          style: {
+            fontWeight: 'bold',
+            color: 'green',
+          },
+        },
+        {
+          when: (row) => row.title_run === 'In process',
+          style: {
+            fontWeight: 'bold',
+            color: 'red',
+          },
+        },
+      ],
+    },
+
+    {
+      name: 'Appraisal',
+      selector: (row) => row.appraisal,
+      sortable: true,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.appraisal === 'Done',
+          style: {
+            fontWeight: 'bold',
+            color: 'green',
+          },
+        },
+        {
+          when: (row) => row.appraisal === 'In process',
+          style: {
+            fontWeight: 'bold',
+            color: 'red',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Employment Status',
+      selector: (row) => row.employment_status,
+      sortable: true,
+      conditionalCellStyles: [
+        {
+          when: (row) => row.employment_status === 'Done',
+          style: {
+            fontWeight: 'bold',
+            color: 'green',
+          },
+        },
+        {
+          when: (row) => row.employment_status === 'In process',
+          style: {
+            fontWeight: 'bold',
+            color: 'red',
+          },
+        },
+      ],
+    },
+    {
+      name: 'Final Decision',
+      selector: (row) => row.final_desicion,
+      sortable: true,
     },
   ]
 
   const data = [
     {
-      id: 1,
-      title: 'Beetlejuice',
-      year: '1988',
+      product: 'Home Equity',
+      date: '4/01/2022',
+      loan_id: '944ce9de-c296-4937-9e85-f3574d782c43',
+      client: 'John Doe',
+      credit_score: '800',
+      title_run: 'Done',
+      appraisal: 'In process',
+      employment_status: 'In process',
+      final_desicion: 'Make',
     },
     {
-      id: 2,
-      title: 'Ghostbusters',
-      year: '1984',
+      product: 'Home Equity',
+      date: '3/22/2022',
+      loan_id: '944ce9de-c296-4937-9e85-f3574d7825855',
+      client: 'Alice Smith',
+      credit_score: '700',
+      title_run: 'Done',
+      appraisal: 'Done',
+      employment_status: 'Done',
+      final_desicion: 'No',
     },
   ]
 
@@ -149,11 +162,9 @@ const Dashboardpoc = () => {
             <CCard className="text-center mb-3 border-top-2">
               {/*Pie Chart*/}
               <CRow>
-                <CCardBody className="text-center">
+                <CCardBody>
+                  <CCardTitle>Loans Summary</CCardTitle>
                   <CCol>
-                    <CCardHeader>
-                      <h3>Loans Summary</h3>
-                    </CCardHeader>
                     <CChartPie
                       data={{
                         labels: ['Submitted', 'In process', 'Decisioned'],
@@ -171,7 +182,7 @@ const Dashboardpoc = () => {
               </CRow>
             </CCard>
           </CCol>
-          <CCol xs={5}>
+          <CCol xs={5} className="mb-3">
             <CCard>
               <CCardBody>
                 <CCardTitle>Welcome User</CCardTitle>
@@ -261,7 +272,7 @@ const Dashboardpoc = () => {
             <CCol sm={12}>
               <CCard className="mb-3 border-top-2">
                 <CCardHeader>
-                  <h3>Loans Data Table</h3>
+                  <h5>Loans Data Table</h5>
                 </CCardHeader>
                 <CCardBody>
                   <DataTable columns={columns} data={data} />
