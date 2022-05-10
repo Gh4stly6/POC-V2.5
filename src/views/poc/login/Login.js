@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { CNavLink, CWidgetStatsF, CButton } from '@coreui/react'
+import House from './House-searching-amico.svg'
 import './login.css'
 
 const Login = () => {
@@ -8,6 +9,7 @@ const Login = () => {
     <div className="maincontainer">
       <div className="container-fluid">
         <div className="row no-gutter">
+          <img src={House} />
           <div className="'col-md-6 d-none d-md-flex bg-image"></div>
           <div className="col-md-6 bg-light">
             <div className="login d-flex align-items-center py-5">
@@ -68,7 +70,6 @@ const Login = () => {
               </div>
             </div>
           </div>
-          Aqui va una imagen
         </div>
       </div>
     </div>
