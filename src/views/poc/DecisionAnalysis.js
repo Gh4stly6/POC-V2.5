@@ -350,6 +350,7 @@ const DecisionAnalysis = () => {
   return (
     <div>
       {/*<NavBar />
+      
       <Header title="Decision Analysis" />*/}
       <body>
         <div className="container">

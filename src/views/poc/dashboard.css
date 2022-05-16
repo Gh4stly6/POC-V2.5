@@ -9,7 +9,7 @@
 
 .shortcut-buttons{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
     gap: 10px;
 }
@@ -22,6 +22,4 @@
 
 }
 
-button.btn.btn-ghost-primary.rounded-pill{
 
-}

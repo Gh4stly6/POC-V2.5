@@ -27,6 +27,19 @@ import submit from './assets/img/submit.png'
 import process from './assets/img/process.png'
 import feature from './assets/img/feature.png'
 const Dashboardpoc = () => {
+  //table style
+  const customStyles = {
+    rows: {
+      style: {
+        color: '#290661',
+      },
+    },
+    header: {
+      style: {
+        color: '#4f5d73',
+      },
+    },
+  }
   const columns = [
     {
       name: 'Product',
@@ -40,7 +53,7 @@ const Dashboardpoc = () => {
     },
     {
       name: 'Loan ID',
-      selector: (row) => row.loan_id,
+      selector: (row) => row.id,
       sortable: true,
     },
     {
@@ -128,7 +141,7 @@ const Dashboardpoc = () => {
     {
       product: 'Home Equity',
       date: '4/01/2022',
-      loan_id: '944ce9de-c296-4937-9e85-f3574d782c43',
+      id: '944ce9de-c296-4937-9e85-f3574d782c43',
       client: 'John Doe',
       credit_score: '800',
       title_run: 'Done',
@@ -139,7 +152,7 @@ const Dashboardpoc = () => {
     {
       product: 'Home Equity',
       date: '3/22/2022',
-      loan_id: '944ce9de-c296-4937-9e85-f3574d7825855',
+      id: '944ce9de-c296-4937-9e85-f3574d7825855',
       client: 'Alice Smith',
       credit_score: '700',
       title_run: 'Done',
@@ -153,72 +166,9 @@ const Dashboardpoc = () => {
     <>
       <CContainer>
         <CRow>
-          <CCol xs={12}>
-            <h1>Dashboard</h1>
-          </CCol>
-        </CRow>
-        <CRow>
-          <CCol className="mb-3" xs={4}>
-            <CCard className="text-center mb-3 border-top-2">
-              {/*Pie Chart*/}
-              <CRow>
-                <CCardBody>
-                  <CCardTitle>Loans Summary</CCardTitle>
-                  <CCol>
-                    <CChartPie
-                      data={{
-                        labels: ['Submitted', 'In process', 'Decisioned'],
-                        datasets: [
-                          {
-                            data: [300, 50, 100],
-                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
-                          },
-                        ],
-                      }}
-                    />
-                  </CCol>
-                </CCardBody>
-              </CRow>
-            </CCard>
-          </CCol>
-          <CCol xs={5} className="mb-3">
+          <CCol xs={12} className="mb-3">
             <CCard>
               <CCardBody>
-                <CCardTitle>Welcome User</CCardTitle>
-                <CCardText>Loan applications percentages for this month</CCardText>
-                <CWidgetStatsF
-                  className="mb-3"
-                  color="info"
-                  padding={false}
-                  icon={<img src={submit}></img>}
-                  title="Submitted Loan Applications"
-                  value="89.9%"
-                />
-                <CWidgetStatsF
-                  className="mb-3"
-                  color="primary"
-                  padding={false}
-                  icon={<img src={process}></img>}
-                  title="In Process Loan Applications"
-                  value="89.9%"
-                />
-                <CWidgetStatsF
-                  className="mb-3"
-                  color="success"
-                  padding={false}
-                  icon={<img src={feature}></img>}
-                  title="Decisioned Loan Applications"
-                  value="89.9%"
-                />
-              </CCardBody>
-            </CCard>
-          </CCol>
-          <CCol xs={3}>
-            <CCard>
-              <CCardBody>
-                <CCardTitle>Shortcuts</CCardTitle>
-
                 <div className="shortcut-buttons">
                   <CNavLink to="/homeequity" component={NavLink}>
                     <CButton shape="rounded-pill" variant="ghost">
@@ -267,19 +217,81 @@ const Dashboardpoc = () => {
               </CCardBody>
             </CCard>
           </CCol>
+        </CRow>
 
-          <CRow>
-            <CCol sm={12}>
-              <CCard className="mb-3 border-top-2">
-                <CCardHeader>
-                  <h5>Loans Data Table</h5>
-                </CCardHeader>
+        <CRow>
+          <CCol className="mb-3" xs={4}>
+            <CCard className="text-center mb-3 border-top-2">
+              {/*Pie Chart*/}
+              <CRow>
+                <CCardTitle>Loans Summary</CCardTitle>
+
                 <CCardBody>
-                  <DataTable columns={columns} data={data} />
+                  <CCol>
+                    <CChartPie
+                      data={{
+                        labels: ['Submitted', 'In process', 'Decisioned'],
+                        datasets: [
+                          {
+                            data: [300, 50, 100],
+                            backgroundColor: ['#C29FFA', '#A370F7', '#8540F5'],
+                            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                          },
+                        ],
+                      }}
+                    />
+                  </CCol>
                 </CCardBody>
-              </CCard>
-            </CCol>
-          </CRow>
+              </CRow>
+            </CCard>
+          </CCol>
+          <CCol xs={8} className="mb-3">
+            <CCard>
+              <CCardBody>
+                <CCardTitle>Welcome User</CCardTitle>
+                <CCardText>Loan applications percentages for this month</CCardText>
+                <CWidgetStatsF
+                  className="mb-3"
+                  padding={false}
+                  icon={<img src={submit}></img>}
+                  title="Submitted Loan Applications"
+                  value="89.9%"
+                />
+                <CWidgetStatsF
+                  className="mb-3"
+                  padding={false}
+                  icon={<img src={process} color="red"></img>}
+                  title="In Process Loan Applications"
+                  value="89.9%"
+                />
+                <CWidgetStatsF
+                  className="mb-3"
+                  padding={false}
+                  icon={<img src={feature}></img>}
+                  title="Decisioned Loan Applications"
+                  value="89.9%"
+                />
+              </CCardBody>
+            </CCard>
+          </CCol>
+        </CRow>
+
+        <CRow>
+          <CCol sm={12}>
+            <CCard className="mb-3 border-top-2">
+              <CCardBody>
+                <DataTable
+                  columns={columns}
+                  data={data}
+                  title="Loan Applications"
+                  highlightOnHover
+                  responsive
+                  pagination
+                  customStyles={customStyles}
+                />
+              </CCardBody>
+            </CCard>
+          </CCol>
         </CRow>
       </CContainer>
     </>
