@@ -231,10 +231,7 @@ const ApplicationForm = () => {
     <>
       <CRow>
         <CCol>
-          <CCard className="mb-3 border-top-primary border-top-3">
-            <CCardHeader>
-              <h2 className="card-title">Home Equity Application Form</h2>
-            </CCardHeader>
+          <CCard>
             <CCardBody>
               <div className="container">
                 <div className="property-select">

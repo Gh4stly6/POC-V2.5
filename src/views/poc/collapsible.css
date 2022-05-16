@@ -22,7 +22,7 @@
 	display: inline-flexbox;
 	justify-content: left;
 	vertical-align: middle;
-	font-family: "PT Sans", sans-serif;
+	font-family: 'Heebo', sans-serif;
 	align-items: center;
 	margin-left: auto;
     margin-right: auto;
@@ -81,7 +81,7 @@
 	font-size: 0.9rem;
 	display: flex;
 	flex-direction: column;
-	font-family: "PT Sans", sans-serif;
+	font-family: 'Heebo', sans-serif;
 	color: #1b1567;
 	width: 70%;
 	margin-left: 15%;
@@ -103,7 +103,7 @@
 .property-select {
 	width: 100%;
 	margin-left: 1%;
-	font-family: "PT Sans", sans-serif;
+	font-family: 'Heebo', sans-serif;
 }
 
 .property-select input[type="select"] {
@@ -162,7 +162,7 @@ input[type="select"].form-select {
 	border-radius: 6px;
 	color: #1b1567;
 	width: 8rem;
-	font-family: "PT Sans", sans-serif;
+	font-family: 'Heebo', sans-serif;
 	font-size: 1rem;
 	font-weight: lighter;
 	margin-top: 2rem;
