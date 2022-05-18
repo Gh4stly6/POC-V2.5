@@ -1,6 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+//import DataTable from './DataTable'
 import {
   CCard,
   CCardHeader,
@@ -36,7 +37,16 @@ const Dashboardpoc = () => {
     },
     header: {
       style: {
-        color: '#4f5d73',
+        color: 'white',
+        fontWeight: '800',
+        backgroundColor: '#8076AB',
+      },
+    },
+    head: {
+      style: {
+        color: '#636F83',
+        fontWeight: '800',
+        fontSize: '14px',
       },
     },
   }
@@ -57,7 +67,7 @@ const Dashboardpoc = () => {
       sortable: true,
     },
     {
-      name: 'Client',
+      name: 'Borrower',
       selector: (row) => row.client,
       sortable: true,
     },
@@ -165,6 +175,7 @@ const Dashboardpoc = () => {
   return (
     <>
       <CContainer>
+        <h2>Welcome User</h2>
         <CRow>
           <CCol xs={12} className="mb-3">
             <CCard>
@@ -187,7 +198,7 @@ const Dashboardpoc = () => {
                         <div className="button-icon">
                           <img src={idea} />
                         </div>
-                        <div className="button-text">Decision Analysis</div>
+                        <div className="button-text">Underwriting Analysis</div>
                       </div>
                     </CButton>
                   </CNavLink>
@@ -224,20 +235,41 @@ const Dashboardpoc = () => {
             <CCard className="text-center mb-3 border-top-2">
               {/*Pie Chart*/}
               <CRow>
-                <CCardTitle>Loans Summary</CCardTitle>
-
                 <CCardBody>
                   <CCol>
+                    <CCardTitle>Pipeline Summary</CCardTitle>
                     <CChartPie
                       data={{
-                        labels: ['Submitted', 'In process', 'Decisioned'],
+                        labels: ['Point of Sale', 'In process', 'Underwrited'],
                         datasets: [
                           {
                             data: [300, 50, 100],
-                            backgroundColor: ['#C29FFA', '#A370F7', '#8540F5'],
-                            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                            backgroundColor: [
+                              'rgba(194, 159, 250,1)',
+                              'rgba(163, 112, 247,1)',
+                              'rgb(133, 64, 245, 1)',
+                            ],
+                            hoverBackgroundColor: [
+                              'rgba(194, 159, 250,0.9)',
+                              'rgba(163, 112, 247,0.9)',
+                              'rgb(133, 64, 245,0.9)',
+                            ],
                           },
                         ],
+                        options: {
+                          tooltips: {
+                            callbacks: {
+                              label: function (tooltipItem, data) {
+                                return (
+                                  data['labels'][tooltipItem['index']] +
+                                  ': ' +
+                                  data['datasets'][0]['data'][tooltipItem['index']] +
+                                  '%'
+                                )
+                              },
+                            },
+                          },
+                        },
                       }}
                     />
                   </CCol>
@@ -248,13 +280,12 @@ const Dashboardpoc = () => {
           <CCol xs={8} className="mb-3">
             <CCard>
               <CCardBody>
-                <CCardTitle>Welcome User</CCardTitle>
-                <CCardText>Loan applications percentages for this month</CCardText>
+                <CCardText> Loan Application Pipeline Percentages</CCardText>
                 <CWidgetStatsF
                   className="mb-3"
                   padding={false}
                   icon={<img src={submit}></img>}
-                  title="Submitted Loan Applications"
+                  title="Point of sale Loan Applications"
                   value="89.9%"
                 />
                 <CWidgetStatsF
@@ -268,7 +299,7 @@ const Dashboardpoc = () => {
                   className="mb-3"
                   padding={false}
                   icon={<img src={feature}></img>}
-                  title="Decisioned Loan Applications"
+                  title="Underwriting Results"
                   value="89.9%"
                 />
               </CCardBody>
@@ -283,7 +314,7 @@ const Dashboardpoc = () => {
                 <DataTable
                   columns={columns}
                   data={data}
-                  title="Loan Applications"
+                  title="Loan Details"
                   highlightOnHover
                   responsive
                   pagination
@@ -293,6 +324,7 @@ const Dashboardpoc = () => {
             </CCard>
           </CCol>
         </CRow>
+        {/*<DataTable />*/}
       </CContainer>
     </>
   )

@@ -18,13 +18,13 @@ const _nav = [
   {
     component: CNavItem,
     name: 'Dashboard',
-    to: '/dashboard',
+    to: 'general/dashboard',
     icon: <AiFillDashboard className="nav-icon" />,
   },
   {
     component: CNavItem,
-    name: 'Decision Analysis',
-    to: '/decisionanalysis',
+    name: 'Underwriting Analysis',
+    to: '/underwritinganalysis',
     icon: <AiFillCalculator className="nav-icon" />,
   },
   {
