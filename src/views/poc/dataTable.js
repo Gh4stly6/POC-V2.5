@@ -6,6 +6,10 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 const DataTable = () => {
   const columns = useMemo(() => [
     {
+      Header: 'Product',
+      accesor: 'product',
+    },
+    {
       Header: 'Date',
       accesor: 'date',
     },
