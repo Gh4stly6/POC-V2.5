@@ -1,5 +1,4 @@
 import React from 'react'
-//import Header from './Header'
 import './decision.css'
 import { useState, useEffect } from 'react'
 import { CProgressBar } from '@coreui/react'
@@ -9,7 +8,6 @@ import { CButton } from '@coreui/react'
 import { CAlert } from '@coreui/react'
 import { BsCheck2Circle } from 'react-icons/bs'
 import { BsXCircleFill } from 'react-icons/bs'
-//import NavBar from './NavBar'
 import _ from 'lodash'
 
 const DecisionAnalysis = () => {
