@@ -30,11 +30,11 @@ import feature from './assets/img/feature.png'
 const Dashboardpoc = () => {
   //table style
   const customStyles = {
-    /*rows: {
+    rows: {
       style: {
         color: '#290661',
       },
-    },*/
+    },
     header: {
       style: {
         color: 'white',
