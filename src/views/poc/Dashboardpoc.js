@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-//import DataTable from './DataTable'
+import TableAntd from './TableAntd'
 import {
   CCard,
   CCardHeader,
@@ -17,8 +17,6 @@ import {
   CButton,
 } from '@coreui/react'
 import { CChartPie } from '@coreui/react-chartjs'
-import DataTable from 'react-data-table-component'
-import { AiOutlineEdit } from 'react-icons/ai'
 import './dashboard.css'
 import contactform from './assets/img/contact-form.png'
 import idea from './assets/img/idea.png'
@@ -29,148 +27,6 @@ import process from './assets/img/process.png'
 import feature from './assets/img/feature.png'
 const Dashboardpoc = () => {
   //table style
-  const customStyles = {
-    rows: {
-      style: {
-        color: '#290661',
-      },
-    },
-    header: {
-      style: {
-        color: 'white',
-        fontWeight: '800',
-        backgroundColor: '#8076AB',
-      },
-    },
-    head: {
-      style: {
-        color: '#636F83',
-        fontWeight: '800',
-        fontSize: '14px',
-      },
-    },
-  }
-  const columns = [
-    {
-      name: 'Product',
-      selector: (row) => row.product,
-      sortable: true,
-    },
-    {
-      name: 'Date',
-      selector: (row) => row.date,
-      sortable: true,
-    },
-    {
-      name: 'Loan ID',
-      selector: (row) => row.id,
-      sortable: true,
-    },
-    {
-      name: 'Borrower',
-      selector: (row) => row.client,
-      sortable: true,
-    },
-    {
-      name: 'Credit Score',
-      selector: (row) => row.credit_score,
-      sortable: true,
-    },
-    {
-      name: 'Title Run',
-      selector: (row) => row.title_run,
-      sortable: true,
-      conditionalCellStyles: [
-        {
-          when: (row) => row.title_run === 'Done',
-          style: {
-            fontWeight: 'bold',
-            color: 'green',
-          },
-        },
-        {
-          when: (row) => row.title_run === 'In process',
-          style: {
-            fontWeight: 'bold',
-            color: 'red',
-          },
-        },
-      ],
-    },
-
-    {
-      name: 'Appraisal',
-      selector: (row) => row.appraisal,
-      sortable: true,
-      conditionalCellStyles: [
-        {
-          when: (row) => row.appraisal === 'Done',
-          style: {
-            fontWeight: 'bold',
-            color: 'green',
-          },
-        },
-        {
-          when: (row) => row.appraisal === 'In process',
-          style: {
-            fontWeight: 'bold',
-            color: 'red',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Employment Status',
-      selector: (row) => row.employment_status,
-      sortable: true,
-      conditionalCellStyles: [
-        {
-          when: (row) => row.employment_status === 'Done',
-          style: {
-            fontWeight: 'bold',
-            color: 'green',
-          },
-        },
-        {
-          when: (row) => row.employment_status === 'In process',
-          style: {
-            fontWeight: 'bold',
-            color: 'red',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Final Decision',
-      selector: (row) => row.final_desicion,
-      sortable: true,
-    },
-  ]
-
-  const data = [
-    {
-      product: 'Home Equity',
-      date: '4/01/2022',
-      id: '944ce9de-c296-4937-9e85-f3574d782c43',
-      client: 'John Doe',
-      credit_score: '800',
-      title_run: 'Done',
-      appraisal: 'In process',
-      employment_status: 'In process',
-      final_desicion: 'Make',
-    },
-    {
-      product: 'Home Equity',
-      date: '3/22/2022',
-      id: '944ce9de-c296-4937-9e85-f3574d7825855',
-      client: 'Alice Smith',
-      credit_score: '700',
-      title_run: 'Done',
-      appraisal: 'Done',
-      employment_status: 'Done',
-      final_desicion: 'No',
-    },
-  ]
 
   return (
     <>
@@ -310,21 +166,16 @@ const Dashboardpoc = () => {
         <CRow>
           <CCol sm={12}>
             <CCard className="mb-3 border-top-2">
+              <CCardHeader>
+                <h5>Loan Details</h5>
+              </CCardHeader>
+
               <CCardBody>
-                <DataTable
-                  columns={columns}
-                  data={data}
-                  title="Loan Details"
-                  highlightOnHover
-                  responsive
-                  pagination
-                  customStyles={customStyles}
-                />
+                <TableAntd />
               </CCardBody>
             </CCard>
           </CCol>
         </CRow>
-        {/*<DataTable />*/}
       </CContainer>
     </>
   )

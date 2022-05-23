@@ -1,0 +1,9 @@
+.ant-table-thead > tr >th{
+    color: white;
+    background: #8076AB !important;
+    word-break: keep-all;
+  }
+
+  .ant-table-cell{
+      text-align: center !important;
+  }
