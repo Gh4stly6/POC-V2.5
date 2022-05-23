@@ -1,8 +1,7 @@
-import { useState, React } from 'react'
+import { React } from 'react'
 import 'antd/dist/antd.variable.min.css'
-import { Table, Tag, Button, Input, Space } from 'antd'
+import { Table, Button, Input, Space } from 'antd'
 import { SearchOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
-import { configConsumerProps } from 'antd/lib/config-provider'
 import './table.css'
 const TableAntd = () => {
   //data

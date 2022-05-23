@@ -48,7 +48,7 @@ const Dashboardpoc = () => {
                     </CButton>
                   </CNavLink>
 
-                  <CNavLink to="/decisionanalysis" component={NavLink}>
+                  <CNavLink to="/underwritinganalysis" component={NavLink}>
                     <CButton shape="rounded-pill" variant="ghost">
                       <div className="button-content">
                         <div className="button-icon">
