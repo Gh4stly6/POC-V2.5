@@ -1,63 +1,54 @@
 import React from 'react'
 import 'antd/dist/antd.variable.min.css'
 import { Table, Button, Input, Space } from 'antd'
-import { SearchOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
+import { SearchOutlined, RollbackOutlined, DeleteOutlined } from '@ant-design/icons'
+import { CButton, CContainer, CRow, CCol, CCard, CCardBody, CTooltip } from '@coreui/react'
+import SendMessage from './SendMessage'
 import './table.css'
 
 const Messages = () => {
+  function renderMessage() {
+    return <SendMessage title="Reply" />
+  }
+
   const dataSource = [
     {
       key: '1',
-      product: 'Home Equity',
       date: '4/01/2022',
-      loan_id: '944ce9de-c296-4937-9e85-f3574d782c43',
-      borrower: 'John Doe',
-      credit_score: '800',
-      title_run: 'Done',
-      appraisal: 'In process',
-      employment_status: 'In process',
-      final_Desicion: 'Make',
+      from: 'John Doe',
+      subject: 'New loan application',
+      description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
     },
     {
       key: '2',
-      product: 'Home Equity',
-      date: '3/22/2022',
-      loan_id: '944ce9de-c296-4937-9e85-f3574d7825855',
-      borrower: 'Alice Smith',
-      credit_score: '700',
-      title_run: 'Done',
-      appraisal: 'Done',
-      employment_status: 'Done',
-      final_Desicion: 'No',
+      date: '4/01/2022',
+      from: 'Ann Richards',
+      subject: 'Underwriting Results',
+      description: 'My name is John Brown, I am 32 years old, living in New York No. 1 Lake Park.',
     },
   ]
 
   const columns = [
     {
-      title: 'Product',
-      dataIndex: 'product',
-      key: 'product',
-      defaultSortOrder: 'descend',
-      sorter: (a, b) => a.product.length - b.product.length,
-    },
-    {
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
       defaultSortOrder: 'descend',
+      width: 200,
       sorter: (a, b) => new Date(a.date) - new Date(b.date),
     },
     {
-      title: 'Loan ID',
-      dataIndex: 'loan_id',
-      key: 'loan_id',
+      title: 'From',
+      dataIndex: 'from',
+      key: 'from',
+      width: 200,
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.loan_id.localeCompare(b.loan_id),
+      sorter: (a, b) => a.from.length - b.from.length,
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
         return (
           <div style={{ padding: 8 }}>
             <Input
-              placeholder="Type Loan ID here"
+              placeholder="Type here"
               onPressEnter={() => {
                 confirm()
               }}
@@ -99,20 +90,24 @@ const Messages = () => {
         return <SearchOutlined />
       },
       onFilter: (value, record) => {
-        return record.loan_id.toLowerCase().includes(value.toLowerCase())
+        return record.from.toLowerCase().includes(value.toLowerCase())
       },
     },
+    Table.EXPAND_COLUMN,
     {
-      title: 'Borrower',
-      dataIndex: 'borrower',
-      key: 'borrower',
+      title: 'Subject',
+      dataIndex: 'subject',
+      key: 'subject',
+      width: 600,
+      // eslint-disable-next-line no-undef
+      align: 'left',
       defaultSortOrder: 'descend',
-      sorter: (a, b) => a.borrower.length - b.borrower.length,
+      sorter: (a, b) => a.subject.localeCompare(b.subject),
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
         return (
           <div style={{ padding: 8 }}>
             <Input
-              placeholder="Type borrower here"
+              placeholder="Type here"
               onPressEnter={() => {
                 confirm()
               }}
@@ -154,120 +149,63 @@ const Messages = () => {
         return <SearchOutlined />
       },
       onFilter: (value, record) => {
-        return record.borrower.toLowerCase().includes(value.toLowerCase())
+        return record.subject.toLowerCase().includes(value.toLowerCase())
       },
     },
+    Table.SELECTION_COLUMN,
     {
-      title: 'Credit Score',
-      dataIndex: 'credit_score',
-      key: 'credit_score',
-      sorter: (a, b) => a.credit_score - b.credit_score,
-    },
-    {
-      title: 'Title Run',
-      dataIndex: 'title_run',
-      key: 'title_run',
-      sorter: (a, b) => a.title_run.localeCompare(b.title_run),
-      render: (tag) =>
-        tag === 'In process' ? (
-          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="red" />
-        ) : (
-          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
-        ),
-    },
-    {
-      title: 'Appraisal',
-      dataIndex: 'appraisal',
-      key: 'appraisal',
-      sorter: (a, b) => a.appraisal.localeCompare(b.appraisal),
-      render: (tag) =>
-        tag === 'In process' ? (
-          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="red" />
-        ) : (
-          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
-        ),
-    },
-    {
-      title: 'Employment Status',
-      dataIndex: 'employment_status',
-      key: 'employment_status',
-      sorter: (a, b) => a.employment_status.localeCompare(b.employment_status),
-      render: (tag) =>
-        tag === 'In process' ? (
-          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="red" />
-        ) : (
-          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
-        ),
-    },
-    {
-      title: 'Final Desicion',
-      dataIndex: 'final_Desicion',
-      key: 'final_Desicion',
-      sorter: (a, b) => a.final_Desicion.localeCompare(b.final_Desicion),
-      render: (row) =>
-        row !== 'Yes' && row !== 'No' ? (
-          <Button value="small">Make Final Decision</Button>
-        ) : (
-          <b>{row}</b>
-        ),
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
+      title: 'Actions',
+      dataIndex: 'actions',
+      width: 200,
+      align: 'center',
+      key: 'actions',
+      render: (action) => {
         return (
-          <div style={{ padding: 8 }}>
-            <Input
-              placeholder="Type borrower here"
-              onPressEnter={() => {
-                confirm()
-              }}
-              onBlur={() => {
-                confirm()
-              }}
-              style={{ marginBottom: 8, display: 'block' }}
-              value={selectedKeys[0]}
-              onChange={(e) => {
-                setSelectedKeys(e.target.value ? [e.target.value] : [])
-              }}
-            />
+          <>
             <Space>
-              <Button
-                type="primary"
-                size="small"
-                style={{ width: 90 }}
-                onClick={() => {
-                  confirm()
-                }}
-              >
-                Search
-              </Button>
-              <Button
-                type="danger"
-                size="small"
-                style={{ width: 90 }}
-                onClick={() => {
-                  clearFilters()
-                }}
-              >
-                Reset
-              </Button>
+              <CTooltip content="Reply" placement="bottom">
+                <SendMessage button={<RollbackOutlined />} size="sm" title="Reply" />
+              </CTooltip>
+              <CTooltip content="Delete" placement="top">
+                <CButton size="sm" color="danger" variant="outline">
+                  <DeleteOutlined />
+                </CButton>
+              </CTooltip>
             </Space>
-          </div>
+          </>
         )
-      },
-      filterIcon: () => {
-        return <SearchOutlined />
-      },
-      onFilter: (value, record) => {
-        return record.final_Desicion.toLowerCase().includes(value.toLowerCase())
       },
     },
   ]
 
   return (
     <div>
-      <Table
-        style={{ display: 'flex', flex: 1, margin: 10 }}
-        dataSource={dataSource}
-        columns={columns}
-      />
+      <CContainer>
+        <h2>Messages</h2>
+        <CCard>
+          <CCardBody>
+            <CRow>
+              <CCol>
+                <SendMessage title="New Message" button={`New Message`} />
+              </CCol>
+            </CRow>
+            <CRow>
+              <CCol>
+                <Table
+                  style={{ display: 'flex', flex: 1, marginTop: 10 }}
+                  dataSource={dataSource}
+                  columns={columns}
+                  expandable={{
+                    expandedRowRender: (record) => (
+                      <p style={{ margin: 0 }}>{record.description}</p>
+                    ),
+                  }}
+                />
+              </CCol>
+            </CRow>
+          </CCardBody>
+        </CCard>
+      </CContainer>
     </div>
   )
 }

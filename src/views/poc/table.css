@@ -5,5 +5,9 @@
   }
 
   .ant-table-cell{
-      text-align: center !important;
+      
+  }
+
+  .ant-table-wrapper{
+      width: 100%;
   }
