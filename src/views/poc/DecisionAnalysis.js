@@ -432,19 +432,25 @@ const DecisionAnalysis = () => {
                 <option value="" disabled hidden selected>
                   Select a message
                 </option>
-                {/*{select.map((item) => (
-                  <option value={item.header.id}>{item.header.id}</option>
-                ))}*/}
+                {select.map((item) => (
+                  <option key={item.header.id} value={item.header.id}>
+                    {item.header.id}
+                  </option>
+                ))}
               </select>
               <div className="table-scroll">
                 <div className="table-wrap">
                   <table className="main-table">
-                    {/*{Object.entries(msg).map((value) => (
-                      <tr>
-                        <th className="headcol">{value[0]}</th>
-                        <td className="cell">{value[1]}</td>
+                    {Object.entries(msg).map((value) => (
+                      <tr key={value}>
+                        <th key={value[0]} className="headcol">
+                          {value[0]}
+                        </th>
+                        <td key={value[1]} className="cell">
+                          {value[1]}
+                        </td>
                       </tr>
-                    ))}*/}
+                    ))}
                   </table>
                 </div>
               </div>
