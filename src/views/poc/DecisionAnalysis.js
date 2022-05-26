@@ -1,14 +1,9 @@
-import React from 'react'
 import './decision.css'
-import { useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react'
 import { CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
-import { CSpinner } from '@coreui/react'
-import { CButton } from '@coreui/react'
-import { CAlert } from '@coreui/react'
-import { BsCheck2Circle } from 'react-icons/bs'
-import { BsXCircleFill } from 'react-icons/bs'
-import _ from 'lodash'
+import { CSpinner, CAlert, CButton, CAlertHeading } from '@coreui/react'
+import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
 
 const DecisionAnalysis = () => {
   //*UseState Hook to handle toogle funcinality
@@ -485,7 +480,7 @@ const DecisionAnalysis = () => {
 
                 {!showDecision && (
                   <CAlert show={show} variant="danger">
-                    <CAlert.Heading>Final decision</CAlert.Heading>
+                    <CAlertHeading>Final decision</CAlertHeading>
                     <p>No</p>
                     <hr />
                     <div className="d-flex justify-content-end">
