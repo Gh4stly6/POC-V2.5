@@ -44,7 +44,7 @@ const Login = () => {
                         </label>
                       </div>
                       <div className="d-grid gap-2 mt-2">
-                        <NavLink to="/dashboard" className="letter" component={NavLink}>
+                        <NavLink to="/general/dashboard" className="letter" component={NavLink}>
                           <CButton
                             type="submit"
                             color="primary"
