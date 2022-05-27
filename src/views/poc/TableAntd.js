@@ -51,6 +51,7 @@ const TableAntd = () => {
       title: 'Loan ID',
       dataIndex: 'loan_id',
       key: 'loan_id',
+      width: 300,
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.loan_id.localeCompare(b.loan_id),
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => {
@@ -158,15 +159,24 @@ const TableAntd = () => {
       },
     },
     {
+      title: 'Property Address',
+      dataIndex: 'property_address',
+      key: 'property_address',
+      sorter: (a, b) => a.property_address.length - b.property_address.length,
+      width: 300,
+    },
+    {
       title: 'Credit Score',
       dataIndex: 'credit_score',
       key: 'credit_score',
+      align: 'center',
       sorter: (a, b) => a.credit_score - b.credit_score,
     },
     {
       title: 'Title Run',
       dataIndex: 'title_run',
       key: 'title_run',
+      align: 'center',
       sorter: (a, b) => a.title_run.localeCompare(b.title_run),
       render: (tag) =>
         tag === 'In process' ? (
@@ -179,6 +189,7 @@ const TableAntd = () => {
       title: 'Appraisal',
       dataIndex: 'appraisal',
       key: 'appraisal',
+      align: 'center',
       sorter: (a, b) => a.appraisal.localeCompare(b.appraisal),
       render: (tag) =>
         tag === 'In process' ? (
@@ -191,6 +202,7 @@ const TableAntd = () => {
       title: 'Employment Status',
       dataIndex: 'employment_status',
       key: 'employment_status',
+      align: 'center',
       sorter: (a, b) => a.employment_status.localeCompare(b.employment_status),
       render: (tag) =>
         tag === 'In process' ? (
@@ -203,6 +215,7 @@ const TableAntd = () => {
       title: 'Final Desicion',
       dataIndex: 'final_Desicion',
       key: 'final_Desicion',
+      align: 'center',
       sorter: (a, b) => a.final_Desicion.localeCompare(b.final_Desicion),
       render: (row) =>
         row !== 'Yes' && row !== 'No' ? (
@@ -267,6 +280,7 @@ const TableAntd = () => {
         style={{ display: 'flex', flex: 1, margin: 10 }}
         dataSource={dataSource}
         columns={columns}
+        scroll={{ x: 1200 }}
       />
     </div>
   )

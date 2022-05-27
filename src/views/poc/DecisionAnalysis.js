@@ -39,6 +39,8 @@ const DecisionAnalysis = () => {
 
   //Check all the message we have
   useEffect(() => {
+    //cleanup use effect
+    let isCancelled = false
     //Get all the messages
     async function get_topics() {
       setIsLoading(true)
@@ -82,8 +84,11 @@ const DecisionAnalysis = () => {
           }
         }
       }
-      setLoanList(t)
-      setIsLoading(false)
+
+      if (!isCancelled) {
+        setLoanList(t)
+        setIsLoading(false)
+      }
     }
 
     /*async function get_loanID{
@@ -91,6 +96,9 @@ const DecisionAnalysis = () => {
       }*/
 
     get_topics()
+    return () => {
+      isCancelled = true
+    }
   }, [])
 
   //*get the uuid typed by de user and saving it in UUID hook

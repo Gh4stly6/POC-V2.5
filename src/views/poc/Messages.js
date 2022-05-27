@@ -7,10 +7,6 @@ import SendMessage from './SendMessage'
 import './table.css'
 
 const Messages = () => {
-  function renderMessage() {
-    return <SendMessage title="Reply" />
-  }
-
   const dataSource = [
     {
       key: '1',
@@ -99,7 +95,6 @@ const Messages = () => {
       dataIndex: 'subject',
       key: 'subject',
       width: 600,
-      // eslint-disable-next-line no-undef
       align: 'left',
       defaultSortOrder: 'descend',
       sorter: (a, b) => a.subject.localeCompare(b.subject),
