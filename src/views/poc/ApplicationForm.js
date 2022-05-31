@@ -138,12 +138,11 @@ const ApplicationForm = () => {
   }
 
   // *Send Data to API
-  function sendData(e) {
+  async function sendData(e) {
     e.preventDefault()
 
     var myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
-    //myHeaders.append('Access-Control-Allow-Origin', '*')
     var fullName =
       data.first_name.trim() + ' ' + data.middle_name.trim() + ' ' + data.last_name.trim()
 
@@ -193,10 +192,8 @@ const ApplicationForm = () => {
 
     console.log(fullName.trim())
     console.log(data.topics)
-
-    fetchAWS(`https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod`, requestOptions)
-    /*try {
-      const response = fetch(
+    try {
+      const response = await fetch(
         'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
         requestOptions,
       )
@@ -220,7 +217,7 @@ const ApplicationForm = () => {
         icon: 'error',
       })
       console.log('Error', error)
-    }*/
+    }
 
     //* Reset form after submit
     handleReset()
@@ -228,32 +225,6 @@ const ApplicationForm = () => {
     setIsPropertyOpen(false)
     setIsIncomeOpen(false)
     console.log(data)
-  }
-
-  async function fetchAWS(endpoint, options) {
-    try {
-      const response = await fetch(endpoint, options)
-      if (response.ok) {
-        swal({
-          title: 'Loan ID',
-          text: `${data.topics}`,
-          icon: 'success',
-        })
-      } else {
-        swal({
-          title: 'Error',
-          text: `Your application form wasn't submitted successfully`,
-          icon: 'error',
-        })
-      }
-    } catch (error) {
-      swal({
-        title: 'Error',
-        text: `Your application form wasn't submitted successfully`,
-        icon: 'error',
-      })
-      console.log('Error', error)
-    }
   }
 
   return (
