@@ -1,7 +1,7 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import TableAntd from './TableAntd'
+import './styles.css'
 import {
   CCard,
   CCardHeader,
