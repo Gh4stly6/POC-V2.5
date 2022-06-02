@@ -1,5 +1,6 @@
 import { React } from 'react'
-import 'antd/dist/antd.variable.min.css'
+import 'antd/lib/button/style/css'
+import 'antd/lib/table/style/css'
 import { Table, Button, Input, Space } from 'antd'
 import { SearchOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from '@ant-design/icons'
 import './table.css'

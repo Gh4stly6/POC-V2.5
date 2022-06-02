@@ -1,5 +1,5 @@
 .ant-table-thead > tr >th{
-    color: white;
+    color: white !important;
     background: #8076AB !important;
     word-break: keep-all;
   }

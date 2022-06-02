@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import TableAntd from './TableAntd'
-import './styles.css'
 import {
   CCard,
   CCardHeader,
@@ -31,7 +30,6 @@ const Dashboardpoc = () => {
   return (
     <>
       <CContainer>
-        <h2>Welcome User</h2>
         <CRow>
           <CCol xs={12} className="mb-3">
             <CCard>

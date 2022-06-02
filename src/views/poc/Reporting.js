@@ -1,6 +1,6 @@
 import React from 'react'
-import 'antd/dist/antd.variable.min.css'
-import './styles.css'
+import 'antd/lib/date-picker/style/css'
+import 'antd/lib/tabs/style/css'
 import { DatePicker, Tabs, Divider } from 'antd'
 import { CCard, CCardBody, CCardTitle, CRow, CCol } from '@coreui/react'
 const { RangePicker } = DatePicker
