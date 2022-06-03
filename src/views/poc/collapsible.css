@@ -220,6 +220,13 @@ button.income-button:hover {
 	vertical-align: left;
 }
 
+
+/*required inputs*/
+.required::after {
+	content: " *";
+	color: red;;
+}
+
 /*MEDIA QUERIES*/
 @media (max-width: 600px) {
 	.form {
@@ -252,7 +259,6 @@ button.income-button:hover {
 		align-items: center;
 	}
 
-	input.form-control {
-	}
+	
 }
 

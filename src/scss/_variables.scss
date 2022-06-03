@@ -363,7 +363,7 @@
 //
 // Style anchor elements.
 
- $link-color:                              #88C4F6;
+ $link-color:                              #88C4F6 !default;
 // $link-decoration:                         underline !default;
 // $link-shade-percentage:                   20% !default;
 // $link-hover-color:                        shift-color($link-color, $link-shade-percentage) !default;
@@ -1100,10 +1100,10 @@
 // $navbar-dark-toggler-border-color:  rgba($white, .1) !default;
 
  $navbar-light-color:                $indigo-800;
-// $navbar-light-hover-color:          $high-emphasis !default;
+ $navbar-light-hover-color:          $white;
 // $navbar-light-active-color:         $high-emphasis !default;
 // $navbar-light-disabled-color:       $disabled !default;
-// $navbar-light-toggler-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
+ $navbar-light-toggler-icon-bg:      url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-light-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
 // $navbar-light-toggler-border-color: rgba($black, .1) !default;
 
 // $navbar-light-brand-color:                $navbar-light-active-color !default;
@@ -1550,7 +1550,7 @@
 // $header-toggler-border-radius:  $btn-border-radius !default;
 
 // $header-toggler-icon-bg:        url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$header-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
-// $header-toggler-hover-icon-bg:  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$header-hover-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
+ $header-toggler-hover-icon-bg:  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$header-hover-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
 // $header-toggler-border-color:   rgba($black, .1) !default;
 
 // $header-nav-link-padding-x:     .5rem !default;

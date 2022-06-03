@@ -1,14 +1,11 @@
-import React from 'react'
 import './decision.css'
-import { useState, useEffect } from 'react'
+import { React, useState, useEffect } from 'react'
 import { CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
-import { CSpinner } from '@coreui/react'
-import { CButton } from '@coreui/react'
-import { CAlert } from '@coreui/react'
-import { BsCheck2Circle } from 'react-icons/bs'
-import { BsXCircleFill } from 'react-icons/bs'
-import _ from 'lodash'
+import { CProgress, CAlert, CButton, CAlertHeading } from '@coreui/react'
+import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
+import { Result } from 'antd'
+import 'antd/dist/antd.variable.min.css'
 
 const DecisionAnalysis = () => {
   //*UseState Hook to handle toogle funcinality
@@ -19,22 +16,21 @@ const DecisionAnalysis = () => {
   const [progress, setProgress] = useState(0)
   const [msg, setMsg] = useState([])
   const [finalDecision, setFinalDecision] = useState(false)
-  const [spinner, setSpinner] = useState(false)
+  const [spinner, setSpinner] = useState(true)
   const [reload, setReload] = useState(false)
-  const [show, setShow] = useState(false)
+  const [showYes, setShowYes] = useState(false)
+  const [showNo, setShowNo] = useState(false)
   const [apply, setApply] = useState('true')
   const [title_run, seTitle_run] = useState(false)
   const [credit, setCredit] = useState(false)
   const [employment, setEmployment] = useState(false)
   const [appraisal, setAppraisal] = useState(false)
-  const [showDecision, setShowDecision] = useState()
+  const [showDecision, setShowDecision] = useState(false)
   const [CreditScore, setCreditScore] = useState()
   const [employmentStatus, setEmploymentStatus] = useState()
   const [isLoading, setIsLoading] = useState(false)
 
   // var borrower_info;
-  var creditScore
-  var employment_verification
   var decision = ''
   var t = []
   //var header;
@@ -135,7 +131,7 @@ const DecisionAnalysis = () => {
           break
         }
 
-        setApply('false')
+        setApply(false)
 
         setIsToggled(true)
         //console.log(message)
@@ -341,8 +337,12 @@ const DecisionAnalysis = () => {
     }
 
     get_messages(e)
-
-    setShow(true)
+    console.log(decision)
+    if (decision == 'Yes') {
+      setShowYes(true)
+    } else {
+      setShowNo(true)
+    }
   }
 
   return (
@@ -432,19 +432,25 @@ const DecisionAnalysis = () => {
                 <option value="" disabled hidden selected>
                   Select a message
                 </option>
-                {/*{select.map((item) => (
-                  <option value={item.header.id}>{item.header.id}</option>
-                ))}*/}
+                {select.map((item) => (
+                  <option key={item.header.id} value={item.header.id}>
+                    {item.header.id}
+                  </option>
+                ))}
               </select>
               <div className="table-scroll">
                 <div className="table-wrap">
                   <table className="main-table">
-                    {/*{Object.entries(msg).map((value) => (
-                      <tr>
-                        <th className="headcol">{value[0]}</th>
-                        <td className="cell">{value[1]}</td>
+                    {Object.entries(msg).map((value) => (
+                      <tr key={value}>
+                        <th key={value[0]} className="headcol">
+                          {value[0]}
+                        </th>
+                        <td key={value[1]} className="cell">
+                          {value[1]}
+                        </td>
                       </tr>
-                    ))}*/}
+                    ))}
                   </table>
                 </div>
               </div>
@@ -467,7 +473,9 @@ const DecisionAnalysis = () => {
                     <div>
                       <label htmlFor="">Processing Loan</label>
                       <br />
-                      <CSpinner animation="border" role="status" variant="primary"></CSpinner>
+                      <CProgress className="mb-3">
+                        <CProgressBar value={progress}>{progress}%</CProgressBar>
+                      </CProgress>
                       <br />
                       <label htmlFor="">
                         Calling mutiple external vendors. Message has already been written to the
@@ -483,31 +491,10 @@ const DecisionAnalysis = () => {
                   )}
                 </div>
 
-                {!showDecision && (
-                  <CAlert show={show} variant="danger">
-                    <CAlert.Heading>Final decision</CAlert.Heading>
-                    <p>No</p>
-                    <hr />
-                    <div className="d-flex justify-content-end">
-                      <CButton onClick={() => setShow(false)} variant="outline-danger">
-                        Close
-                      </CButton>
-                    </div>
-                  </CAlert>
-                )}
-
-                {showDecision && (
-                  <CAlert show={show} variant="success">
-                    <CAlert.Heading>Final decision</CAlert.Heading>
-                    <p>Yes</p>
-                    <hr />
-                    <div className="d-flex justify-content-end">
-                      <CButton onClick={() => setShow(false)} variant="outline-success">
-                        Close
-                      </CButton>
-                    </div>
-                  </CAlert>
-                )}
+                <div>
+                  {showYes && <Result status="success" title="Approved Loan" />}
+                  {showNo && <Result status="error" title="Declined Loan" />}
+                </div>
               </div>
             </div>
           )}

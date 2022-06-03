@@ -1,6 +1,6 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
+import TableAntd from './TableAntd'
 import {
   CCard,
   CCardHeader,
@@ -16,8 +16,6 @@ import {
   CButton,
 } from '@coreui/react'
 import { CChartPie } from '@coreui/react-chartjs'
-import DataTable from 'react-data-table-component'
-import { AiOutlineEdit } from 'react-icons/ai'
 import './dashboard.css'
 import contactform from './assets/img/contact-form.png'
 import idea from './assets/img/idea.png'
@@ -28,139 +26,6 @@ import process from './assets/img/process.png'
 import feature from './assets/img/feature.png'
 const Dashboardpoc = () => {
   //table style
-  const customStyles = {
-    rows: {
-      style: {
-        color: '#290661',
-      },
-    },
-    header: {
-      style: {
-        color: '#4f5d73',
-      },
-    },
-  }
-  const columns = [
-    {
-      name: 'Product',
-      selector: (row) => row.product,
-      sortable: true,
-    },
-    {
-      name: 'Date',
-      selector: (row) => row.date,
-      sortable: true,
-    },
-    {
-      name: 'Loan ID',
-      selector: (row) => row.id,
-      sortable: true,
-    },
-    {
-      name: 'Client',
-      selector: (row) => row.client,
-      sortable: true,
-    },
-    {
-      name: 'Credit Score',
-      selector: (row) => row.credit_score,
-      sortable: true,
-    },
-    {
-      name: 'Title Run',
-      selector: (row) => row.title_run,
-      sortable: true,
-      conditionalCellStyles: [
-        {
-          when: (row) => row.title_run === 'Done',
-          style: {
-            fontWeight: 'bold',
-            color: 'green',
-          },
-        },
-        {
-          when: (row) => row.title_run === 'In process',
-          style: {
-            fontWeight: 'bold',
-            color: 'red',
-          },
-        },
-      ],
-    },
-
-    {
-      name: 'Appraisal',
-      selector: (row) => row.appraisal,
-      sortable: true,
-      conditionalCellStyles: [
-        {
-          when: (row) => row.appraisal === 'Done',
-          style: {
-            fontWeight: 'bold',
-            color: 'green',
-          },
-        },
-        {
-          when: (row) => row.appraisal === 'In process',
-          style: {
-            fontWeight: 'bold',
-            color: 'red',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Employment Status',
-      selector: (row) => row.employment_status,
-      sortable: true,
-      conditionalCellStyles: [
-        {
-          when: (row) => row.employment_status === 'Done',
-          style: {
-            fontWeight: 'bold',
-            color: 'green',
-          },
-        },
-        {
-          when: (row) => row.employment_status === 'In process',
-          style: {
-            fontWeight: 'bold',
-            color: 'red',
-          },
-        },
-      ],
-    },
-    {
-      name: 'Final Decision',
-      selector: (row) => row.final_desicion,
-      sortable: true,
-    },
-  ]
-
-  const data = [
-    {
-      product: 'Home Equity',
-      date: '4/01/2022',
-      id: '944ce9de-c296-4937-9e85-f3574d782c43',
-      client: 'John Doe',
-      credit_score: '800',
-      title_run: 'Done',
-      appraisal: 'In process',
-      employment_status: 'In process',
-      final_desicion: 'Make',
-    },
-    {
-      product: 'Home Equity',
-      date: '3/22/2022',
-      id: '944ce9de-c296-4937-9e85-f3574d7825855',
-      client: 'Alice Smith',
-      credit_score: '700',
-      title_run: 'Done',
-      appraisal: 'Done',
-      employment_status: 'Done',
-      final_desicion: 'No',
-    },
-  ]
 
   return (
     <>
@@ -181,13 +46,13 @@ const Dashboardpoc = () => {
                     </CButton>
                   </CNavLink>
 
-                  <CNavLink to="/decisionanalysis" component={NavLink}>
+                  <CNavLink to="/underwritinganalysis" component={NavLink}>
                     <CButton shape="rounded-pill" variant="ghost">
                       <div className="button-content">
                         <div className="button-icon">
                           <img src={idea} />
                         </div>
-                        <div className="button-text">Decision Analysis</div>
+                        <div className="button-text">Underwriting Analysis</div>
                       </div>
                     </CButton>
                   </CNavLink>
@@ -224,20 +89,41 @@ const Dashboardpoc = () => {
             <CCard className="text-center mb-3 border-top-2">
               {/*Pie Chart*/}
               <CRow>
-                <CCardTitle>Loans Summary</CCardTitle>
-
                 <CCardBody>
                   <CCol>
+                    <CCardTitle>Pipeline Summary</CCardTitle>
                     <CChartPie
                       data={{
-                        labels: ['Submitted', 'In process', 'Decisioned'],
+                        labels: ['Point of Sale', 'In process', 'Underwrited'],
                         datasets: [
                           {
                             data: [300, 50, 100],
-                            backgroundColor: ['#C29FFA', '#A370F7', '#8540F5'],
-                            hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56'],
+                            backgroundColor: [
+                              'rgba(194, 159, 250,1)',
+                              'rgba(163, 112, 247,1)',
+                              'rgb(133, 64, 245, 1)',
+                            ],
+                            hoverBackgroundColor: [
+                              'rgba(194, 159, 250,0.9)',
+                              'rgba(163, 112, 247,0.9)',
+                              'rgb(133, 64, 245,0.9)',
+                            ],
                           },
                         ],
+                        options: {
+                          tooltips: {
+                            callbacks: {
+                              label: function (tooltipItem, data) {
+                                return (
+                                  data['labels'][tooltipItem['index']] +
+                                  ': ' +
+                                  data['datasets'][0]['data'][tooltipItem['index']] +
+                                  '%'
+                                )
+                              },
+                            },
+                          },
+                        },
                       }}
                     />
                   </CCol>
@@ -248,13 +134,12 @@ const Dashboardpoc = () => {
           <CCol xs={8} className="mb-3">
             <CCard>
               <CCardBody>
-                <CCardTitle>Welcome User</CCardTitle>
-                <CCardText>Loan applications percentages for this month</CCardText>
+                <CCardText> Loan Application Pipeline Percentages</CCardText>
                 <CWidgetStatsF
                   className="mb-3"
                   padding={false}
                   icon={<img src={submit}></img>}
-                  title="Submitted Loan Applications"
+                  title="Point of sale Loan Applications"
                   value="89.9%"
                 />
                 <CWidgetStatsF
@@ -268,7 +153,7 @@ const Dashboardpoc = () => {
                   className="mb-3"
                   padding={false}
                   icon={<img src={feature}></img>}
-                  title="Decisioned Loan Applications"
+                  title="Underwriting Results"
                   value="89.9%"
                 />
               </CCardBody>
@@ -279,16 +164,12 @@ const Dashboardpoc = () => {
         <CRow>
           <CCol sm={12}>
             <CCard className="mb-3 border-top-2">
+              <CCardHeader>
+                <h5>Loan Details</h5>
+              </CCardHeader>
+
               <CCardBody>
-                <DataTable
-                  columns={columns}
-                  data={data}
-                  title="Loan Applications"
-                  highlightOnHover
-                  responsive
-                  pagination
-                  customStyles={customStyles}
-                />
+                <TableAntd />
               </CCardBody>
             </CCard>
           </CCol>

@@ -10,6 +10,7 @@ import {
   CHeaderToggler,
   CNavLink,
   CNavItem,
+  CNavbarText,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
@@ -34,31 +35,14 @@ const AppHeader = () => {
         <CHeaderBrand className="mx-auto d-md-none" to="/">
           <CIcon icon={logo} height={48} alt="Logo" />
         </CHeaderBrand>
-        <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
-              Dashboard
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink to="/decisionanalysis" component={NavLink}>
-              Decision Analysis
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink to="/reporting" component={NavLink}>
-              Reporting
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink to="/messages" component={NavLink}>
-              Messages
-            </CNavLink>
-          </CNavItem>
-        </CHeaderNav>
+        <CNavbarText className="mx-auto">
+          <span>
+            <h3 style={{ color: 'white' }}>Welcome User</h3>
+          </span>
+        </CNavbarText>
         <CHeaderNav>
           <CNavItem>
-            <CNavLink href="#">
+            <CNavLink href="/notifications#/notifications">
               <CIcon icon={cilBell} size="lg" />
             </CNavLink>
           </CNavItem>
