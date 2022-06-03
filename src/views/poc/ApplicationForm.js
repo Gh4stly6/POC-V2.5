@@ -4,79 +4,81 @@ import { v4 as uuidv4 } from 'uuid'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { BsFillHouseDoorFill } from 'react-icons/bs'
 import { FaCoins } from 'react-icons/fa'
-
-import { CCard, CCardHeader, CCardBody, CRow, CCol } from '@coreui/react'
 import './collapsible.css'
-
+import { CRow, CCol, CCard, CCardBody } from '@coreui/react'
+import { useFormik } from 'formik'
+import * as Yup from 'yup'
 const ApplicationForm = () => {
-  const [data, setData] = useState({
-    first_name: '',
-    middle_name: '',
-    last_name: '',
-    phone: '',
-    phone_type: '',
-    email: '',
-    street: '',
-    street_2: '',
-    property_city: '',
-    property_country: '',
-    property_state: '',
-    property_zip_code: '',
-    tell_us_about_your_loan: '',
-    property_location: '',
-    property_use: '',
-    property_value: '',
-    line_of_credit: '',
-    plans_for_the_funds: '',
-    loan_used_for_business: '',
-    suffix: '',
-    time_at_address: '',
-    best_time_to_call: '',
-    secondary_phone_number: '',
-    country_of_citizenship: '',
-    country_of_residence: '',
-    social_security_number: '',
-    date_of_birth: '',
-    marital_status: '',
-    preferred_language: '',
-    CWidgetStatsF: '',
-    CButton: '',
-    additional_income: '',
-    coapplicant: '',
-    //vendor: ''
-    topics: uuidv4(),
-  })
+  //*USE STATE HOOKS
+  const [save, setSave] = useState(false) //? To identify what button was pressed save or next
+  const [isPersonalOpen, setIsPersonalOpen] = useState(false) //? Open or close personalInformation form
+  const [isPropertyOpen, setIsPropertyOpen] = useState(false) //? Open or close propertyInformation form
+  const [isIncomeOpen, setIsIncomeOpen] = useState(false) //? Open or close income form
 
-  // *Collapsible items hooks
-  const [isPersonalOpen, setIsPersonalOpen] = useState(false)
-  const [isPropertyOpen, setIsPropertyOpen] = useState(false)
-  const [isIncomeOpen, setIsIncomeOpen] = useState(false)
-
-  const personalRef = useRef()
-  const propertyRef = useRef()
-  const incomeRef = useRef()
-
+  //*USE REF HOOKS
+  const personalRef = useRef() //? To select the personalInformation form
+  const propertyRef = useRef() //? To select the propertyInformation form
+  const incomeRef = useRef() //? To select the income form
   const personalInfoForm = useRef()
 
-  //function for changing input values
-
-  const handleInputChange = (e) => {
-    console.log(e.target.value)
-    setData({
-      ...data,
-      [e.target.name]: e.target.value,
-    })
+  //*BACK BUTTON FUNCTIONS
+  const closeFirstCollapsible = (e) => {
+    e.preventDefault()
+    setIsPersonalOpen(true)
+    setIsPropertyOpen(false)
   }
 
-  const handleReset = () => {
-    Array.from(document.querySelectorAll('input')).forEach((input) => (input.value = ''))
-    setData({
+  const closeSecondCollapsible = (e) => {
+    e.preventDefault()
+    setIsIncomeOpen(false)
+    setIsPropertyOpen(true)
+  }
+
+  //*FORMIK settings
+  //?PERSONAL INFORMATION FORMIK
+  const personalInformation = useFormik({
+    initialValues: {
       first_name: '',
       middle_name: '',
       last_name: '',
       phone: '',
-      phone_type: '',
       email: '',
+      phone_type: '',
+      suffix: '',
+      best_time_to_call: '',
+      secondary_phone_number: '',
+      country_of_citizenship: '',
+      country_of_residence: '',
+      social_security_number: '',
+      date_of_birth: '',
+      marital_status: '',
+      preferred_language: '',
+      coapplicant: '',
+      topics: uuidv4(),
+      //vendor: ''
+    },
+    validationSchema: Yup.object({
+      first_name: Yup.string().required('This field is required'),
+    }),
+    onSubmit: (values) => {
+      if (save === false) {
+        console.log('next')
+        setIsPropertyOpen(true)
+        setIsPersonalOpen(false)
+        //setSave(false)
+      } else {
+        //setSave(true)
+        setIsPropertyOpen(true)
+        setIsPersonalOpen(false)
+        alert('saved')
+        console.log('save')
+      }
+    },
+  })
+
+  //? PROPERTY INFORMATION FORMIK
+  const propertyInformation = useFormik({
+    initialValues: {
       street: '',
       street_2: '',
       property_city: '',
@@ -90,98 +92,104 @@ const ApplicationForm = () => {
       line_of_credit: '',
       plans_for_the_funds: '',
       loan_used_for_business: '',
-      suffix: '',
       time_at_address: '',
-      best_time_to_call: '',
-      secondary_phone_number: '',
-      country_of_citizenship: '',
-      country_of_residence: '',
-      social_security_number: '',
-      date_of_birth: '',
-      marital_status: '',
-      preferred_language: '',
+    },
+    validationSchema: Yup.object({
+      line_of_credit: Yup.string().required('This field is required'),
+      street: Yup.string().required('This field is required'),
+    }),
+    onSubmit: (values) => {
+      if (save === false) {
+        console.log('next')
+        setIsIncomeOpen(true)
+        setIsPropertyOpen(false)
+      } else {
+        setIsIncomeOpen(true)
+        setIsPropertyOpen(false)
+        alert('saved')
+        console.log('save')
+      }
+    },
+  })
+
+  //?INCOME FORMIK
+  const incomeInformation = useFormik({
+    initialValues: {
       employment_status: '',
       anual_income: '',
       source_of_income: '',
       additional_income: '',
-      coapplicant: '',
-      //vendor: ''
-      topics: uuidv4(),
-    })
-  }
+    },
+    //validate,
+    validationSchema: Yup.object({
+      anual_income: Yup.string().required('This field is required'),
+    }),
+    onSubmit: (values) => {
+      sendData()
+      //setSave(true)
+      // function checkForms() {
+      //   if (propertyInformation.isValid) {
+      //     //sendData()
+      //     console.log(personalInformation.isValid)
+      //     console.log('save')
+      //   }
+      // }
+      // personalInformation.handleSubmit().then(propertyInformation.handleSubmit()).then(checkForms())
+    },
+  })
 
-  // *function to open next collapsible element
-  const openFirstCollapsible = (e) => {
-    e.preventDefault()
-    setIsPropertyOpen(true)
-    setIsPersonalOpen(false)
-  }
+  // *FUNCTION TO SEND DATA TO AWS/KALEIDO
+  const sendData = (e) => {
+    //e.preventDefault()
 
-  const openSecondCollapsible = (e) => {
-    e.preventDefault()
-    setIsIncomeOpen(true)
-    setIsPropertyOpen(false)
-  }
-
-  // *function to close collapsible element and go back to previous element
-
-  const closeFirstCollapsible = (e) => {
-    e.preventDefault()
-    setIsPersonalOpen(true)
-    setIsPropertyOpen(false)
-  }
-
-  const closeSecondCollapsible = (e) => {
-    e.preventDefault()
-    setIsIncomeOpen(false)
-    setIsPropertyOpen(true)
-  }
-
-  // *Send Data to API
-  async function sendData(e) {
-    e.preventDefault()
-
+    //?header options for post request
     var myHeaders = new Headers()
     myHeaders.append('Content-Type', 'application/json')
     var fullName =
-      data.first_name.trim() + ' ' + data.middle_name.trim() + ' ' + data.last_name.trim()
+      personalInformation.values.first_name.trim() +
+      ' ' +
+      personalInformation.values.middle_name.trim() +
+      ' ' +
+      personalInformation.values.last_name.trim()
 
+    //? DATA COMPOSED BY personalInformation, porperty information and income formiks
     var raw = JSON.stringify({
-      name: fullName.trim(),
-      phone: data.phone,
-      email: data.email,
-      street: data.street,
-      street_2: data.street_2,
-      property_city: data.property_city,
-      property_country: data.property_country,
-      property_state: data.property_state,
-      property_zip_code: data.property_zip_code,
+      name: personalInformation.values.first_name,
+      phone: personalInformation.values.phone,
+      email: personalInformation.values.email,
+      street: propertyInformation.values.street,
+      street_2: propertyInformation.values.street_2,
+      property_city: propertyInformation.values.property_city,
+      property_country: propertyInformation.values.property_country,
+      property_state: propertyInformation.values.property_state,
+      property_zip_code: propertyInformation.values.property_zip_code,
       tell_us_about_your_loan: '',
-      property_location: data.property_location,
-      property_use: 'Vacation',
-      property_value: data.property_value,
-      line_of_credit: data.line_of_credit,
-      plans_for_the_funds: data.plans_for_the_funds,
-      loan_used_for_business: data.loan_used_for_business,
-      suffix: data.suffix,
-      time_at_address: data.time_at_address,
-      best_time_to_call: data.best_time_to_call,
-      secondary_phone_number: data.secondary_phone_number,
-      country_of_citizenship: data.country_of_citizenship,
-      country_of_residence: data.country_of_residence,
-      social_security_number: data.social_security_number,
-      date_of_birth: data.date_of_birth,
-      marital_status: data.marital_status,
-      preferred_language: data.preferred_language,
-      employment_status: data.employment_status,
-      anual_income: data.anual_income,
-      source_of_income: data.source_of_income,
-      additional_income: data.additional_income,
-      coapplicant: data.coapplicant,
+      property_location: propertyInformation.values.property_location,
+      property_use: propertyInformation.values.property_use,
+      property_value: propertyInformation.values.property_value,
+      line_of_credit: propertyInformation.values.line_of_credit,
+      plans_for_the_funds: propertyInformation.values.plans_for_the_funds,
+      loan_used_for_business: propertyInformation.values.loan_used_for_business,
+      suffix: personalInformation.values.suffix,
+      time_at_address: propertyInformation.values.time_at_address,
+      best_time_to_call: personalInformation.values.best_time_to_call,
+      secondary_phone_number: personalInformation.values.secondary_phone_number,
+      country_of_citizenship: personalInformation.values.country_of_citizenship,
+      country_of_residence: personalInformation.values.country_of_citizenship,
+      social_security_number: personalInformation.values.social_security_number,
+      date_of_birth: personalInformation.values.date_of_birth,
+      marital_status: personalInformation.values.marital_status,
+      preferred_language: personalInformation.values.preferred_language,
+      employment_status: incomeInformation.values.employment_status,
+      anual_income: incomeInformation.values.anual_income,
+      source_of_income: incomeInformation.values.source_of_income,
+      additional_income: incomeInformation.values.additional_income,
+      coapplicant: personalInformation.values.coapplicant,
       vendor: 'receive_borrower',
-      topics: data.topics,
+      topics: personalInformation.values.topics,
     })
 
+    //?HEADER OPTIONS
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -189,42 +197,47 @@ const ApplicationForm = () => {
       body: raw,
       redirect: 'follow',
     }
+    console.log(raw)
 
-    console.log(fullName.trim())
-    console.log(data.topics)
-    try {
-      const response = await fetch(
-        'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
-        requestOptions,
-      )
-      if (response.ok) {
-        swal({
-          title: 'Loan ID',
-          text: `${data.topics}`,
-          icon: 'success',
-        })
-      } else {
+    //?SEND FORM TO AWS
+    ;(async function () {
+      try {
+        const response = await fetch(
+          'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
+          requestOptions,
+        )
+        if (response.ok) {
+          // swal({
+          //   title: 'Success',
+          //   text: `Your applicattion form has been saved and sumitted succesfully`,
+          //   icon: 'success',
+          // })
+          swal({
+            title: 'Loan ID',
+            text: `${personalInformation.values.topics}`,
+            icon: 'success',
+          })
+
+          //? Reset form after submit
+          personalInformation.handleReset()
+          propertyInformation.handleReset()
+          incomeInformation.handleReset()
+        } else {
+          swal({
+            title: 'Error',
+            text: `Your application form wasn't submitted successfully`,
+            icon: 'error',
+          })
+        }
+      } catch (error) {
         swal({
           title: 'Error',
           text: `Your application form wasn't submitted successfully`,
           icon: 'error',
         })
+        console.log('Error', error)
       }
-    } catch (error) {
-      swal({
-        title: 'Error',
-        text: `Your application form wasn't submitted successfully`,
-        icon: 'error',
-      })
-      console.log('Error', error)
-    }
-
-    //* Reset form after submit
-    handleReset()
-    setIsPersonalOpen(false)
-    setIsPropertyOpen(false)
-    setIsIncomeOpen(false)
-    console.log(data)
+    })()
   }
 
   return (
@@ -235,7 +248,7 @@ const ApplicationForm = () => {
             <CCardBody>
               <div className="container">
                 <div className="property-select">
-                  <label className="form-label" htmlFor="property-state">
+                  <label className="form-label required" htmlFor="property-state">
                     Property state?
                   </label>
                   <input
@@ -243,7 +256,7 @@ const ApplicationForm = () => {
                     type="select"
                     name=""
                     id="property-state"
-                    onChange={handleInputChange}
+                    //onChange={handleInputChange}
                   />
                 </div>
                 {/*Personal information section*/}
@@ -281,11 +294,13 @@ const ApplicationForm = () => {
                               className="form-select"
                               type="select"
                               name="prefix"
-                              onChange={handleInputChange}
+                              //onChange={handleInputChange}
                             />
                           </div>
                           <div className="column">
-                            <label htmlFor="ssn">SSN</label>
+                            <label htmlFor="ssn" className="required">
+                              SSN
+                            </label>
                             <input
                               tabIndex={10}
                               id="ssn"
@@ -293,13 +308,14 @@ const ApplicationForm = () => {
                               name="social_security_number"
                               className="form-control"
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.social_security_number}
                             />
                           </div>
                         </div>
                         <div className="row">
                           <div className="column">
-                            <label htmlFor="first_name" className="form-label">
+                            <label htmlFor="first_name" className="form-label required">
                               First Name
                             </label>
                             <input
@@ -310,11 +326,18 @@ const ApplicationForm = () => {
                               defaultValue=""
                               required
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.first_name}
                             />
+                            {
+                              /* Show name error */
+                              personalInformation.errors.first_name && (
+                                <div>{personalInformation.errors.first_name}</div>
+                              )
+                            }
                           </div>
                           <div className="column">
-                            <label htmlFor="date_of_birth" className="form-label">
+                            <label htmlFor="date_of_birth" className="form-label required">
                               Date of Birth
                             </label>
                             <input
@@ -323,9 +346,9 @@ const ApplicationForm = () => {
                               id="date_of_birth"
                               className="form-control"
                               defaultValue=""
-                              required
                               type="date"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.date_of_birth}
                             />
                           </div>
                         </div>
@@ -341,11 +364,12 @@ const ApplicationForm = () => {
                               name="middle_name"
                               className="form-control"
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.middle_name}
                             />
                           </div>
                           <div className="column">
-                            <label htmlFor="phone-number" className="form-label">
+                            <label htmlFor="phone-number" className="form-label required">
                               Phone Number
                             </label>
                             <input
@@ -354,25 +378,25 @@ const ApplicationForm = () => {
                               className="form-control"
                               id="phone-number"
                               defaultValue=""
-                              required
                               type="tel"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.phone}
                             />
                           </div>
                         </div>
                         <div className="row">
                           <div className="column">
-                            <label htmlFor="last_name" className="form-label">
+                            <label htmlFor="last_name" className="form-label required">
                               Last Name
                             </label>
                             <input
                               tabIndex={4}
                               name="last_name"
                               className="form-control"
-                              required
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.last_name}
                             />
                           </div>
                           <div className="column">
@@ -385,7 +409,8 @@ const ApplicationForm = () => {
                               className="form-control"
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.best_time_to_call}
                             />
                           </div>
                         </div>
@@ -398,7 +423,8 @@ const ApplicationForm = () => {
                               className="form-select suffix"
                               defaultValue=""
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.suffix}
                             />
                           </div>
                           {/*//! phone type not included in poc data sample*/}
@@ -410,7 +436,8 @@ const ApplicationForm = () => {
                               className="form-control"
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.phone_type}
                             />
                           </div>
                         </div>
@@ -423,7 +450,8 @@ const ApplicationForm = () => {
                               className="form-select"
                               defaultValue=""
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.marital_status}
                             />
                           </div>
                           {/* //! not included in poc data sample*/}
@@ -433,7 +461,6 @@ const ApplicationForm = () => {
                               className="form-check-input"
                               type="checkbox"
                               id="checkbox"
-                              onChange={handleInputChange}
                             />
                             <label htmlFor="checkbox">
                               Would you like to receive text messages? <br />
@@ -451,7 +478,8 @@ const ApplicationForm = () => {
                               className="form-select"
                               defaultValue=""
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.coapplicant}
                             />
                           </div>
                           <div className="column">
@@ -462,8 +490,8 @@ const ApplicationForm = () => {
                               className="form-control"
                               type="email"
                               defaultValue=""
-                              required
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.email}
                             />
                           </div>
                         </div>
@@ -473,10 +501,10 @@ const ApplicationForm = () => {
                             <input
                               tabIndex={8}
                               className="form-select"
-                              required
                               type="select"
                               defaultValue=""
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.country_of_citizenship}
                             />
                           </div>
                           <div className="column">
@@ -484,7 +512,7 @@ const ApplicationForm = () => {
                             <select
                               tabIndex={17}
                               className="form-select"
-                              onChange={handleInputChange}
+                              //onChange={handleInputChange}
                             >
                               <option disabled hidden selected value="">
                                 Choose Preferred Language
@@ -503,17 +531,34 @@ const ApplicationForm = () => {
                               tabIndex={9}
                               className="form-select"
                               defaultValue=""
-                              required
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={personalInformation.handleChange}
+                              value={personalInformation.values.country_of_residence}
                             />
                           </div>
                         </div>
                         <div className="end-button">
-                          <button tabIndex={19} className="save-button">
+                          <button
+                            tabIndex={19}
+                            className="save-button"
+                            type="button"
+                            onClick={() => {
+                              //e.preventDefault()
+                              setSave(true)
+                              personalInformation.handleSubmit()
+                            }}
+                          >
                             Save
                           </button>
-                          <button tabIndex={20} onClick={openFirstCollapsible}>
+                          <button
+                            tabIndex={20}
+                            type="button"
+                            onClick={() => {
+                              //e.preventDefault()
+                              setSave(false)
+                              personalInformation.handleSubmit()
+                            }}
+                          >
                             Next Step
                           </button>
                         </div>
@@ -547,48 +592,63 @@ const ApplicationForm = () => {
                       <form>
                         <div className="row">
                           <div className="column">
-                            <label htmlFor="property_location" className="form-label">
+                            <label htmlFor="property_location" className="form-label required">
                               Property Location
                             </label>
                             <input
+                              tabIndex={21}
                               name="property_location"
                               id="property_location"
                               defaultValue=""
                               className="form-select"
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.property_location}
                             />
                           </div>
                           <div className="column">
                             <label className="form-label">Estimated Property Value</label>
                             <input
+                              tabIndex={28}
                               name="property_value"
                               className="form-control"
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.property_value}
                             />
                           </div>
                         </div>
                         <div className="row">
                           <div className="column">
-                            <label className="form-label">Address Line 1</label>
+                            <label className="form-label required">Address Line 1</label>
                             <input
+                              tabIndex={22}
                               name="street"
+                              required
                               className="form-control"
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.street}
                             />
+                            {
+                              /* Show address error */
+                              propertyInformation.errors.street && (
+                                <div>{propertyInformation.errors.street}</div>
+                              )
+                            }
                           </div>
                           <div className="column">
                             <label className="form-label">Time at this Address</label>
                             <input
+                              tabIndex={29}
                               name="time_at_address"
                               className="form-select"
                               defaultValue=""
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.time_at_address}
                             />
                           </div>
                         </div>
@@ -596,94 +656,156 @@ const ApplicationForm = () => {
                           <div className="column">
                             <label className="form-label">Address Line 2</label>
                             <input
+                              tabIndex={23}
                               name="street_2"
                               className="form-control"
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.street_2}
                             />
                           </div>
                           <div className="column">
-                            <label className="form-label">Line of Credit Amount</label>
+                            <label className="form-label required">Line of Credit Amount</label>
                             <input
+                              tabIndex={30}
                               name="line_of_credit"
+                              required
                               className="form-control"
                               defaultValue=""
                               type="tel"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.line_of_credit}
                             />
+                            {
+                              /* Show credit amount error */
+                              propertyInformation.errors.line_of_credit && (
+                                <div>{propertyInformation.errors.line_of_credit}</div>
+                              )
+                            }
                           </div>
                         </div>
                         <div className="row">
                           <div className="column">
-                            <label className="form-label">Property City</label>
+                            <label className="form-label required">Property City</label>
                             <input
+                              tabIndex={24}
                               name="property_city"
                               className="form-control"
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.property_city}
                             />
                           </div>
                           <div className="column">
                             <label className="form-label">
-                              Will loan proceeds be used primarly for business porpuses
+                              Will loan proceeds be used primarly for business purposes
                             </label>
                             <input
+                              tabIndex={31}
                               name="loan_used_for_business"
                               className="form-select"
                               defaultValue=""
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.loan_used_for_business}
                             />
                           </div>
                         </div>
                         <div className="row">
                           <div className="column">
-                            <label className="form-label">State</label>
+                            <label className="form-label required">State</label>
                             <input
+                              tabIndex={25}
                               name="property_state"
                               className="form-select state"
                               defaultValue=""
                               type="select"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.property_state}
                             />
+                          </div>
 
-                            <label className="form-label">Zip Code</label>
+                          <div className="column">
+                            <label className="form-label">Property Use</label>
                             <input
+                              tabIndex={32}
+                              name="property_use"
+                              className="form-control"
+                              type="text"
+                              defaultValue=""
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.property_use}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="column">
+                            <label className="form-label required">Zip Code</label>
+                            <input
+                              tabIndex={26}
                               name="property_zip_code"
                               className="form-control zip-code"
                               defaultValue=""
                               type="text"
-                              onChange={handleInputChange}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.property_zip_code}
                             />
 
-                            <label className="form-label">Property County</label>
-                            <input
-                              name="property_country"
-                              className="form-control"
-                              type="text"
-                              defaultValue=""
-                              onChange={handleInputChange}
-                            />
-                          </div>
-                          <div className="column">
                             <label className="form-label">How do you plan to use the funds?</label>
                             <textarea
                               name="plans_for_the_funds"
                               className="form-control"
                               defaultValue=""
                               cols="50"
-                              rows="6"
-                              onChange={handleInputChange}
+                              rows="3"
+                              tabIndex={27}
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.plans_for_the_funds}
                             ></textarea>
+                          </div>
+
+                          <div className="column">
+                            <label className="form-label required">Property County</label>
+                            <input
+                              tabIndex={33}
+                              name="property_country"
+                              className="form-control"
+                              type="text"
+                              defaultValue=""
+                              onChange={propertyInformation.handleChange}
+                              value={propertyInformation.values.property_country}
+                            />
                           </div>
                         </div>
 
                         <div className="end-button">
-                          <button onClick={closeFirstCollapsible}>Back</button>
-                          <button className="save-button">Save</button>
-                          <button onClick={openSecondCollapsible}>Next Step</button>
+                          <button tabIndex={34} type="button" onClick={closeFirstCollapsible}>
+                            Back
+                          </button>
+                          <button
+                            type="button"
+                            tabIndex={35}
+                            className="save-button"
+                            onClick={() => {
+                              setSave(true)
+                              propertyInformation.handleSubmit()
+                            }}
+                          >
+                            Save
+                          </button>
+                          <button
+                            type="button"
+                            tabIndex={36}
+                            onClick={() => {
+                              setSave(false)
+                              propertyInformation.handleSubmit()
+                            }}
+                          >
+                            Next Step
+                          </button>
                         </div>
                       </form>
                     </div>
@@ -714,18 +836,23 @@ const ApplicationForm = () => {
                     <div className="content">
                       <form onSubmit={sendData} className="income">
                         <div className="row">
-                          <label htmlFor="employment-status">Employment Status</label>
+                          <label htmlFor="employment-status" className="required">
+                            Employment Status
+                          </label>
                           <input
                             name="employment_status"
                             className="form-select"
                             defaultValue=""
                             type="select"
-                            id="employment-status"
-                            onChange={handleInputChange}
+                            id="employment_status"
+                            onChange={incomeInformation.handleChange}
+                            value={incomeInformation.values.employment_status}
                           />
                         </div>
                         <div className="row">
-                          <label htmlFor="anual_income">Annual Income</label>
+                          <label htmlFor="anual_income" className="required">
+                            Annual Income
+                          </label>
                           <input
                             name="anual_income"
                             className="form-control"
@@ -733,18 +860,28 @@ const ApplicationForm = () => {
                             defaultValue=""
                             type="text"
                             id="anual_income"
-                            onChange={handleInputChange}
+                            onChange={incomeInformation.handleChange}
+                            value={incomeInformation.values.anual_income}
                           />
+                          {
+                            /* Show name error */
+                            incomeInformation.errors.anual_income && (
+                              <div>{incomeInformation.errors.anual_income}</div>
+                            )
+                          }
                         </div>
                         <div className="row">
-                          <label htmlFor="source-income">Source of Income</label>
+                          <label htmlFor="source-income" className="required">
+                            Source of Income
+                          </label>
                           <input
                             name="source_of_income"
                             className="form-select"
                             defaultValue=""
                             type="select"
                             id="source-income"
-                            onChange={handleInputChange}
+                            onChange={incomeInformation.handleChange}
+                            value={incomeInformation.values.source_of_income}
                           />
                         </div>
                         <div className="row">
@@ -757,13 +894,26 @@ const ApplicationForm = () => {
                             defaultValue=""
                             type="select"
                             id="additional-income"
-                            onChange={handleInputChange}
+                            onChange={incomeInformation.handleChange}
+                            value={incomeInformation.values.additional_income}
                           />
                         </div>
 
                         <div className="income-button">
-                          <button onClick={closeSecondCollapsible}>Back</button>
-                          <button className="save-button">Save & Submit</button>
+                          <button type="button" onClick={closeSecondCollapsible}>
+                            Back
+                          </button>
+                          <button
+                            type="button"
+                            className="save-button"
+                            onClick={() => {
+                              incomeInformation.handleSubmit()
+                              setIsIncomeOpen(false)
+                              //sendData()
+                            }}
+                          >
+                            Save & Submit
+                          </button>
                         </div>
                       </form>
                     </div>
