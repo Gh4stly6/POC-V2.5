@@ -1,15 +1,17 @@
 import React, { Component } from 'react'
 import { NavLink } from 'react-router-dom'
 import { CNavLink, CWidgetStatsF, CButton } from '@coreui/react'
-//import House from './House-searching-amico.svg'
 import './login.css'
+
 //The image was extracted from https://storyset.com/illustration/house-searching/amico.
 const Login = () => {
   return (
     <div className="maincontainer">
       <div className="container-fluid">
         <div className="row no-gutter">
-          <div className="col-md-6 d-none d-md-flex bg-image"></div>
+          <div className="col-md-6 d-none d-md-flex bg-image">
+            <div><img src="src/views/poc/assets/img/House-searching-in.gif" width={500} /></div>
+          </div>
           <div className="col-md-6 bg-light">
             <div className="login d-flex align-items-center py-5">
               <div className="container">
