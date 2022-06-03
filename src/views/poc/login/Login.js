@@ -10,7 +10,9 @@ const Login = () => {
       <div className="container-fluid">
         <div className="row no-gutter">
           <div className="col-md-6 d-none d-md-flex bg-image">
-            <div><img src="src/views/poc/assets/img/House-searching-in.gif" width={500} /></div>
+            <div>
+              <img src="src/views/poc/assets/img/House-searching-in.gif" width={500} />
+            </div>
           </div>
           <div className="col-md-6 bg-light">
             <div className="login d-flex align-items-center py-5">
