@@ -21,6 +21,8 @@ const ApplicationForm = () => {
   const incomeRef = useRef() //? To select the income form
   const personalInfoForm = useRef()
 
+  let statusPersonal = false
+
   //*BACK BUTTON FUNCTIONS
   const closeFirstCollapsible = (e) => {
     e.preventDefault()
@@ -65,6 +67,7 @@ const ApplicationForm = () => {
         console.log('next')
         setIsPropertyOpen(true)
         setIsPersonalOpen(false)
+        statusPersonal = true
         //setSave(false)
       } else {
         //setSave(true)
@@ -73,6 +76,7 @@ const ApplicationForm = () => {
         alert('saved')
         console.log('save')
       }
+      return statusPersonal
     },
   })
 
@@ -108,6 +112,8 @@ const ApplicationForm = () => {
         setIsPropertyOpen(false)
         alert('saved')
         console.log('save')
+
+        return console.log()
       }
     },
   })
@@ -126,15 +132,6 @@ const ApplicationForm = () => {
     }),
     onSubmit: (values) => {
       sendData()
-      //setSave(true)
-      // function checkForms() {
-      //   if (propertyInformation.isValid) {
-      //     //sendData()
-      //     console.log(personalInformation.isValid)
-      //     console.log('save')
-      //   }
-      // }
-      // personalInformation.handleSubmit().then(propertyInformation.handleSubmit()).then(checkForms())
     },
   })
 
@@ -217,7 +214,8 @@ const ApplicationForm = () => {
             text: `${personalInformation.values.topics}`,
             icon: 'success',
           })
-
+          //? Close income collapsible
+          setIsIncomeOpen(false)
           //? Reset form after submit
           personalInformation.handleReset()
           propertyInformation.handleReset()
@@ -472,7 +470,7 @@ const ApplicationForm = () => {
                         <div className="row">
                           <div className="column">
                             <label className="form-label">Co-Applicant</label>
-                            <input
+                            <select
                               tabIndex={7}
                               name="coapplicant"
                               className="form-select"
@@ -480,7 +478,13 @@ const ApplicationForm = () => {
                               type="select"
                               onChange={personalInformation.handleChange}
                               value={personalInformation.values.coapplicant}
-                            />
+                            >
+                              <option value="" selected hidden>
+                                Choose an option
+                              </option>
+                              <option value="yes">Yes</option>
+                              <option value="no">No</option>
+                            </select>
                           </div>
                           <div className="column">
                             <label className="form-label">Email Address</label>
@@ -520,6 +524,13 @@ const ApplicationForm = () => {
                               <option value="en">English</option>
                               <option value="es">Spanish</option>
                               <option value="fr">French</option>
+                              <option value="fr">Chinese</option>
+                              <option value="fr">Vietnamese</option>
+                              <option value="fr">Tagalog</option>
+                              <option value="fr">Korean</option>
+                              <option value="fr">Creole</option>
+                              <option value="fr">Arabic</option>
+                              <option value="fr">Russian</option>
                             </select>
                           </div>
                         </div>
@@ -570,7 +581,7 @@ const ApplicationForm = () => {
                 {/*Property Section*/}
                 <div className="collapsible">
                   <div className="headerOption">
-                    <button className="toggle" onClick={() => setIsPropertyOpen(!isPropertyOpen)}>
+                    <button className="toggle">
                       <BsFillHouseDoorFill size={34} />
                       Step 2: Property Information
                     </button>
@@ -815,7 +826,7 @@ const ApplicationForm = () => {
                 {/*Income Section */}
                 <div className="collapsible">
                   <div className="headerOption">
-                    <button className="toggle" onClick={() => setIsIncomeOpen(!isIncomeOpen)}>
+                    <button className="toggle">
                       <FaCoins size={34} />
                       Step 3: Income and Assets
                     </button>
@@ -908,7 +919,9 @@ const ApplicationForm = () => {
                             className="save-button"
                             onClick={() => {
                               incomeInformation.handleSubmit()
-                              setIsIncomeOpen(false)
+                              // .then((status) => propertyInformation.handleSubmit())
+                              // .then(() => incomeInformation.handleSubmit())
+                              //setIsIncomeOpen(false)
                               //sendData()
                             }}
                           >
