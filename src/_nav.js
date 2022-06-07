@@ -1,5 +1,4 @@
 import React from 'react'
-import CIcon from '@coreui/icons-react'
 import { CNavItem, CNavTitle } from '@coreui/react'
 import { AiOutlineBarChart } from 'react-icons/ai'
 import { AiFillDashboard } from 'react-icons/ai'
@@ -48,6 +47,16 @@ const _nav = [
     name: 'Home Equity Application',
     to: '/homeequity',
     icon: <AiOutlineEdit className="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
+    name: 'Integrations',
+  },
+  {
+    component: CNavItem,
+    name: 'Plaid',
+    to: '/plaid',
+    icon: <AiOutlineUser className="nav-icon" />,
   },
   {
     component: CNavTitle,
