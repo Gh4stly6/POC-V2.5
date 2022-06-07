@@ -72,6 +72,7 @@ const routes = [
   { path: '/statistics', name: 'Statistics', element: Statistics },
   { path: '/reporting', name: 'Reporting', element: Reporting },
   { path: '/messages', name: 'Messages', element: Messages },
+  { path: '/plaid', name: 'Plaid', element: Plaid },
   { path: '/login', name: 'Login', element: Login },
   { path: '/plaid', name: 'Plaid', element: Plaid },
 
