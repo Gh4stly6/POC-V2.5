@@ -39,6 +39,7 @@
     "chart.js": "^3.7.1",
     "classnames": "^2.3.1",
     "core-js": "^3.22.3",
+    "formik": "^2.2.9",
     "prop-types": "^15.8.1",
     "react": "^17.0.2",
     "react-app-polyfill": "^3.0.0",
@@ -46,6 +47,7 @@
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.31.3",
     "react-icons": "^4.3.1",
+    "react-plaid-link": "^3.3.2",
     "react-redux": "^7.2.6",
     "react-router-dom": "^6.3.0",
     "react-table": "^7.8.0",
@@ -53,7 +55,8 @@
     "simplebar-react": "^2.3.7",
     "styled-components": "^5.3.5",
     "sweetalert": "^2.1.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.4",

@@ -51,6 +51,16 @@ const _nav = [
   },
   {
     component: CNavTitle,
+    name: 'Integrations',
+  },
+  {
+    component: CNavItem,
+    name: 'Plaid',
+    to: '/plaid',
+    icon: <AiOutlineUser className="nav-icon" />,
+  },
+  {
+    component: CNavTitle,
     name: 'Settings',
   },
   {

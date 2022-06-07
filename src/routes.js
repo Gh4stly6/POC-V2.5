@@ -10,6 +10,7 @@ const Notification = React.lazy(() => import('./views/poc/Notification'))
 const Reporting = React.lazy(() => import('./views/poc/Reporting'))
 const Messages = React.lazy(() => import('./views/poc/Messages'))
 const Login = React.lazy(() => import('./views/poc/login/Login'))
+const Plaid = React.lazy(() => import('./views/poc/Plaid'))
 
 //const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 //const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -72,6 +73,7 @@ const routes = [
   { path: '/reporting', name: 'Reporting', element: Reporting },
   { path: '/messages', name: 'Messages', element: Messages },
   { path: '/login', name: 'Login', element: Login },
+  { path: '/plaid', name: 'Plaid', element: Plaid },
 
   /*{ path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
