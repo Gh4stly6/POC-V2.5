@@ -1,4 +1,5 @@
 import React from 'react'
+import CIcon from '@coreui/icons-react'
 import { CNavItem, CNavTitle } from '@coreui/react'
 import { AiOutlineBarChart } from 'react-icons/ai'
 import { AiFillDashboard } from 'react-icons/ai'
