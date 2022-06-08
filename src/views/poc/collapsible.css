@@ -176,11 +176,10 @@ input[type="select"].form-select {
 	color: #067bf9;
 }
 
-/*focused buttons*/
-
-button:focus {
-	box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-}
+/*button:focus {
+	box-shadow: blue;
+	background-color: blue;
+}*/
 
 button.save-button,
 button.end-button {
