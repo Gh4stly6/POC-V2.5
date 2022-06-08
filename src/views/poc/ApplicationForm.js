@@ -14,14 +14,12 @@ const ApplicationForm = () => {
   const [isPersonalOpen, setIsPersonalOpen] = useState(false) //? Open or close personalInformation form
   const [isPropertyOpen, setIsPropertyOpen] = useState(false) //? Open or close propertyInformation form
   const [isIncomeOpen, setIsIncomeOpen] = useState(false) //? Open or close income form
-
+  let statusPersonal = false
   //*USE REF HOOKS
   const personalRef = useRef() //? To select the personalInformation form
   const propertyRef = useRef() //? To select the propertyInformation form
   const incomeRef = useRef() //? To select the income form
   const personalInfoForm = useRef()
-
-  let statusPersonal = false
 
   //*BACK BUTTON FUNCTIONS
   const closeFirstCollapsible = (e) => {
