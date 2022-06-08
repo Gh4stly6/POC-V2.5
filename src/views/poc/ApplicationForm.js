@@ -4,30 +4,6 @@ import { v4 as uuidv4 } from 'uuid'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { BsFillHouseDoorFill } from 'react-icons/bs'
 import { FaCoins } from 'react-icons/fa'
-<<<<<<< HEAD
-import './collapsible.css'
-import { CRow, CCol, CCard, CCardBody } from '@coreui/react'
-import { useFormik } from 'formik'
-import * as Yup from 'yup'
-const ApplicationForm = () => {
-  //*USE STATE HOOKS
-  const [save, setSave] = useState(false) //? To identify what button was pressed save or next
-  const [isPersonalOpen, setIsPersonalOpen] = useState(false) //? Open or close personalInformation form
-  const [isPropertyOpen, setIsPropertyOpen] = useState(false) //? Open or close propertyInformation form
-  const [isIncomeOpen, setIsIncomeOpen] = useState(false) //? Open or close income form
-  let statusPersonal = false
-  //*USE REF HOOKS
-  const personalRef = useRef() //? To select the personalInformation form
-  const propertyRef = useRef() //? To select the propertyInformation form
-  const incomeRef = useRef() //? To select the income form
-  const personalInfoForm = useRef()
-
-  //*BACK BUTTON FUNCTIONS
-  const closeFirstCollapsible = (e) => {
-    e.preventDefault()
-    setIsPersonalOpen(true)
-    setIsPropertyOpen(false)
-=======
 
 import { CCard, CCardHeader, CCardBody, CRow, CCol } from '@coreui/react'
 import './collapsible.css'
@@ -90,7 +66,6 @@ const ApplicationForm = () => {
       ...data,
       [e.target.name]: e.target.value,
     })
->>>>>>> 5edad98d77dadae1e90b338cafe37972eca42836
   }
 
   const handleReset = () => {
