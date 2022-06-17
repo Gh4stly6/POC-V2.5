@@ -9,6 +9,8 @@ import { AiOutlineEdit } from 'react-icons/ai'
 import { AiOutlineUser } from 'react-icons/ai'
 import { AiFillBell } from 'react-icons/ai'
 import { AiFillMail } from 'react-icons/ai'
+import { AiFillApi } from 'react-icons/ai'
+import { AiOutlineAppstore } from 'react-icons/ai'
 
 const _nav = [
   {
@@ -57,13 +59,13 @@ const _nav = [
     component: CNavItem,
     name: 'Plaid',
     to: '/plaid',
-    icon: <AiOutlineUser className="nav-icon" />,
+    icon: <AiOutlineAppstore className="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Third Integration',
     to: '/third',
-    icon: <AiOutlineUser className="nav-icon" />,
+    icon: <AiFillApi className="nav-icon" />,
   },
   {
     component: CNavTitle,

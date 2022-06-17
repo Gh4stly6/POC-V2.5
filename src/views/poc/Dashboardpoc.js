@@ -41,7 +41,7 @@ const Dashboardpoc = () => {
                         <div className="button-icon">
                           <img src={contactform} />
                         </div>
-                        <div className="button-text">Application Form</div>
+                        <div className="button-text">Home Equity Application</div>
                       </div>
                     </CButton>
                   </CNavLink>
