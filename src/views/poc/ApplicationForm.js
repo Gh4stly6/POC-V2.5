@@ -4,22 +4,27 @@ import { v4 as uuidv4 } from 'uuid'
 import { BsFillPersonFill } from 'react-icons/bs'
 import { BsFillHouseDoorFill } from 'react-icons/bs'
 import { FaCoins } from 'react-icons/fa'
+import { FaMoneyCheckAlt } from 'react-icons/fa'
 import './collapsible.css'
 import { CRow, CCol, CCard, CCardBody } from '@coreui/react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import Step4 from './Step4'
+
 const ApplicationForm = () => {
   //*USE STATE HOOKS
   const [save, setSave] = useState(false) //? To identify what button was pressed save or next
   const [isPersonalOpen, setIsPersonalOpen] = useState(false) //? Open or close personalInformation form
   const [isPropertyOpen, setIsPropertyOpen] = useState(false) //? Open or close propertyInformation form
   const [isIncomeOpen, setIsIncomeOpen] = useState(false) //? Open or close income form
+  const [isVerificationOpen, setIsVerificationOpen] = useState(false) //? Open or close income form
 
   //*USE REF HOOKS
   const personalRef = useRef() //? To select the personalInformation form
   const propertyRef = useRef() //? To select the propertyInformation form
   const incomeRef = useRef() //? To select the income form
   const personalInfoForm = useRef()
+  const verificationRef = useRef() //? to select the income verification
 
   let statusPersonal = false
 
@@ -929,6 +934,33 @@ const ApplicationForm = () => {
                           </button>
                         </div>
                       </form>
+                    </div>
+                  </div>
+                </div>
+                <div className="collapsible">
+                  <div className="headerOption">
+                    <button
+                      className="toggle"
+                      onClick={() => setIsVerificationOpen(!isVerificationOpen)}
+                    >
+                      <FaMoneyCheckAlt size={34} /> Step 4: Income and Assets Verification
+                    </button>
+                  </div>
+                  <div
+                    className="content-parent"
+                    ref={verificationRef}
+                    style={
+                      isVerificationOpen
+                        ? {
+                            height: verificationRef.current.scrollHeight + 'px',
+                          }
+                        : {
+                            height: '0px',
+                          }
+                    }
+                  >
+                    <div className="content">
+                      <Step4 />
                     </div>
                   </div>
                 </div>
