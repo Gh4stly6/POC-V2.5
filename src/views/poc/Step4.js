@@ -1,5 +1,6 @@
 import { React, useState, useRef } from 'react'
 import './step4.css'
+import './errors.css'
 import Modal from './Modal'
 import {
   CContainer,
@@ -8,38 +9,46 @@ import {
   CCard,
   CCardBody,
   CCardTitle,
-  CCardText,
   CRow,
   CCol,
-  CButton,
   CForm,
+  CButton,
+  CFormCheck,
+  CAlert,
 } from '@coreui/react'
 import * as yup from 'yup'
+import { Formik } from 'formik'
 import PlaidSignIn from '../poc/assets/img/PlaidSignIn.jpg'
-import { useForm } from 'react-hook-form'
 
 //* Validate files
-
-const schema = yup.object().shape({
-  paystubs: yup
-    .mixed()
-    .required('You need to provide a file')
-    .test('type', 'We only support pdf files', (value) => {
-      return value && value[0].type === 'application/pdf'
-    }),
-
-  bank_statements: yup
-    .mixed()
-    .required('You need to provide a file')
-    .test('type', 'We only support pdf files', (value) => {
-      return value && value[0].type === 'application/pdf'
-    }),
-})
-
 const Step4 = () => {
+  const [isDigital, setIsDigital] = useState(false)
+  const [isManual, setIsManual] = useState(false)
+
+  //* File validation
+  const validation = yup.object().shape({
+    paystubs: yup
+      .mixed()
+      .required('You need to provide a file')
+      .test('type', 'We only support pdf files', (value) => {
+        return value && value.type === 'application/pdf'
+      }),
+    bank_statements: yup
+      .mixed()
+      .required('You need to provide a file')
+      .test('type', 'We only support pdf files', (value) => {
+        return value && value.type === 'application/pdf'
+      }),
+  })
+
   return (
     <div>
       <CContainer>
+        <CRow>
+          <CAlert color="primary" style={{ fontWeight: 'bold', fontSize: '12pt' }}>
+            Choose a type of income verification to submit
+          </CAlert>
+        </CRow>
         <CRow>
           <CCard>
             <CCardBody>
@@ -57,38 +66,68 @@ const Step4 = () => {
           <CCard>
             <CCardBody>
               <CCardTitle> Manual Verification of Income and Assets</CCardTitle>
-              <CForm>
-                <CRow>
-                  <CCol>
-                    <CFormLabel htmlFor="paystubs">Upload Pay stubs</CFormLabel>
-                    <CFormInput
-                      type="file"
-                      className="mb-2"
-                      name="paystubs"
-                      id="paystubs"
-                      accept="application/pdf"
-                      //ref={register}
-                    />
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol>
-                    <CFormLabel htmlFor="bank_statements">Upload Bank Statements</CFormLabel>
-                    <CFormInput
-                      type="file"
-                      id="bank_statements"
-                      name="bank_statements"
-                      accept="application/pdf"
-                      //{register}
-                    />
-                  </CCol>
-                </CRow>
-                <CRow>
-                  <CCol>
-                    <CFormInput type="submit" />
-                  </CCol>
-                </CRow>
-              </CForm>
+              <Formik
+                initialValues={{ paystubs: '', bank_statements: '' }}
+                onSubmit={(values) => {
+                  console.log(values)
+                }}
+                validationSchema={validation}
+              >
+                {(formProps) => (
+                  <CForm>
+                    <CRow>
+                      <CCol>
+                        <CFormLabel htmlFor="paystubs" className="required">
+                          Upload Pay stubs
+                        </CFormLabel>
+                        <CFormInput
+                          type="file"
+                          className="mb-2"
+                          name="paystubs"
+                          id="paystubs"
+                          accept="application/pdf"
+                          onChange={(event) =>
+                            formProps.setFieldValue('paystubs', event.target.files[0])
+                          }
+                        />
+                        {
+                          /* Show paystubs error */
+                          formProps.errors.paystubs && (
+                            <div className="error">{formProps.errors.paystubs}</div>
+                          )
+                        }
+                      </CCol>
+                    </CRow>
+                    <CRow>
+                      <CCol>
+                        <CFormLabel htmlFor="bank_statements" className="required">
+                          Upload Bank Statements
+                        </CFormLabel>
+                        <CFormInput
+                          type="file"
+                          id="bank_statements"
+                          name="bank_statements"
+                          accept="application/pdf"
+                          onChange={(event) =>
+                            formProps.setFieldValue('bank_statements', event.target.files[0])
+                          }
+                        />
+                        {
+                          /* Show paystubs error */
+                          formProps.errors.bank_statements && (
+                            <div className="error">{formProps.errors.bank_statements}</div>
+                          )
+                        }
+                      </CCol>
+                    </CRow>
+                    <CRow>
+                      <CCol>
+                        <CButton onClick={formProps.handleSubmit}>Submit</CButton>
+                      </CCol>
+                    </CRow>
+                  </CForm>
+                )}
+              </Formik>
             </CCardBody>
           </CCard>
         </CRow>

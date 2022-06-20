@@ -932,6 +932,15 @@ const ApplicationForm = () => {
                           >
                             Save & Submit
                           </button>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setIsVerificationOpen(true)
+                              setIsIncomeOpen(false)
+                            }}
+                          >
+                            Next
+                          </button>
                         </div>
                       </form>
                     </div>
@@ -961,6 +970,18 @@ const ApplicationForm = () => {
                   >
                     <div className="content">
                       <Step4 />
+                      <div className="end-button">
+                        <button
+                          tabIndex={34}
+                          type="button"
+                          onClick={() => {
+                            setIsVerificationOpen(false)
+                            setIsIncomeOpen(true)
+                          }}
+                        >
+                          Back
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
