@@ -1,5 +1,6 @@
 import { React, useState, useRef } from 'react'
 import './step4.css'
+import Modal from './Modal'
 import {
   CContainer,
   CFormInput,
@@ -14,6 +15,7 @@ import {
   CForm,
 } from '@coreui/react'
 import * as yup from 'yup'
+import PlaidSignIn from '../poc/assets/img/PlaidSignIn.jpg'
 import { useForm } from 'react-hook-form'
 
 //* Validate files
@@ -42,7 +44,11 @@ const Step4 = () => {
           <CCard>
             <CCardBody>
               <CCardTitle> Digital Verification of Income and Assets</CCardTitle>
-              <CButton>Connect to Plaid</CButton>
+              <Modal
+                buttonLabel="Connect to Plaid"
+                title="Plaid"
+                body={<img src={PlaidSignIn} />}
+              />
             </CCardBody>
           </CCard>
         </CRow>
