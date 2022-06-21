@@ -63,7 +63,7 @@ const _nav = [
   },
   {
     component: CNavItem,
-    name: 'Third Integration',
+    name: 'Third Party Integration',
     to: '/third',
     icon: <AiFillApi className="nav-icon" />,
   },
