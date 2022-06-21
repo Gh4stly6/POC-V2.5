@@ -25,6 +25,7 @@ import swal from 'sweetalert'
 const Step4 = () => {
   const [isDigital, setIsDigital] = useState(false)
   const [isManual, setIsManual] = useState(false)
+  const [loading, setLoading] = useState(false)
   //* Scroll Height of step 4
   //* File validation
   const validation = yup.object().shape({
@@ -85,6 +86,7 @@ const Step4 = () => {
                 <Formik
                   initialValues={{ paystubs: '' }}
                   onSubmit={(values) => {
+                    setLoading(true)
                     //console.log(values)
                     let data = new FormData()
                     data.append('autometa', 'true')
@@ -108,6 +110,8 @@ const Step4 = () => {
                           requestOptions,
                         )
                         console.log(await response.json())
+                        swal('Your file was uploaded')
+                        setLoading(false)
                       } catch (error) {
                         console.log('error', error)
                       }
@@ -125,6 +129,7 @@ const Step4 = () => {
                             Upload Pay stubs or Bank Statements
                           </CFormLabel>
                           <CFormInput
+                            disabled={loading}
                             type="file"
                             className="mb-2"
                             name="paystubs"
@@ -166,7 +171,9 @@ const Step4 = () => {
                       </CRow>
                       <CRow>
                         <CCol>
-                          <CButton onClick={formProps.handleSubmit}>Upload File</CButton>
+                          <CButton disabled={loading} onClick={formProps.handleSubmit}>
+                            Upload File
+                          </CButton>
                         </CCol>
                       </CRow>
                     </CForm>
