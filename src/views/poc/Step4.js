@@ -85,8 +85,35 @@ const Step4 = () => {
                 <Formik
                   initialValues={{ paystubs: '' }}
                   onSubmit={(values) => {
-                    console.log(values)
-                    swal('Your file was uploaded')
+                    //console.log(values)
+                    let data = new FormData()
+                    data.append('autometa', 'true')
+                    data.append('file', values.paystubs)
+                    var myHeaders = new Headers()
+                    myHeaders.append(
+                      'Authorization',
+                      'Basic dTBnYzBvZTBvdTpoYjJPd3pEUzR1bTlKNmF0WENFMXg2eUlHQ0U5Yy1DaDg3bkk4WTBjN2sw',
+                    )
+                    var requestOptions = {
+                      method: 'POST',
+                      headers: myHeaders,
+                      body: data,
+                      redirect: 'follow',
+                    }
+
+                    async function sendFile() {
+                      try {
+                        const response = await fetch(
+                          'https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/data',
+                          requestOptions,
+                        )
+                        console.log(await response.json())
+                      } catch (error) {
+                        console.log('error', error)
+                      }
+                    }
+
+                    sendFile()
                   }}
                   validationSchema={validation}
                 >
