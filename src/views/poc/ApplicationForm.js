@@ -961,7 +961,7 @@ const ApplicationForm = () => {
                     style={
                       isVerificationOpen
                         ? {
-                            height: verificationRef.current.scrollHeight + 'px',
+                            height: '550px',
                           }
                         : {
                             height: '0px',
@@ -981,6 +981,7 @@ const ApplicationForm = () => {
                         >
                           Back
                         </button>
+                        <button className="save-button">Submit</button>
                       </div>
                     </div>
                   </div>

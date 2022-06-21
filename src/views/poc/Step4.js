@@ -19,6 +19,7 @@ import {
 import * as yup from 'yup'
 import { Formik } from 'formik'
 import PlaidSignIn from '../poc/assets/img/PlaidSignIn.jpg'
+import swal from 'sweetalert'
 
 //* Validate files
 const Step4 = () => {
@@ -27,18 +28,9 @@ const Step4 = () => {
   //* Scroll Height of step 4
   //* File validation
   const validation = yup.object().shape({
-    paystubs: yup
-      .mixed()
-      .required('You need to provide a file')
-      .test('type', 'We only support pdf files', (value) => {
-        return value && value.type === 'application/pdf'
-      }),
-    bank_statements: yup
-      .mixed()
-      .required('You need to provide a file')
-      .test('type', 'We only support pdf files', (value) => {
-        return value && value.type === 'application/pdf'
-      }),
+    paystubs: yup.mixed().test('type', 'We only support pdf files', (value) => {
+      return value && value.type === 'application/pdf'
+    }),
   })
 
   return (
@@ -91,9 +83,10 @@ const Step4 = () => {
               <CCardBody>
                 <CCardTitle> Manual Verification of Income and Assets</CCardTitle>
                 <Formik
-                  initialValues={{ paystubs: '', bank_statements: '' }}
+                  initialValues={{ paystubs: '' }}
                   onSubmit={(values) => {
                     console.log(values)
+                    swal('Your file was uploaded')
                   }}
                   validationSchema={validation}
                 >
@@ -102,7 +95,7 @@ const Step4 = () => {
                       <CRow>
                         <CCol>
                           <CFormLabel htmlFor="paystubs" className="required">
-                            Upload Pay stubs
+                            Upload Pay stubs or Bank Statements
                           </CFormLabel>
                           <CFormInput
                             type="file"
@@ -124,7 +117,7 @@ const Step4 = () => {
                       </CRow>
                       <CRow>
                         <CCol>
-                          <CFormLabel htmlFor="bank_statements" className="required">
+                          {/* <CFormLabel htmlFor="bank_statements" className="required">
                             Upload Bank Statements
                           </CFormLabel>
                           <CFormInput
@@ -135,18 +128,18 @@ const Step4 = () => {
                             onChange={(event) =>
                               formProps.setFieldValue('bank_statements', event.target.files[0])
                             }
-                          />
+                          /> */}
                           {
                             /* Show paystubs error */
-                            formProps.errors.bank_statements && (
-                              <div className="error">{formProps.errors.bank_statements}</div>
-                            )
+                            // formProps.errors.bank_statements && (
+                            //   <div className="error">{formProps.errors.bank_statements}</div>
+                            // )
                           }
                         </CCol>
                       </CRow>
                       <CRow>
                         <CCol>
-                          <CButton onClick={formProps.handleSubmit}>Submit</CButton>
+                          <CButton onClick={formProps.handleSubmit}>Upload File</CButton>
                         </CCol>
                       </CRow>
                     </CForm>
