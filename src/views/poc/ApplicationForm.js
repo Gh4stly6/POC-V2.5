@@ -6,10 +6,12 @@ import { BsFillHouseDoorFill } from 'react-icons/bs'
 import { FaCoins } from 'react-icons/fa'
 import { FaMoneyCheckAlt } from 'react-icons/fa'
 import './collapsible.css'
+import './errors.css'
 import { CRow, CCol, CCard, CCardBody } from '@coreui/react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Step4 from './Step4'
+import { filesid } from './Step4'
 
 const ApplicationForm = () => {
   //*USE STATE HOOKS
@@ -136,7 +138,16 @@ const ApplicationForm = () => {
       anual_income: Yup.string().required('This field is required'),
     }),
     onSubmit: (values) => {
-      sendData()
+      if (save === false) {
+        console.log('next')
+        setIsIncomeOpen(false)
+        setIsVerificationOpen(true)
+      } else {
+        setIsIncomeOpen(false)
+        setIsVerificationOpen(true)
+        alert('saved')
+        console.log('save')
+      }
     },
   })
 
@@ -188,6 +199,7 @@ const ApplicationForm = () => {
       additional_income: incomeInformation.values.additional_income,
       coapplicant: personalInformation.values.coapplicant,
       vendor: 'receive_borrower',
+      data_ids: filesid,
       topics: personalInformation.values.topics,
     })
 
@@ -335,7 +347,7 @@ const ApplicationForm = () => {
                             {
                               /* Show name error */
                               personalInformation.errors.first_name && (
-                                <div>{personalInformation.errors.first_name}</div>
+                                <div className="error">{personalInformation.errors.first_name}</div>
                               )
                             }
                           </div>
@@ -651,7 +663,7 @@ const ApplicationForm = () => {
                             {
                               /* Show address error */
                               propertyInformation.errors.street && (
-                                <div>{propertyInformation.errors.street}</div>
+                                <div className="error">{propertyInformation.errors.street}</div>
                               )
                             }
                           </div>
@@ -696,7 +708,9 @@ const ApplicationForm = () => {
                             {
                               /* Show credit amount error */
                               propertyInformation.errors.line_of_credit && (
-                                <div>{propertyInformation.errors.line_of_credit}</div>
+                                <div className="error">
+                                  {propertyInformation.errors.line_of_credit}
+                                </div>
                               )
                             }
                           </div>
@@ -882,7 +896,7 @@ const ApplicationForm = () => {
                           {
                             /* Show name error */
                             incomeInformation.errors.anual_income && (
-                              <div>{incomeInformation.errors.anual_income}</div>
+                              <div className="error">{incomeInformation.errors.anual_income}</div>
                             )
                           }
                         </div>
@@ -923,6 +937,7 @@ const ApplicationForm = () => {
                             type="button"
                             className="save-button"
                             onClick={() => {
+                              setSave(true)
                               incomeInformation.handleSubmit()
                               // .then((status) => propertyInformation.handleSubmit())
                               // .then(() => incomeInformation.handleSubmit())
@@ -930,8 +945,9 @@ const ApplicationForm = () => {
                               //sendData()
                             }}
                           >
-                            Save & Submit
+                            Save
                           </button>
+
                           <button
                             type="button"
                             onClick={() => {
@@ -981,10 +997,20 @@ const ApplicationForm = () => {
                         >
                           Back
                         </button>
-                        <button className="save-button">Submit</button>
                       </div>
                     </div>
                   </div>
+                </div>
+                <div className="end-button">
+                  <button
+                    className="save-button"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      sendData()
+                    }}
+                  >
+                    Submit
+                  </button>
                 </div>
               </div>
             </CCardBody>

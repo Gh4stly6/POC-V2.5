@@ -23,7 +23,7 @@ import swal from 'sweetalert'
 import { ConsoleSqlOutlined } from '@ant-design/icons'
 
 //* Validate files
-var filesid = new Array()
+export var filesid = new Array()
 const Step4 = () => {
   const [isDigital, setIsDigital] = useState(false)
   const [isManual, setIsManual] = useState(false)

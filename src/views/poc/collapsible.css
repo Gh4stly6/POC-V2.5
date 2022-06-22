@@ -153,6 +153,8 @@ input[type="select"].form-select {
 
 .end-button button,
 .income-button button {
+	display: flexbox;
+	justify-content: flex-start;
 	padding: 3px;
 	border-width: 1.5px;
 	border-color: #171ea6;
@@ -165,7 +167,7 @@ input[type="select"].form-select {
 	font-size: 1rem;
 	font-weight: lighter;
 	margin-top: 2rem;
-	margin-right: 3rem;
+	/* margin-right: 3rem; */
 	outline: none;
 }
 
