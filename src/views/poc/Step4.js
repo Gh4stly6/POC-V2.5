@@ -87,7 +87,7 @@ const Step4 = () => {
                 <CCardTitle> Manual Verification of Income and Assets</CCardTitle>
                 <Formik
                   initialValues={{ paystubs: '' }}
-                  onSubmit={(values) => {
+                  onSubmit={(values, { resetForm }) => {
                     setLoading(true)
                     //console.log(values)
                     let data = new FormData()

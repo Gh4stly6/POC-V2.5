@@ -237,6 +237,7 @@ const ApplicationForm = () => {
           personalInformation.handleReset()
           propertyInformation.handleReset()
           incomeInformation.handleReset()
+          filesid.length = 0
         } else {
           swal({
             title: 'Error',

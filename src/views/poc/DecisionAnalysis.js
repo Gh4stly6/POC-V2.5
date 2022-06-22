@@ -412,7 +412,7 @@ const DecisionAnalysis = () => {
                 </div>
 
                 <div className="employment">
-                  <h6>Employment Verification</h6>
+                  <h6>VOI/E/A</h6>
                   {employment === true ? (
                     <BsCheck2Circle color="green" size={35} />
                   ) : (
