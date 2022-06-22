@@ -20,8 +20,10 @@ import * as yup from 'yup'
 import { Formik } from 'formik'
 import PlaidSignIn from '../poc/assets/img/PlaidSignIn.jpg'
 import swal from 'sweetalert'
+import { ConsoleSqlOutlined } from '@ant-design/icons'
 
 //* Validate files
+var filesid = new Array()
 const Step4 = () => {
   const [isDigital, setIsDigital] = useState(false)
   const [isManual, setIsManual] = useState(false)
@@ -109,7 +111,10 @@ const Step4 = () => {
                           'https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/data',
                           requestOptions,
                         )
-                        console.log(await response.json())
+                        const res = await response.json()
+                        console.log(res.id)
+                        filesid.push(res.id)
+                        console.log(filesid)
                         swal('Your file was uploaded')
                         setLoading(false)
                       } catch (error) {
