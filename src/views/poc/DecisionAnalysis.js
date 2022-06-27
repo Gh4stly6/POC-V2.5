@@ -1,6 +1,6 @@
 import './decision.css'
 import { React, useState, useEffect } from 'react'
-import { CProgressBar } from '@coreui/react'
+import { CForm, CFormInput, CFormLabel, CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
 import { CProgress, CAlert, CButton, CAlertHeading } from '@coreui/react'
 import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
@@ -29,6 +29,7 @@ const DecisionAnalysis = () => {
   const [CreditScore, setCreditScore] = useState()
   const [employmentStatus, setEmploymentStatus] = useState()
   const [isLoading, setIsLoading] = useState(false)
+  const [file, setFile] = useState('')
 
   // var borrower_info;
   var decision = ''
@@ -36,6 +37,14 @@ const DecisionAnalysis = () => {
   //var header;
 
   const URL = 'https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io'
+  const requestOptions = {
+    method: 'GET',
+    headers: {
+      Authorization:
+        'Basic dTBqbW1mam12NTphNGV3WjZuNVh1bHBSVElmMXNKX2FWa1pYQjZ3RGtLaFVhSVFUMEVNbVJF',
+      'Content-Type': 'application/json',
+    },
+  }
 
   //Check all the message we have
   useEffect(() => {
@@ -93,20 +102,26 @@ const DecisionAnalysis = () => {
     get_topics()
   }, [])
 
+  //*DOWNLOAD PDF
+  async function downloadFile(idFile) {
+    const request = await fetch(
+      `${URL}/api/v1/namespaces/default/data/${idFile}/blob`,
+      requestOptions,
+    )
+    const res = await request.blob()
+    //console.log(res)
+    let a = document.createElement('a')
+    a.href = window.URL.createObjectURL(res)
+    a.download = 'file.pdf'
+    a.click()
+  }
+
   //*get the uuid typed by de user and saving it in UUID hook
 
   function handle_uuid(e) {
     setUuid(e.target.value)
   }
   let url = `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages?topics=${uuid}&limit=25`
-  let requestOptions = {
-    method: 'GET',
-    headers: {
-      Authorization:
-        'Basic dTBqbW1mam12NTphNGV3WjZuNVh1bHBSVElmMXNKX2FWa1pYQjZ3RGtLaFVhSVFUMEVNbVJF',
-      'Content-Type': 'application/json',
-    },
-  }
 
   async function get_messages(e) {
     e.preventDefault()
@@ -425,6 +440,27 @@ const DecisionAnalysis = () => {
 
           {isToggled && (
             <div className="final-decision">
+              <div>
+                <CForm>
+                  <CFormLabel>Insert ID file</CFormLabel>
+                  <CFormInput
+                    onChange={(e) => {
+                      setFile(e.target.value)
+                    }}
+                  />
+                  <CButton
+                    type="submit"
+                    className="mt-2"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      console.log(file)
+                      downloadFile(file)
+                    }}
+                  >
+                    Download
+                  </CButton>
+                </CForm>
+              </div>
               <div className="alert alert-info" role="alert">
                 Message IDs will keep changing the loan automatically progresses
               </div>
