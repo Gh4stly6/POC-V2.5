@@ -1,6 +1,6 @@
 import './decision.css'
 import { React, useState, useEffect } from 'react'
-import { CForm, CFormInput, CFormLabel, CProgressBar } from '@coreui/react'
+import { CForm, CFormInput, CFormLabel, CLink, CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
 import { CProgress, CAlert, CButton, CAlertHeading } from '@coreui/react'
 import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
@@ -108,11 +108,15 @@ const DecisionAnalysis = () => {
       `${URL}/api/v1/namespaces/default/data/${idFile}/blob`,
       requestOptions,
     )
-    const res = await request.blob()
+    const blob = await request.blob()
+    let file = new Blob([blob], { type: 'application/pdf' })
+    let pdf = window.URL.createObjectURL(file)
+    //window.open(pdf, '_blank')
     //console.log(res)
     let a = document.createElement('a')
-    a.href = window.URL.createObjectURL(res)
-    a.download = 'file.pdf'
+    a.href = window.URL.createObjectURL(file)
+    a.target = '_blank'
+    a.onclick = `window.open('mypdf.pdf', '_blank')`
     a.click()
   }
 

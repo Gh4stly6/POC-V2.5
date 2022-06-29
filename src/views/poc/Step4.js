@@ -93,6 +93,7 @@ const Step4 = () => {
                     let data = new FormData()
                     data.append('autometa', 'true')
                     data.append('file', values.paystubs)
+
                     var myHeaders = new Headers()
                     myHeaders.append(
                       'Authorization',
@@ -104,7 +105,6 @@ const Step4 = () => {
                       body: data,
                       redirect: 'follow',
                     }
-
                     async function sendFile() {
                       try {
                         const response = await fetch(
@@ -115,6 +115,50 @@ const Step4 = () => {
                         console.log(res.id)
                         filesid.push(res.id)
                         console.log(filesid)
+
+                        var raw = JSON.stringify({
+                          data: [
+                            {
+                              value: {
+                                id: `${res.id}`,
+                              },
+                            },
+                          ],
+                          group: {
+                            members: [
+                              {
+                                identity: 'did:firefly:org/u0t9q1a0v9',
+                              },
+                            ],
+                          },
+                          header: {
+                            tag: 'income_test',
+                          },
+                        })
+
+                        var myheaders = new Headers()
+                        myheaders.append('Content-Type', 'application/json')
+
+                        myheaders.append(
+                          'Authorization',
+                          'Basic dTBnYzBvZTBvdTpoYjJPd3pEUzR1bTlKNmF0WENFMXg2eUlHQ0U5Yy1DaDg3bkk4WTBjN2sw',
+                        )
+
+                        var Options = {
+                          method: 'POST',
+                          headers: myheaders,
+                          body: raw,
+                          redirect: 'follow',
+                        }
+                        console.log(raw)
+
+                        const message = await fetch(
+                          'https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/private',
+                          Options,
+                        )
+
+                        console.log(await message.json())
+
                         swal('Your file was uploaded')
                         setLoading(false)
                       } catch (error) {
