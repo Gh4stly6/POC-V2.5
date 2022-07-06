@@ -24,6 +24,7 @@ import { ConsoleSqlOutlined } from '@ant-design/icons'
 
 //* Validate files
 export var filesid = new Array()
+export var income_files
 const Step4 = () => {
   const [isDigital, setIsDigital] = useState(false)
   const [isManual, setIsManual] = useState(false)
@@ -89,7 +90,7 @@ const Step4 = () => {
                   initialValues={{ paystubs: '' }}
                   onSubmit={(values, { resetForm }) => {
                     setLoading(true)
-                    //console.log(values)
+                    console.log(values.paystubs['name'])
                     let data = new FormData()
                     data.append('autometa', 'true')
                     data.append('file', values.paystubs)
@@ -99,6 +100,7 @@ const Step4 = () => {
                       'Authorization',
                       'Basic dTBnYzBvZTBvdTpoYjJPd3pEUzR1bTlKNmF0WENFMXg2eUlHQ0U5Yy1DaDg3bkk4WTBjN2sw',
                     )
+                    console.log(myHeaders)
                     var requestOptions = {
                       method: 'POST',
                       headers: myHeaders,
@@ -112,53 +114,17 @@ const Step4 = () => {
                           requestOptions,
                         )
                         const res = await response.json()
-                        console.log(res.id)
-                        filesid.push(res.id)
+                        const file_metadata = {
+                          data_uuid: res.id,
+                          metadata: {
+                            step: 'income_verification',
+                            filename: values.paystubs['name'],
+                          },
+                        }
+                        filesid.push(file_metadata)
                         console.log(filesid)
 
-                        var raw = JSON.stringify({
-                          data: [
-                            {
-                              value: {
-                                id: `${res.id}`,
-                              },
-                            },
-                          ],
-                          group: {
-                            members: [
-                              {
-                                identity: 'did:firefly:org/u0t9q1a0v9',
-                              },
-                            ],
-                          },
-                          header: {
-                            tag: 'income_test',
-                          },
-                        })
-
-                        var myheaders = new Headers()
-                        myheaders.append('Content-Type', 'application/json')
-
-                        myheaders.append(
-                          'Authorization',
-                          'Basic dTBnYzBvZTBvdTpoYjJPd3pEUzR1bTlKNmF0WENFMXg2eUlHQ0U5Yy1DaDg3bkk4WTBjN2sw',
-                        )
-
-                        var Options = {
-                          method: 'POST',
-                          headers: myheaders,
-                          body: raw,
-                          redirect: 'follow',
-                        }
-                        console.log(raw)
-
-                        const message = await fetch(
-                          'https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/private',
-                          Options,
-                        )
-
-                        console.log(await message.json())
-
+                        //
                         swal('Your file was uploaded')
                         setLoading(false)
                       } catch (error) {

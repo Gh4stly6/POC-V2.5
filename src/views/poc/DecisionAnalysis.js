@@ -1,12 +1,14 @@
 import './decision.css'
 import { React, useState, useEffect } from 'react'
-import { CForm, CFormInput, CFormLabel, CLink, CProgressBar } from '@coreui/react'
+import { CForm, CFormInput, CFormLabel, CFormSelect, CLink, CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
 import { CProgress, CAlert, CButton, CAlertHeading } from '@coreui/react'
 import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
-import { Result } from 'antd'
+import { message, Result } from 'antd'
+import { Collapse } from 'antd'
 import 'antd/dist/antd.variable.min.css'
 
+const { Panel } = Collapse
 const DecisionAnalysis = () => {
   //*UseState Hook to handle toogle funcinality
   const [isToggled, setIsToggled] = useState(false)
@@ -30,6 +32,7 @@ const DecisionAnalysis = () => {
   const [employmentStatus, setEmploymentStatus] = useState()
   const [isLoading, setIsLoading] = useState(false)
   const [file, setFile] = useState('')
+  const [dataids, setDataIds] = useState([])
 
   // var borrower_info;
   var decision = ''
@@ -133,142 +136,148 @@ const DecisionAnalysis = () => {
     //This is the base endpoint to get the total number of messages associated with a
     //uuid (which maps exactly to a uuid)
 
-    for (let attempt = 0; attempt <= 5; attempt++) {
-      try {
-        const response = await fetch(url, requestOptions)
-        //We get back a list with multiple messsages in the form of JSONs
-        const message = await response.json()
-        //The progress bar knows that the total number of messages is 7, so it will display
-        //the progress based on how many messages are already inside the list
+    try {
+      const response = await fetch(url, requestOptions)
+      //We get back a list with multiple messsages in the form of JSONs
+      const message = await response.json()
+      //The progress bar knows that the total number of messages is 7, so it will display
+      //the progress based on how many messages are already inside the list
 
-        //If there are 0 messages when entering a loan ID, display an informational error back
-        if (message.length === 0) {
-          swal({
-            text: 'Unable to find loan ID',
-            icon: 'warning',
-          })
-          break
-        }
+      //If there are 0 messages when entering a loan ID, display an informational error back
+      if (message.length === 0) {
+        swal({
+          text: 'Unable to find loan ID',
+          icon: 'warning',
+        })
+      }
 
-        setApply(false)
+      setApply(false)
 
-        setIsToggled(true)
-        //console.log(message)
-        setProgress((message.length / 10) * 100)
-        //setMsg(message);
+      setIsToggled(true)
+      //console.log(message)
+      setProgress((message.length / 10) * 100)
+      //setMsg(message);
 
-        //Since we are getting back a list of messages, I took the decision of letting
-        //the end user select one of them to be displayed on the UI
-        //if we received the appreisal, employment, credit score or title run verification e dn't display that message
-        //in the table, we'll see the status.
-        const forLoop = async (_) => {
-          console.log(message)
-          for (let i = message.length - 1; i >= 0; i--) {
-            let r = await fetch(
-              `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/${message[i].header.id}/data`,
-              requestOptions,
-            )
-            let a = await r.json()
-            if ('body' in a[0].value) {
-              if ('employment_verified' in a[0].value.body) {
-                await setEmployment(a[0].value.body.employment_verified)
-                console.log(employment)
+      //Since we are getting back a list of messages, I took the decision of letting
+      //the end user select one of them to be displayed on the UI
+      //if we received the appreisal, employment, credit score or title run verification e dn't display that message
+      //in the table, we'll see the status.
+      let fileIdsFound = false
+      const forLoop = async (_) => {
+        console.log(message)
+        for (let i = message.length - 1; i >= 0; i--) {
+          let r = await fetch(
+            `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/${message[i].header.id}/data`,
+            requestOptions,
+          )
+          let a = await r.json()
+          if ('body' in a[0].value) {
+            if ('employment_verified' in a[0].value.body) {
+              await setEmployment(a[0].value.body.employment_verified)
+              console.log(employment)
+            } else {
+              if ('title_run_done' in a[0].value.body) {
+                await seTitle_run(a[0].value.body.title_run_done)
+                console.log(title_run)
               } else {
-                if ('title_run_done' in a[0].value.body) {
-                  await seTitle_run(a[0].value.body.title_run_done)
-                  console.log(title_run)
+                if ('appraisal_done' in a[0].value.body) {
+                  await setAppraisal(a[0].value.body.appraisal_done)
+                  console.log(appraisal)
                 } else {
-                  if ('appraisal_done' in a[0].value.body) {
-                    await setAppraisal(a[0].value.body.appraisal_done)
-                    console.log(appraisal)
-                  } else {
-                    if ('credit_check_ran' in a[0].value.body) {
-                      await setCredit(a[0].value.body.credit_check_ran)
-                      console.log(credit)
-                    }
+                  if ('credit_check_ran' in a[0].value.body) {
+                    await setCredit(a[0].value.body.credit_check_ran)
+                    console.log(credit)
                   }
                 }
               }
             }
           }
+
+          while (fileIdsFound === false) {
+            if ('borrower_info' in a[0].value) {
+              console.log('founded')
+              setDataIds(a[0].value.borrower_info.data_ids)
+              console.log(dataids)
+              fileIdsFound = true
+            }
+          }
         }
+      }
 
-        forLoop()
-        setSelect(message)
+      forLoop()
+      setSelect(message)
 
-        //
+      //
 
-        //Based on the message selected from the dropdown, display the data inside it
-        /*const selectedMessage = (e.target.value);
+      //Based on the message selected from the dropdown, display the data inside it
+      /*const selectedMessage = (e.target.value);
     
                 const resp = await fetch(`https://u0wwlhc3wf-u0q3j8sefo-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/${selectedMessage}/data`, requestOptions);
                 await setData(response.json());
                 console.log(data);*/
-        // Only display the make final decision button, if all the data has been received
-        //(meaning we have 6 messsages on the list)
-        //console.log(message.length);
+      // Only display the make final decision button, if all the data has been received
+      //(meaning we have 6 messsages on the list)
+      //console.log(message.length);
 
-        if (message.length === 9) {
-          const idd = message[8]
-          const selectedMessage = idd.header.id
-          setSpinner(false)
-          setReload(false)
-          let flag = false
-          let data
-          const whileFlag = async (_) => {
-            while (flag === false) {
-              for (let j = 0; j < message.length; j++) {
-                let h = await fetch(
-                  `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/${message[j].header.id}/data`,
-                  requestOptions,
-                )
-                data = await h.json()
+      if (message.length === 9) {
+        const idd = message[8]
+        const selectedMessage = idd.header.id
+        setSpinner(false)
+        setReload(false)
+        let flag = false
+        let data
+        const whileFlag = async (_) => {
+          while (flag === false) {
+            for (let j = 0; j < message.length; j++) {
+              let h = await fetch(
+                `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages/${message[j].header.id}/data`,
+                requestOptions,
+              )
+              data = await h.json()
 
-                if ('borrower_info' in data[0].value) {
-                  if (
-                    'credit_score' in data[0].value.borrower_info &&
-                    'employment_verification' in data[0].value.borrower_info
-                  ) {
-                    flag = true
-                    console.log('loop finished')
-                    break
-                  }
+              if ('borrower_info' in data[0].value) {
+                if (
+                  'credit_score' in data[0].value.borrower_info &&
+                  'employment_verification' in data[0].value.borrower_info
+                ) {
+                  flag = true
+                  console.log('loop finished')
+                  break
                 }
               }
             }
           }
-          await whileFlag()
-          setCreditScore(data[0].value.borrower_info.credit_score)
-          setEmploymentStatus(data[0].value.borrower_info.employment_verification)
-
-          //const vendor = data[0].value.vendor;
-          console.log(data[0].value)
-          // borrower_info =  data[0].value.borrower_info;
-          //creditScore = data[0].value.borrower_info.credit_score;
-          //setCreditScore(data[0].value.borrower_info.credit_score);
-          //employment_verification =  borrower_info.employment_verification;
-          //                    console.log(data[0].value.borrower_info.credit_score);
-          //console.log(CreditScore);
-          setFinalDecision(true)
-        } else {
-          if (message.length >= 10) {
-            setSpinner(false)
-            setReload(false)
-            setFinalDecision(false)
-            console.log('Loan successfully processed')
-          } else {
-            setReload(false)
-            setSpinner(true)
-            setTimeout(() => {
-              setSpinner(false)
-              setReload(true)
-            }, 5000)
-          }
         }
-        break
-      } catch (error) {
-        console.log('Error', error)
+        await whileFlag()
+        setCreditScore(data[0].value.borrower_info.credit_score)
+        setEmploymentStatus(data[0].value.borrower_info.employment_verification)
+
+        //const vendor = data[0].value.vendor;
+        console.log(data[0].value)
+        // borrower_info =  data[0].value.borrower_info;
+        //creditScore = data[0].value.borrower_info.credit_score;
+        //setCreditScore(data[0].value.borrower_info.credit_score);
+        //employment_verification =  borrower_info.employment_verification;
+        //                    console.log(data[0].value.borrower_info.credit_score);
+        //console.log(CreditScore);
+        setFinalDecision(true)
+      } else {
+        if (message.length >= 10) {
+          setSpinner(false)
+          setReload(false)
+          setFinalDecision(false)
+          console.log('Loan successfully processed')
+        } else {
+          setReload(false)
+          setSpinner(true)
+          setTimeout(() => {
+            setSpinner(false)
+            setReload(true)
+          }, 5000)
+        }
       }
+    } catch (error) {
+      console.log('Error', error)
     }
   }
 
@@ -284,17 +293,7 @@ const DecisionAnalysis = () => {
       )
       const data = await resp.json()
       console.log(data[0].value)
-
-      if ('borrower_info' in data[0].value) {
-        if ('full_data' in data[0].value.borrower_info) {
-          setMsg(data[0].value.borrower_info.full_data)
-        } else {
-          setMsg(data[0].value.borrower_info)
-        }
-      }
-      /*else {
-                
-            }*/
+      setMsg(data[0].value)
     }
   }
 
@@ -446,12 +445,19 @@ const DecisionAnalysis = () => {
             <div className="final-decision">
               <div>
                 <CForm>
-                  <CFormLabel>Insert ID file</CFormLabel>
-                  <CFormInput
+                  <CFormLabel>Select ID file</CFormLabel>
+                  <CFormSelect
                     onChange={(e) => {
                       setFile(e.target.value)
                     }}
-                  />
+                  >
+                    <option>Open this select menu</option>
+                    {dataids.map((id) => (
+                      <option key={id.data_uuid} value={id.data_uuid}>
+                        {id.metadata.filename}
+                      </option>
+                    ))}
+                  </CFormSelect>
                   <CButton
                     type="submit"
                     className="mt-2"
@@ -480,7 +486,7 @@ const DecisionAnalysis = () => {
               </select>
               <div className="table-scroll">
                 <div className="table-wrap">
-                  <table className="main-table">
+                  {/* <table className="main-table">
                     {Object.entries(msg).map((value) => (
                       <tr key={value}>
                         <th key={value[0]} className="headcol">
@@ -491,7 +497,8 @@ const DecisionAnalysis = () => {
                         </td>
                       </tr>
                     ))}
-                  </table>
+                  </table> */}
+                  {/* {console.log(msg)} */}
                 </div>
               </div>
 

@@ -542,13 +542,13 @@ const ApplicationForm = () => {
                               <option value="en">English</option>
                               <option value="es">Spanish</option>
                               <option value="fr">French</option>
-                              <option value="fr">Chinese</option>
-                              <option value="fr">Vietnamese</option>
-                              <option value="fr">Tagalog</option>
-                              <option value="fr">Korean</option>
-                              <option value="fr">Creole</option>
-                              <option value="fr">Arabic</option>
-                              <option value="fr">Russian</option>
+                              <option value="ch">Chinese</option>
+                              <option value="vi">Vietnamese</option>
+                              <option value="ta">Tagalog</option>
+                              <option value="ko">Korean</option>
+                              <option value="cr">Creole</option>
+                              <option value="ar">Arabic</option>
+                              <option value="ru">Russian</option>
                             </select>
                           </div>
                         </div>
