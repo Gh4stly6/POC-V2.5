@@ -444,32 +444,35 @@ const DecisionAnalysis = () => {
           {isToggled && (
             <div className="final-decision">
               <div>
-                <CForm>
-                  <CFormLabel>Select ID file</CFormLabel>
-                  <CFormSelect
-                    onChange={(e) => {
-                      setFile(e.target.value)
-                    }}
-                  >
-                    <option>Open this select menu</option>
-                    {dataids.map((id) => (
-                      <option key={id.data_uuid} value={id.data_uuid}>
-                        {id.metadata.filename}
-                      </option>
-                    ))}
-                  </CFormSelect>
-                  <CButton
-                    type="submit"
-                    className="mt-2"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      console.log(file)
-                      downloadFile(file)
-                    }}
-                  >
-                    Download
-                  </CButton>
-                </CForm>
+                {typeof dataids !== 'undefined' && 'data_uuid' in dataids && (
+                  <CForm>
+                    <CFormLabel>Select file</CFormLabel>
+                    <CFormSelect
+                      onChange={(e) => {
+                        setFile(e.target.value)
+                        console.log(dataids)
+                      }}
+                    >
+                      <option>Open this select menu</option>
+                      {dataids.map((id) => (
+                        <option key={id?.data_uuid} value={id?.data_uuid}>
+                          {id?.metadata?.filename}
+                        </option>
+                      ))}
+                    </CFormSelect>
+                    <CButton
+                      type="submit"
+                      className="mt-2"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        console.log(file)
+                        downloadFile(file)
+                      }}
+                    >
+                      Download
+                    </CButton>
+                  </CForm>
+                )}
               </div>
               <div className="alert alert-info" role="alert">
                 Message IDs will keep changing the loan automatically progresses
