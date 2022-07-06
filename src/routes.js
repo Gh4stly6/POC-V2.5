@@ -1,6 +1,5 @@
 import React from 'react'
 
-const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Dashboardpoc = React.lazy(() => import('./views/poc/Dashboardpoc'))
 const ApplicationForm = React.lazy(() => import('./views/poc/ApplicationForm'))
 const UnderwritingAnalysis = React.lazy(() => import('./views/poc/DecisionAnalysis'))
