@@ -172,21 +172,21 @@ const DecisionAnalysis = () => {
           )
           let a = await r.json()
           if ('body' in a[0].value) {
-            if ('employment_verified' in a[0].value.body) {
-              await setEmployment(a[0].value.body.employment_verified)
-              console.log(employment)
+            if ('employment_verification' in a[0].value.body) {
+              setEmployment(a[0].value.body.employment_verification)
+              console.log('employment done')
             } else {
-              if ('title_run_done' in a[0].value.body) {
-                await seTitle_run(a[0].value.body.title_run_done)
-                console.log(title_run)
+              if ('title_run' in a[0].value.body) {
+                seTitle_run(a[0].value.body.title_run)
+                console.log('title_run done')
               } else {
-                if ('appraisal_done' in a[0].value.body) {
-                  await setAppraisal(a[0].value.body.appraisal_done)
-                  console.log(appraisal)
+                if ('appraisal_amount' in a[0].value.body) {
+                  setAppraisal(a[0].value.body.appraisal_amount)
+                  console.log('appraisal done')
                 } else {
-                  if ('credit_check_ran' in a[0].value.body) {
-                    await setCredit(a[0].value.body.credit_check_ran)
-                    console.log(credit)
+                  if ('credit_score' in a[0].value.body) {
+                    setCredit(a[0].value.body.credit_score)
+                    console.log('credit check done')
                   }
                 }
               }
@@ -197,7 +197,7 @@ const DecisionAnalysis = () => {
             if ('borrower_info' in a[0].value) {
               console.log('founded')
               setDataIds(a[0].value.borrower_info.data_ids)
-              console.log(dataids)
+              console.log(a[0].value.borrower_info.data_ids)
               fileIdsFound = true
             }
           }
@@ -253,7 +253,7 @@ const DecisionAnalysis = () => {
         setEmploymentStatus(data[0].value.borrower_info.employment_verification)
 
         //const vendor = data[0].value.vendor;
-        console.log(data[0].value)
+        console.log(data[0].value.borrower_info)
         // borrower_info =  data[0].value.borrower_info;
         //creditScore = data[0].value.borrower_info.credit_score;
         //setCreditScore(data[0].value.borrower_info.credit_score);
@@ -292,7 +292,6 @@ const DecisionAnalysis = () => {
         requestOptions,
       )
       const data = await resp.json()
-      console.log(data[0].value)
       setMsg(data[0].value)
     }
   }
@@ -444,7 +443,7 @@ const DecisionAnalysis = () => {
           {isToggled && (
             <div className="final-decision">
               <div>
-                {typeof dataids !== 'undefined' && 'data_uuid' in dataids && (
+                {typeof dataids !== 'undefined' && (
                   <CForm>
                     <CFormLabel>Select file</CFormLabel>
                     <CFormSelect
@@ -477,7 +476,16 @@ const DecisionAnalysis = () => {
               <div className="alert alert-info" role="alert">
                 Message IDs will keep changing the loan automatically progresses
               </div>
-              <select type="select" className="form-select" name="" id="" onChange={handleSelect}>
+              <select
+                type="select"
+                className="form-select"
+                name=""
+                id=""
+                onChange={(e) => {
+                  handleSelect(e)
+                  console.log(msg)
+                }}
+              >
                 <option value="" disabled hidden selected>
                   Select a message
                 </option>
@@ -489,19 +497,208 @@ const DecisionAnalysis = () => {
               </select>
               <div className="table-scroll">
                 <div className="table-wrap">
-                  {/* <table className="main-table">
-                    {Object.entries(msg).map((value) => (
-                      <tr key={value}>
-                        <th key={value[0]} className="headcol">
-                          {value[0]}
-                        </th>
-                        <td key={value[1]} className="cell">
-                          {value[1]}
-                        </td>
-                      </tr>
-                    ))}
-                  </table> */}
-                  {/* {console.log(msg)} */}
+                  <table className="main-table">
+                    {'borrower_info' in msg && (
+                      <tbody>
+                        <tr>
+                          <th className="headcol">Name</th>
+                          <td className="cell">{msg.borrower_info.name}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Email</th>
+                          <td className="cell">{msg.borrower_info.email}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Phone</th>
+                          <td className="cell">{msg.borrower_info.phone}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Address Line 1</th>
+                          <td className="cell">{msg.borrower_info.street}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Address Line 2</th>
+                          <td className="cell">{msg.borrower_info.street_2}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Property City</th>
+                          <td className="cell">{msg.borrower_info.property_city}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Property County</th>
+                          <td className="cell">{msg.borrower_info.property_country}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Property State</th>
+                          <td className="cell">{msg.borrower_info.property_state}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Property Zip Code</th>
+                          <td className="cell">{msg.borrower_info.property_zip_code}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Property Location</th>
+                          <td className="cell">{msg.borrower_info.property_location}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Property Use</th>
+                          <td className="cell">{msg.borrower_info.property_use}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Estimated Property Value</th>
+                          <td className="cell">{msg.borrower_info.property_value}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Line of Credit Amount</th>
+                          <td className="cell">{msg.borrower_info.line_of_credit}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Plans for the Funds</th>
+                          <td className="cell">{msg.borrower_info.plans_for_the_funds}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Loan used for Business</th>
+                          <td className="cell">{msg.borrower_info.loan_used_for_business}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Time at this Address</th>
+                          <td className="cell">{msg.borrower_info.time_at_address}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Best Time to Call</th>
+                          <td className="cell">{msg.borrower_info.best_time_to_call}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Best Time to Call</th>
+                          <td className="cell">{msg.borrower_info.best_time_to_call}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Secondary Phone Number</th>
+                          <td className="cell">{msg.borrower_info.secondary_phone_number}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Country of Citizenship</th>
+                          <td className="cell">{msg.borrower_info.country_of_citizenship}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Country of Residence</th>
+                          <td className="cell">{msg.borrower_info.country_of_residence}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">SSN</th>
+                          <td className="cell">{msg.borrower_info.social_security_number}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Date of Birth</th>
+                          <td className="cell">{msg.borrower_info.date_of_birth}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Marital Status</th>
+                          <td className="cell">{msg.borrower_info.marital_status}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Preferred Language</th>
+                          <td className="cell">{msg.borrower_info.preferred_language}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Employment Status</th>
+                          <td className="cell">{msg.borrower_info.employment_status}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Annual Income</th>
+                          <td className="cell">{msg.borrower_info.anual_income}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Date of Birth</th>
+                          <td className="cell">{msg.borrower_info.source_of_income}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Additional Income</th>
+                          <td className="cell">{msg.borrower_info.additional_income}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Coapplicant</th>
+                          <td className="cell">{msg.borrower_info.coapplicant}</td>
+                        </tr>
+                        {'employment_verification' in msg['borrower_info'] && (
+                          <tr>
+                            <th className="headcol">
+                              <b>Employment Verification</b>
+                            </th>
+                            <td className="cell">
+                              {msg.borrower_info.employment_verification.toString()}
+                            </td>
+                          </tr>
+                        )}
+                        {'title_run' in msg['borrower_info'] && (
+                          <tr>
+                            <th className="headcol">
+                              <b>Title Run</b>
+                            </th>
+                            <td className="cell">{msg.borrower_info.title_run.toString()}</td>
+                          </tr>
+                        )}
+                        {'credit_score' in msg['borrower_info'] && (
+                          <tr>
+                            <th className="headcol">
+                              <b>Credit Score</b>
+                            </th>
+                            <td className="cell">{msg.borrower_info.credit_score}</td>
+                          </tr>
+                        )}
+                        {'appraisal_amount' in msg['borrower_info'] && (
+                          <tr>
+                            <th className="headcol">
+                              <b>Appraisal Ammount</b>
+                            </th>
+                            <td className="cell">
+                              {msg.borrower_info.appraisal_amount.toString()}
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    )}
+                    {'body' in msg &&
+                      ('employment_verification' in msg['body'] ? (
+                        <tbody>
+                          <tr>
+                            <th className="headcol">
+                              <b>Employment Verification</b>
+                            </th>
+                            <td className="cell">{msg.body.employment_verification.toString()}</td>
+                          </tr>
+                        </tbody>
+                      ) : 'title_run' in msg['body'] ? (
+                        <tbody>
+                          <tr>
+                            <th className="headcol">
+                              <b>Title Run</b>
+                            </th>
+                            <td className="cell">{msg.body.title_run.toString()}</td>
+                          </tr>
+                        </tbody>
+                      ) : 'appraisal_amount' in msg['body'] ? (
+                        <tbody>
+                          <tr>
+                            <th className="headcol">
+                              <b>Appraisal Ammount</b>
+                            </th>
+                            <td className="cell">{msg.body.appraisal_amount.toString()}</td>
+                          </tr>
+                        </tbody>
+                      ) : (
+                        'credit_score' in msg['body'] && (
+                          <tbody>
+                            <tr>
+                              <th className="headcol">
+                                <b>Credit Score</b>
+                              </th>
+                              <td className="cell">{msg.body.credit_score.toString()}</td>
+                            </tr>
+                          </tbody>
+                        )
+                      ))}
+                  </table>
                 </div>
               </div>
 
