@@ -6,6 +6,7 @@ import { CProgress, CAlert, CButton, CAlertHeading } from '@coreui/react'
 import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
 import { message, Result } from 'antd'
 import { Collapse } from 'antd'
+import { Space, Table } from 'antd'
 import 'antd/dist/antd.variable.min.css'
 
 const { Panel } = Collapse
@@ -33,6 +34,18 @@ const DecisionAnalysis = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [file, setFile] = useState('')
   const [dataids, setDataIds] = useState([])
+  const [requestDate, setRequestDate] = useState({
+    credit: '',
+    appraisal: '',
+    title_run: '',
+    employment: '',
+  })
+  const [deliveryDate, setDeliveryDate] = useState({
+    credit_response: '',
+    appraisal_response: '',
+    title_run_response: '',
+    employment_response: '',
+  })
 
   // var borrower_info;
   var decision = ''
@@ -114,8 +127,8 @@ const DecisionAnalysis = () => {
     const blob = await request.blob()
     let file = new Blob([blob], { type: 'application/pdf' })
     let pdf = window.URL.createObjectURL(file)
-    //window.open(pdf, '_blank')
-    //console.log(res)
+    window.open(pdf, '_blank')
+    console.log(request)
     let a = document.createElement('a')
     a.href = window.URL.createObjectURL(file)
     a.target = '_blank'
@@ -197,7 +210,7 @@ const DecisionAnalysis = () => {
             if ('borrower_info' in a[0].value) {
               console.log('founded')
               setDataIds(a[0].value.borrower_info.data_ids)
-              console.log(a[0].value.borrower_info.data_ids)
+              //console.log(a[0].value.borrower_info.data_ids)
               fileIdsFound = true
             }
           }
@@ -206,6 +219,91 @@ const DecisionAnalysis = () => {
 
       forLoop()
       setSelect(message)
+
+      // check responses from external vendors to download files
+      const checkResponses = async (_) => {
+        let tags = [
+          'credit_run',
+          'appraisal_run',
+          'title_run',
+          'verify_employment',
+          'credit_check_response',
+          'appraisal_run_response',
+          'title_run_response',
+          'verify_employment_response',
+        ]
+
+        for (let i = 0; i < tags.length; i++) {
+          let request = await fetch(
+            `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages?tag=${tags[i]}&topics=${uuid}&limit=25`,
+            requestOptions,
+          )
+          const response = await request.json()
+          //console.log(response[0].confirmed)
+          if (i === 0) {
+            //SET REQUEST DATES
+            //credit_run
+            setRequestDate((requestDate) => ({
+              ...requestDate,
+              credit: response[0].confirmed,
+            }))
+          } else {
+            if (i === 1) {
+              //appraisal_run
+              setRequestDate((requestDate) => ({
+                ...requestDate,
+                appraisal: response[0].confirmed,
+              }))
+            } else {
+              if (i === 2) {
+                setRequestDate((requestDate) => ({
+                  ...requestDate,
+                  title_run: response[0].confirmed,
+                }))
+              } else {
+                if (i === 3) {
+                  setRequestDate((requestDate) => ({
+                    ...requestDate,
+                    employment: response[0].confirmed,
+                  }))
+                } else {
+                  //DELIVERY DATES
+                  if (i === 4) {
+                    setDeliveryDate((deliveryDate) => ({
+                      ...deliveryDate,
+                      credit_check_response: response[0].confirmed,
+                    }))
+                  } else {
+                    if (i === 5) {
+                      setDeliveryDate((deliveryDate) => ({
+                        ...deliveryDate,
+                        appraisal_response: response[0].confirmed,
+                      }))
+                    } else {
+                      if (i === 6) {
+                        setDeliveryDate((deliveryDate) => ({
+                          ...deliveryDate,
+                          title_run_response: response[0].confirmed,
+                        }))
+                      } else {
+                        if (i === 7) {
+                          setDeliveryDate((deliveryDate) => ({
+                            ...deliveryDate,
+                            employment_response: response[0].confirmed,
+                          }))
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        console.log(requestDate)
+      }
+      await checkResponses()
 
       //
 
@@ -472,6 +570,43 @@ const DecisionAnalysis = () => {
                     </CButton>
                   </CForm>
                 )}
+
+                {/*FILES TABLE */}
+                <table className="main-table">
+                  <thead>
+                    <th>Request Date/Time</th>
+                    <th>Delivery Date/Time</th>
+                    <th>Type</th>
+                    <th>Vendor</th>
+                    <th>Link</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{requestDate.credit}</td>
+                      <td>{deliveryDate.credit_check_response}</td>
+                      <td>Credit Report</td>
+                      <td>Experian</td>
+                    </tr>
+                    <tr>
+                      <td>{requestDate.appraisal}</td>
+                      <td>{deliveryDate.appraisal_response}</td>
+                      <td>AVM</td>
+                      <td>UCS</td>
+                    </tr>
+                    <tr>
+                      <td>{requestDate.title_run}</td>
+                      <td>{deliveryDate.title_run_response}</td>
+                      <td>Title</td>
+                      <td>Voxture</td>
+                    </tr>
+                    <tr>
+                      <td>{requestDate.credit}</td>
+                      <td>{deliveryDate.employment_response}</td>
+                      <td>Paystubs</td>
+                      <td>Plaid</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
               <div className="alert alert-info" role="alert">
                 Message IDs will keep changing the loan automatically progresses
