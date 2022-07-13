@@ -12,6 +12,10 @@ import 'antd/dist/antd.variable.min.css'
 const { Panel } = Collapse
 const DecisionAnalysis = () => {
   //*UseState Hook to handle toogle funcinality
+  const creditReportId = '69cdce01-af4c-4fcc-a4b9-cc97b70ba1b5'
+  const avm_file = '728ca248-2918-464e-8b5f-d0f91c2855a9'
+  const title_file = 'a1a32b40-c4c9-4d0c-af18-dfdebf19d6ec'
+  const paystub_file = 'effdbd43-6fa8-4608-9e0b-0bc945b60155'
   const [isToggled, setIsToggled] = useState(false)
   const [uuid, setUuid] = useState()
   const [loanList, setLoanList] = useState([])
@@ -46,6 +50,8 @@ const DecisionAnalysis = () => {
     title_run_response: '',
     employment_response: '',
   })
+
+  const [borrowerFiles, setBorrowerFiles] = useState(false)
 
   // var borrower_info;
   var decision = ''
@@ -124,11 +130,11 @@ const DecisionAnalysis = () => {
       `${URL}/api/v1/namespaces/default/data/${idFile}/blob`,
       requestOptions,
     )
+    console.log(dataids)
     const blob = await request.blob()
     let file = new Blob([blob], { type: 'application/pdf' })
     let pdf = window.URL.createObjectURL(file)
     window.open(pdf, '_blank')
-    console.log(request)
     let a = document.createElement('a')
     a.href = window.URL.createObjectURL(file)
     a.target = '_blank'
@@ -209,8 +215,14 @@ const DecisionAnalysis = () => {
           while (fileIdsFound === false) {
             if ('borrower_info' in a[0].value) {
               console.log('founded')
-              setDataIds(a[0].value.borrower_info.data_ids)
-              //console.log(a[0].value.borrower_info.data_ids)
+              var objectFile = Object.keys(a[0].value.borrower_info.data_ids).length
+              if (objectFile > 0) {
+                setDataIds(a[0].value.borrower_info.data_ids)
+                console.log(a[0].value.borrower_info.data_ids)
+                setBorrowerFiles(true)
+              } else {
+                setBorrowerFiles(false)
+              }
               fileIdsFound = true
             }
           }
@@ -240,57 +252,59 @@ const DecisionAnalysis = () => {
           )
           const response = await request.json()
           //console.log(response[0].confirmed)
-          if (i === 0) {
-            //SET REQUEST DATES
-            //credit_run
-            setRequestDate((requestDate) => ({
-              ...requestDate,
-              credit: response[0].confirmed,
-            }))
-          } else {
-            if (i === 1) {
-              //appraisal_run
+          if (typeof response[0].confirmed !== 'undefined') {
+            if (i === 0) {
+              //SET REQUEST DATES
+              //credit_run
               setRequestDate((requestDate) => ({
                 ...requestDate,
-                appraisal: response[0].confirmed,
+                credit: response[0].confirmed,
               }))
             } else {
-              if (i === 2) {
+              if (i === 1) {
+                //appraisal_run
                 setRequestDate((requestDate) => ({
                   ...requestDate,
-                  title_run: response[0].confirmed,
+                  appraisal: response[0].confirmed,
                 }))
               } else {
-                if (i === 3) {
+                if (i === 2) {
                   setRequestDate((requestDate) => ({
                     ...requestDate,
-                    employment: response[0].confirmed,
+                    title_run: response[0].confirmed,
                   }))
                 } else {
-                  //DELIVERY DATES
-                  if (i === 4) {
-                    setDeliveryDate((deliveryDate) => ({
-                      ...deliveryDate,
-                      credit_check_response: response[0].confirmed,
+                  if (i === 3) {
+                    setRequestDate((requestDate) => ({
+                      ...requestDate,
+                      employment: response[0].confirmed,
                     }))
                   } else {
-                    if (i === 5) {
+                    //DELIVERY DATES
+                    if (i === 4) {
                       setDeliveryDate((deliveryDate) => ({
                         ...deliveryDate,
-                        appraisal_response: response[0].confirmed,
+                        credit_check_response: response[0].confirmed,
                       }))
                     } else {
-                      if (i === 6) {
+                      if (i === 5) {
                         setDeliveryDate((deliveryDate) => ({
                           ...deliveryDate,
-                          title_run_response: response[0].confirmed,
+                          appraisal_response: response[0].confirmed,
                         }))
                       } else {
-                        if (i === 7) {
+                        if (i === 6) {
                           setDeliveryDate((deliveryDate) => ({
                             ...deliveryDate,
-                            employment_response: response[0].confirmed,
+                            title_run_response: response[0].confirmed,
                           }))
+                        } else {
+                          if (i === 7) {
+                            setDeliveryDate((deliveryDate) => ({
+                              ...deliveryDate,
+                              employment_response: response[0].confirmed,
+                            }))
+                          }
                         }
                       }
                     }
@@ -541,7 +555,7 @@ const DecisionAnalysis = () => {
           {isToggled && (
             <div className="final-decision">
               <div>
-                {typeof dataids !== 'undefined' && (
+                {/* {typeof dataids !== 'undefined' && (
                   <CForm>
                     <CFormLabel>Select file</CFormLabel>
                     <CFormSelect
@@ -569,7 +583,7 @@ const DecisionAnalysis = () => {
                       Download
                     </CButton>
                   </CForm>
-                )}
+                )} */}
 
                 {/*FILES TABLE */}
                 <table className="main-table">
@@ -586,24 +600,92 @@ const DecisionAnalysis = () => {
                       <td>{deliveryDate.credit_check_response}</td>
                       <td>Credit Report</td>
                       <td>Experian</td>
+                      {typeof deliveryDate.credit_check_response !== 'undefined' &&
+                        Object.keys(deliveryDate.credit_check_response).length > 0 && (
+                          <td>
+                            <a
+                              onClick={() => {
+                                downloadFile(creditReportId)
+                              }}
+                            >
+                              Experian Credit Report
+                            </a>
+                          </td>
+                        )}
                     </tr>
                     <tr>
                       <td>{requestDate.appraisal}</td>
                       <td>{deliveryDate.appraisal_response}</td>
                       <td>AVM</td>
                       <td>UCS</td>
+                      {typeof deliveryDate.appraisal_response !== 'undefined' &&
+                        Object.keys(deliveryDate.appraisal_response).length > 0 && (
+                          <td>
+                            <a
+                              onClick={() => {
+                                downloadFile(avm_file)
+                              }}
+                            >
+                              Appaisal AVM
+                            </a>
+                          </td>
+                        )}
                     </tr>
                     <tr>
                       <td>{requestDate.title_run}</td>
                       <td>{deliveryDate.title_run_response}</td>
                       <td>Title</td>
                       <td>Voxture</td>
+                      {typeof deliveryDate.title_run_response !== 'undefined' &&
+                        Object.keys(deliveryDate.title_run_response).length > 0 && (
+                          <td>
+                            <a
+                              onClick={() => {
+                                downloadFile(title_file)
+                              }}
+                            >
+                              Voxture Title
+                            </a>
+                          </td>
+                        )}
                     </tr>
                     <tr>
                       <td>{requestDate.credit}</td>
                       <td>{deliveryDate.employment_response}</td>
                       <td>Paystubs</td>
-                      <td>Plaid</td>
+                      {borrowerFiles ? <td>Borrower</td> : <td>Plaid</td>}
+                      <td>
+                        {borrowerFiles ? (
+                          <select
+                            onChange={(e) => {
+                              console.log(dataids)
+                              downloadFile(e.target.value)
+                            }}
+                          >
+                            <option selected hidden>
+                              Select a File
+                            </option>
+                            {dataids.map((id) => (
+                              <option option key={id?.data_uuid} value={id?.data_uuid}>
+                                {id?.metadata?.filename}
+                              </option>
+                            ))}
+                          </select>
+                        ) : (
+                          typeof deliveryDate.employment_response !== 'undefined' &&
+                          Object.keys(deliveryDate.employment_response).length > 0 && (
+                            <td>
+                              <a
+                                onClick={() => {
+                                  downloadFile(paystub_file)
+                                }}
+                              >
+                                Plaid Paystub
+                              </a>
+                            </td>
+                          )
+                        )}
+                      </td>
                     </tr>
                   </tbody>
                 </table>
