@@ -46,26 +46,29 @@ button.btn-final {
 	border: 1px solid #eaeaeb;
 	width: 100%;
 	white-space: nowrap;
+	background-color: #F5ECFF;
 }
 
 th.headcol {
 	border: 1px solid #eaeaeb;
 	font-weight: normal;
-	color: grey;
+	color: white;
 	font-size: 0.9rem;
 	width: 35%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: pre-line;
 	position: sticky;
-	background: white;
+	background-color: #62598B;
 	z-index: 2;
+	text-align: center;
 }
 
 td.cell {
 	font-size: 00.9rem;
 	border: 1px solid #eaeaeb;
 	width:250px;
+
 }
 
 /*Verifications*/
@@ -110,3 +113,4 @@ h6{
 	text-align: center;
 		
 }
+

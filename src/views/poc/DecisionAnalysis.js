@@ -1,12 +1,11 @@
 import './decision.css'
 import { React, useState, useEffect } from 'react'
-import { CForm, CFormInput, CFormLabel, CFormSelect, CLink, CProgressBar } from '@coreui/react'
+import { CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
-import { CProgress, CAlert, CButton, CAlertHeading } from '@coreui/react'
+import { CProgress } from '@coreui/react'
 import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
-import { message, Result } from 'antd'
+import { Result } from 'antd'
 import { Collapse } from 'antd'
-import { Space, Table } from 'antd'
 import 'antd/dist/antd.variable.min.css'
 
 const { Panel } = Collapse
@@ -586,23 +585,24 @@ const DecisionAnalysis = () => {
                 )} */}
 
                 {/*FILES TABLE */}
+                <h5>Underwriting Files</h5>
                 <table className="main-table">
-                  <thead>
-                    <th>Request Date/Time</th>
-                    <th>Delivery Date/Time</th>
-                    <th>Type</th>
-                    <th>Vendor</th>
-                    <th>Link</th>
-                  </thead>
+                  <tr>
+                    <th className="headcol">Request Date/Time</th>
+                    <th className="headcol">Delivery Date/Time</th>
+                    <th className="headcol">Type</th>
+                    <th className="headcol">Vendor</th>
+                    <th className="headcol">Link</th>
+                  </tr>
                   <tbody>
                     <tr>
-                      <td>{requestDate.credit}</td>
-                      <td>{deliveryDate.credit_check_response}</td>
-                      <td>Credit Report</td>
-                      <td>Experian</td>
+                      <td className="cell">{requestDate.credit}</td>
+                      <td className="cell">{deliveryDate.credit_check_response}</td>
+                      <td className="cell">Credit Report</td>
+                      <td className="cell">Experian</td>
                       {typeof deliveryDate.credit_check_response !== 'undefined' &&
                         Object.keys(deliveryDate.credit_check_response).length > 0 && (
-                          <td>
+                          <td className="cell">
                             <a
                               onClick={() => {
                                 downloadFile(creditReportId)
@@ -614,13 +614,13 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td>{requestDate.appraisal}</td>
-                      <td>{deliveryDate.appraisal_response}</td>
-                      <td>AVM</td>
-                      <td>UCS</td>
+                      <td className="cell">{requestDate.appraisal}</td>
+                      <td className="cell">{deliveryDate.appraisal_response}</td>
+                      <td className="cell">AVM</td>
+                      <td className="cell">UCS</td>
                       {typeof deliveryDate.appraisal_response !== 'undefined' &&
                         Object.keys(deliveryDate.appraisal_response).length > 0 && (
-                          <td>
+                          <td className="cell">
                             <a
                               onClick={() => {
                                 downloadFile(avm_file)
@@ -632,13 +632,13 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td>{requestDate.title_run}</td>
-                      <td>{deliveryDate.title_run_response}</td>
-                      <td>Title</td>
-                      <td>Voxture</td>
+                      <td className="cell">{requestDate.title_run}</td>
+                      <td className="cell">{deliveryDate.title_run_response}</td>
+                      <td className="cell">Title</td>
+                      <td className="cell">Voxture</td>
                       {typeof deliveryDate.title_run_response !== 'undefined' &&
                         Object.keys(deliveryDate.title_run_response).length > 0 && (
-                          <td>
+                          <td className="cell">
                             <a
                               onClick={() => {
                                 downloadFile(title_file)
@@ -650,11 +650,11 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td>{requestDate.credit}</td>
-                      <td>{deliveryDate.employment_response}</td>
-                      <td>Paystubs</td>
+                      <td className="cell">{requestDate.credit}</td>
+                      <td className="cell">{deliveryDate.employment_response}</td>
+                      <td className="cell">Paystubs</td>
                       {borrowerFiles ? <td>Borrower</td> : <td>Plaid</td>}
-                      <td>
+                      <td className="cell">
                         {borrowerFiles ? (
                           <select
                             onChange={(e) => {
@@ -674,7 +674,7 @@ const DecisionAnalysis = () => {
                         ) : (
                           typeof deliveryDate.employment_response !== 'undefined' &&
                           Object.keys(deliveryDate.employment_response).length > 0 && (
-                            <td>
+                            <td className="cell">
                               <a
                                 onClick={() => {
                                   downloadFile(paystub_file)
