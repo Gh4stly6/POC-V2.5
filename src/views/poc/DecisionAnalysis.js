@@ -7,6 +7,9 @@ import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
 import { Result } from 'antd'
 import { Collapse } from 'antd'
 import 'antd/dist/antd.variable.min.css'
+import Moment from 'react-moment'
+import 'moment-timezone'
+import { ConsoleSqlOutlined } from '@ant-design/icons'
 
 const { Panel } = Collapse
 const DecisionAnalysis = () => {
@@ -34,7 +37,7 @@ const DecisionAnalysis = () => {
   const [showDecision, setShowDecision] = useState(false)
   const [CreditScore, setCreditScore] = useState()
   const [employmentStatus, setEmploymentStatus] = useState()
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [file, setFile] = useState('')
   const [dataids, setDataIds] = useState([])
   const [requestDate, setRequestDate] = useState({
@@ -53,6 +56,7 @@ const DecisionAnalysis = () => {
   const [borrowerFiles, setBorrowerFiles] = useState(false)
 
   // var borrower_info;
+  let loanIds = []
   var decision = ''
   var t = []
   //var header;
@@ -72,53 +76,24 @@ const DecisionAnalysis = () => {
     //Get all the messages
     async function get_topics() {
       setIsLoading(true)
-      const message = await fetch(
-        `${URL}/api/v1/namespaces/default/messages?limit=100`,
+      const dynamo = await fetch(
+        `https://rrjkbunuf0.execute-api.us-east-1.amazonaws.com/prod/loan_data
+
+        `,
         requestOptions,
       )
-      const data = await message.json()
-      var topics = []
 
-      //store topics values
-      for (let i = 0; i < data.length; i++) {
-        topics.push(data[i].header.topics[0])
-      }
-      //create a new object with filtered topic because previous response returned repeated topics
-      let result = topics.filter((item, index) => {
-        return topics.indexOf(item) == index
+      const dynamoInfo = await dynamo.json()
+      dynamoInfo.map((id) => {
+        if (!('decision' in id)) {
+          //console.log(id['loan_data'])
+          loanIds.push(id['loan_data'])
+        }
       })
-      //console.log(result)
-      //query topics and only show those that have less than 10 messages
-      const check = []
-      const l = []
 
-      for (let i = 0; i < result.length; i++) {
-        const loan = await fetch(
-          `${URL}/api/v1/namespaces/default/messages?topics=${result[i]}&limit=100`,
-          requestOptions,
-        )
-        check.push(await loan.json())
-      }
-      for (let i = 0; i < check.length; i++) {
-        if (check[i].length < 10) {
-          l.push(check[i])
-        }
-      }
-
-      for (let i = 0; i < l.length; i++) {
-        for (let j = 0; j < l[i].length; j++) {
-          if (!t.includes(`${l[i][j].header.topics[0]}`)) {
-            t.push(l[i][j].header.topics[0])
-          }
-        }
-      }
-      setLoanList(t)
+      setLoanList(loanIds)
       setIsLoading(false)
     }
-
-    /*async function get_loanID{
-          const 
-      }*/
 
     get_topics()
   }, [])
@@ -505,7 +480,12 @@ const DecisionAnalysis = () => {
                 </select>
               </div>
               {apply === 'true' && (
-                <button type="submit" onClick={get_messages} className="btn btn-primary btn-apply">
+                <button
+                  type="submit"
+                  onClick={get_messages}
+                  className="btn btn-primary btn-apply"
+                  disabled={isLoading}
+                >
                   Apply
                 </button>
               )}
@@ -515,7 +495,7 @@ const DecisionAnalysis = () => {
             <div>
               <div className="verification">
                 <div className="credit-check">
-                  <h6>Credit Check</h6>
+                  <h6 className="step-text">Credit Check</h6>
                   {credit === true ? (
                     <BsCheck2Circle color="green" size={35} />
                   ) : (
@@ -523,7 +503,7 @@ const DecisionAnalysis = () => {
                   )}
                 </div>
                 <div className="appraisal">
-                  <h6>Appraisal</h6>
+                  <h6 className="step-text">Appraisal</h6>
                   {appraisal === true ? (
                     <BsCheck2Circle color="green" size={35} />
                   ) : (
@@ -531,7 +511,7 @@ const DecisionAnalysis = () => {
                   )}
                 </div>
                 <div className="title-run">
-                  <h6>Title Run</h6>
+                  <h6 className="step-text">Title Run</h6>
                   {title_run === true ? (
                     <BsCheck2Circle color="green" size={35} />
                   ) : (
@@ -540,7 +520,7 @@ const DecisionAnalysis = () => {
                 </div>
 
                 <div className="employment">
-                  <h6>VOI/E/A</h6>
+                  <h6 className="step-text">VOI/E/A</h6>
                   {employment === true ? (
                     <BsCheck2Circle color="green" size={35} />
                   ) : (
@@ -596,14 +576,21 @@ const DecisionAnalysis = () => {
                   </tr>
                   <tbody>
                     <tr>
-                      <td className="cell">{requestDate.credit}</td>
-                      <td className="cell">{deliveryDate.credit_check_response}</td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
+                      </td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">
+                          {deliveryDate.credit_check_response}
+                        </Moment>
+                      </td>
                       <td className="cell">Credit Report</td>
                       <td className="cell">Experian</td>
                       {typeof deliveryDate.credit_check_response !== 'undefined' &&
                         Object.keys(deliveryDate.credit_check_response).length > 0 && (
                           <td className="cell">
                             <a
+                              className="download-link"
                               onClick={() => {
                                 downloadFile(creditReportId)
                               }}
@@ -614,14 +601,21 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td className="cell">{requestDate.appraisal}</td>
-                      <td className="cell">{deliveryDate.appraisal_response}</td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.appraisal}</Moment>
+                      </td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">
+                          {deliveryDate.appraisal_response}
+                        </Moment>
+                      </td>
                       <td className="cell">AVM</td>
                       <td className="cell">UCS</td>
                       {typeof deliveryDate.appraisal_response !== 'undefined' &&
                         Object.keys(deliveryDate.appraisal_response).length > 0 && (
                           <td className="cell">
                             <a
+                              className="download-link"
                               onClick={() => {
                                 downloadFile(avm_file)
                               }}
@@ -632,14 +626,21 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td className="cell">{requestDate.title_run}</td>
-                      <td className="cell">{deliveryDate.title_run_response}</td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.title_run}</Moment>
+                      </td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">
+                          {deliveryDate.title_run_response}
+                        </Moment>
+                      </td>
                       <td className="cell">Title</td>
                       <td className="cell">Voxture</td>
                       {typeof deliveryDate.title_run_response !== 'undefined' &&
                         Object.keys(deliveryDate.title_run_response).length > 0 && (
                           <td className="cell">
                             <a
+                              className="download-link"
                               onClick={() => {
                                 downloadFile(title_file)
                               }}
@@ -650,19 +651,33 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td className="cell">{requestDate.credit}</td>
-                      <td className="cell">{deliveryDate.employment_response}</td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
+                      </td>
+                      <td className="cell">
+                        <Moment format="MM-DD-YYYY HH:mm:ss">
+                          {deliveryDate.employment_response}
+                        </Moment>
+                      </td>
                       <td className="cell">Paystubs</td>
-                      {borrowerFiles ? <td>Borrower</td> : <td>Plaid</td>}
+                      {borrowerFiles ? (
+                        <td className="cell">Borrower</td>
+                      ) : (
+                        <td className="cell">Plaid</td>
+                      )}
                       <td className="cell">
                         {borrowerFiles ? (
                           <select
                             onChange={(e) => {
-                              console.log(dataids)
-                              downloadFile(e.target.value)
+                              if (e.target.value !== '') {
+                                console.log(dataids)
+                                downloadFile(e.target.value)
+                              }
                             }}
+                            className="form-select form-select-sm "
+                            aria-label=".form-select-sm example"
                           >
-                            <option selected hidden>
+                            <option selected value="">
                               Select a File
                             </option>
                             {dataids.map((id) => (
@@ -676,6 +691,7 @@ const DecisionAnalysis = () => {
                           Object.keys(deliveryDate.employment_response).length > 0 && (
                             <td className="cell">
                               <a
+                                className="download-link"
                                 onClick={() => {
                                   downloadFile(paystub_file)
                                 }}
@@ -718,6 +734,11 @@ const DecisionAnalysis = () => {
                     {'borrower_info' in msg && (
                       <tbody>
                         <tr>
+                          <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                            Personal Information
+                          </th>
+                        </tr>
+                        <tr>
                           <th className="headcol">Name</th>
                           <td className="cell">{msg.borrower_info.name}</td>
                         </tr>
@@ -729,6 +750,49 @@ const DecisionAnalysis = () => {
                           <th className="headcol">Phone</th>
                           <td className="cell">{msg.borrower_info.phone}</td>
                         </tr>
+                        <tr>
+                          <th className="headcol">Secondary Phone Number</th>
+                          <td className="cell">{msg.borrower_info.secondary_phone_number}</td>
+                        </tr>
+
+                        <tr>
+                          <th className="headcol">Marital Status</th>
+                          <td className="cell">{msg.borrower_info.marital_status}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Co-applicant</th>
+                          <td className="cell">{msg.borrower_info.coapplicant}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Country of Citizenship</th>
+                          <td className="cell">{msg.borrower_info.country_of_citizenship}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Country of Residence</th>
+                          <td className="cell">{msg.borrower_info.country_of_residence}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">SSN</th>
+                          <td className="cell">{msg.borrower_info.social_security_number}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Date of Birth</th>
+                          <td className="cell">{msg.borrower_info.date_of_birth}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Best Time to Call</th>
+                          <td className="cell">{msg.borrower_info.best_time_to_call}</td>
+                        </tr>
+                        <tr>
+                          <th className="headcol">Preferred Language</th>
+                          <td className="cell">{msg.borrower_info.preferred_language}</td>
+                        </tr>
+                        <tr>
+                          <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                            Property Information
+                          </th>
+                        </tr>
+
                         <tr>
                           <th className="headcol">Address Line 1</th>
                           <td className="cell">{msg.borrower_info.street}</td>
@@ -782,40 +846,9 @@ const DecisionAnalysis = () => {
                           <td className="cell">{msg.borrower_info.time_at_address}</td>
                         </tr>
                         <tr>
-                          <th className="headcol">Best Time to Call</th>
-                          <td className="cell">{msg.borrower_info.best_time_to_call}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Best Time to Call</th>
-                          <td className="cell">{msg.borrower_info.best_time_to_call}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Secondary Phone Number</th>
-                          <td className="cell">{msg.borrower_info.secondary_phone_number}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Country of Citizenship</th>
-                          <td className="cell">{msg.borrower_info.country_of_citizenship}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Country of Residence</th>
-                          <td className="cell">{msg.borrower_info.country_of_residence}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">SSN</th>
-                          <td className="cell">{msg.borrower_info.social_security_number}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Date of Birth</th>
-                          <td className="cell">{msg.borrower_info.date_of_birth}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Marital Status</th>
-                          <td className="cell">{msg.borrower_info.marital_status}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Preferred Language</th>
-                          <td className="cell">{msg.borrower_info.preferred_language}</td>
+                          <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
+                            Income and Assets Information
+                          </th>
                         </tr>
                         <tr>
                           <th className="headcol">Employment Status</th>
@@ -834,17 +867,21 @@ const DecisionAnalysis = () => {
                           <td className="cell">{msg.borrower_info.additional_income}</td>
                         </tr>
                         <tr>
-                          <th className="headcol">Coapplicant</th>
-                          <td className="cell">{msg.borrower_info.coapplicant}</td>
+                          <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
+                            Underwriting Steps State
+                          </th>
                         </tr>
+
                         {'employment_verification' in msg['borrower_info'] && (
                           <tr>
                             <th className="headcol">
                               <b>Employment Verification</b>
                             </th>
-                            <td className="cell">
-                              {msg.borrower_info.employment_verification.toString()}
-                            </td>
+                            {msg.borrower_info.employment_verification ? (
+                              <td className="cell">Received</td>
+                            ) : (
+                              <td className="cell">Pending</td>
+                            )}
                           </tr>
                         )}
                         {'title_run' in msg['borrower_info'] && (
@@ -852,7 +889,11 @@ const DecisionAnalysis = () => {
                             <th className="headcol">
                               <b>Title Run</b>
                             </th>
-                            <td className="cell">{msg.borrower_info.title_run.toString()}</td>
+                            {msg.borrower_info.title_run ? (
+                              <td className="cell">Received</td>
+                            ) : (
+                              <td className="cell">Pending</td>
+                            )}
                           </tr>
                         )}
                         {'credit_score' in msg['borrower_info'] && (
@@ -868,9 +909,11 @@ const DecisionAnalysis = () => {
                             <th className="headcol">
                               <b>Appraisal Ammount</b>
                             </th>
-                            <td className="cell">
-                              {msg.borrower_info.appraisal_amount.toString()}
-                            </td>
+                            {msg.borrower_info.appraisal_amount ? (
+                              <td className="cell">Received</td>
+                            ) : (
+                              <td className="cell">Pending</td>
+                            )}
                           </tr>
                         )}
                       </tbody>
@@ -882,7 +925,11 @@ const DecisionAnalysis = () => {
                             <th className="headcol">
                               <b>Employment Verification</b>
                             </th>
-                            <td className="cell">{msg.body.employment_verification.toString()}</td>
+                            {msg.body.employment_verification ? (
+                              <td className="cell">Received</td>
+                            ) : (
+                              <td className="cell">Pending</td>
+                            )}
                           </tr>
                         </tbody>
                       ) : 'title_run' in msg['body'] ? (
@@ -891,7 +938,11 @@ const DecisionAnalysis = () => {
                             <th className="headcol">
                               <b>Title Run</b>
                             </th>
-                            <td className="cell">{msg.body.title_run.toString()}</td>
+                            {msg.body.title_run ? (
+                              <td className="cell">Received</td>
+                            ) : (
+                              <td className="cell">Pending</td>
+                            )}
                           </tr>
                         </tbody>
                       ) : 'appraisal_amount' in msg['body'] ? (
@@ -900,7 +951,11 @@ const DecisionAnalysis = () => {
                             <th className="headcol">
                               <b>Appraisal Ammount</b>
                             </th>
-                            <td className="cell">{msg.body.appraisal_amount.toString()}</td>
+                            {msg.body.appraisal_amount ? (
+                              <td className="cell">Received</td>
+                            ) : (
+                              <td className="cell">Pending</td>
+                            )}
                           </tr>
                         </tbody>
                       ) : (
@@ -910,7 +965,11 @@ const DecisionAnalysis = () => {
                               <th className="headcol">
                                 <b>Credit Score</b>
                               </th>
-                              <td className="cell">{msg.body.credit_score.toString()}</td>
+                              {msg.body.credit_score ? (
+                                <td className="cell">Received</td>
+                              ) : (
+                                <td className="cell">Pending</td>
+                              )}
                             </tr>
                           </tbody>
                         )

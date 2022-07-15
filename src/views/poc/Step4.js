@@ -20,7 +20,6 @@ import * as yup from 'yup'
 import { Formik } from 'formik'
 import PlaidSignIn from '../poc/assets/img/PlaidSignIn.jpg'
 import swal from 'sweetalert'
-import { ConsoleSqlOutlined } from '@ant-design/icons'
 
 //* Validate files
 export var filesid = new Array()
