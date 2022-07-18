@@ -576,14 +576,24 @@ const DecisionAnalysis = () => {
                   </tr>
                   <tbody>
                     <tr>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
-                      </td>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">
-                          {deliveryDate.credit_check_response}
-                        </Moment>
-                      </td>
+                      {requestDate.credit === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
+                        </td>
+                      )}
+
+                      {deliveryDate.credit_check_response === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">
+                            {deliveryDate.credit_check_response}
+                          </Moment>
+                        </td>
+                      )}
+
                       <td className="cell">Credit Report</td>
                       <td className="cell">Experian</td>
                       {typeof deliveryDate.credit_check_response !== 'undefined' &&
@@ -601,14 +611,24 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.appraisal}</Moment>
-                      </td>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">
-                          {deliveryDate.appraisal_response}
-                        </Moment>
-                      </td>
+                      {requestDate.appraisal === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.appraisal}</Moment>
+                        </td>
+                      )}
+
+                      {deliveryDate.appraisal_response === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">
+                            {deliveryDate.appraisal_response}
+                          </Moment>
+                        </td>
+                      )}
+
                       <td className="cell">AVM</td>
                       <td className="cell">UCS</td>
                       {typeof deliveryDate.appraisal_response !== 'undefined' &&
@@ -626,14 +646,24 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.title_run}</Moment>
-                      </td>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">
-                          {deliveryDate.title_run_response}
-                        </Moment>
-                      </td>
+                      {requestDate.title_run === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.title_run}</Moment>
+                        </td>
+                      )}
+
+                      {deliveryDate.title_run_response === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">
+                            {deliveryDate.title_run_response}
+                          </Moment>
+                        </td>
+                      )}
+
                       <td className="cell">Title</td>
                       <td className="cell">Voxture</td>
                       {typeof deliveryDate.title_run_response !== 'undefined' &&
@@ -651,14 +681,24 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
-                      </td>
-                      <td className="cell">
-                        <Moment format="MM-DD-YYYY HH:mm:ss">
-                          {deliveryDate.employment_response}
-                        </Moment>
-                      </td>
+                      {requestDate.credit === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
+                        </td>
+                      )}
+
+                      {deliveryDate.employment_response === '' ? (
+                        <td className="cell">--</td>
+                      ) : (
+                        <td className="cell">
+                          <Moment format="MM-DD-YYYY HH:mm:ss">
+                            {deliveryDate.employment_response}
+                          </Moment>
+                        </td>
+                      )}
+
                       <td className="cell">Paystubs</td>
                       {borrowerFiles ? (
                         <td className="cell">Borrower</td>
