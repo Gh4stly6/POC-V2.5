@@ -28,8 +28,15 @@ const Step4 = () => {
   const [isDigital, setIsDigital] = useState(false)
   const [isManual, setIsManual] = useState(false)
   const [loading, setLoading] = useState(false)
+
+  const fileRef = useRef()
   //* Scroll Height of step 4
   //* File validation
+
+  //reset oinput file
+  const reset = () => {
+    fileRef.current.value = ''
+  }
   const validation = yup.object().shape({
     paystubs: yup.mixed().test('type', 'We only support pdf files', (value) => {
       return value && value.type === 'application/pdf'
@@ -122,15 +129,14 @@ const Step4 = () => {
                         }
                         filesid.push(file_metadata)
                         console.log(filesid)
-
-                        //
                         swal('Your file was uploaded')
                         setLoading(false)
+                        resetForm()
+                        reset()
                       } catch (error) {
                         console.log('error', error)
                       }
                     }
-
                     sendFile()
                   }}
                   validationSchema={validation}
@@ -143,6 +149,7 @@ const Step4 = () => {
                             Upload Pay stubs or Bank Statements
                           </CFormLabel>
                           <CFormInput
+                            ref={fileRef}
                             disabled={loading}
                             type="file"
                             className="mb-2"

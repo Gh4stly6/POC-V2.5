@@ -226,57 +226,57 @@ const DecisionAnalysis = () => {
           )
           const response = await request.json()
           //console.log(response[0].confirmed)
-          if (typeof response[0].confirmed !== 'undefined') {
+          if (typeof response[0].header.created !== 'undefined') {
             if (i === 0) {
               //SET REQUEST DATES
               //credit_run
               setRequestDate((requestDate) => ({
                 ...requestDate,
-                credit: response[0].confirmed,
+                credit: response[0].header.created,
               }))
             } else {
               if (i === 1) {
                 //appraisal_run
                 setRequestDate((requestDate) => ({
                   ...requestDate,
-                  appraisal: response[0].confirmed,
+                  appraisal: response[0].header.created,
                 }))
               } else {
                 if (i === 2) {
                   setRequestDate((requestDate) => ({
                     ...requestDate,
-                    title_run: response[0].confirmed,
+                    title_run: response[0].header.created,
                   }))
                 } else {
                   if (i === 3) {
                     setRequestDate((requestDate) => ({
                       ...requestDate,
-                      employment: response[0].confirmed,
+                      employment: response[0].header.created,
                     }))
                   } else {
                     //DELIVERY DATES
                     if (i === 4) {
                       setDeliveryDate((deliveryDate) => ({
                         ...deliveryDate,
-                        credit_check_response: response[0].confirmed,
+                        credit_check_response: response[0].header.created,
                       }))
                     } else {
                       if (i === 5) {
                         setDeliveryDate((deliveryDate) => ({
                           ...deliveryDate,
-                          appraisal_response: response[0].confirmed,
+                          appraisal_response: response[0].header.created,
                         }))
                       } else {
                         if (i === 6) {
                           setDeliveryDate((deliveryDate) => ({
                             ...deliveryDate,
-                            title_run_response: response[0].confirmed,
+                            title_run_response: response[0].header.created,
                           }))
                         } else {
                           if (i === 7) {
                             setDeliveryDate((deliveryDate) => ({
                               ...deliveryDate,
-                              employment_response: response[0].confirmed,
+                              employment_response: response[0].header.created,
                             }))
                           }
                         }
@@ -359,7 +359,7 @@ const DecisionAnalysis = () => {
           setTimeout(() => {
             setSpinner(false)
             setReload(true)
-          }, 5000)
+          }, 3000)
         }
       }
     } catch (error) {
@@ -379,6 +379,7 @@ const DecisionAnalysis = () => {
       )
       const data = await resp.json()
       setMsg(data[0].value)
+      console.log(data[0])
     }
   }
 
