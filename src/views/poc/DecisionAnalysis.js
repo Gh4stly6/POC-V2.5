@@ -9,7 +9,6 @@ import { Collapse } from 'antd'
 import 'antd/dist/antd.variable.min.css'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { ConsoleSqlOutlined } from '@ant-design/icons'
 
 const { Panel } = Collapse
 const DecisionAnalysis = () => {
@@ -164,27 +163,27 @@ const DecisionAnalysis = () => {
             requestOptions,
           )
           let a = await r.json()
-          if ('body' in a[0].value) {
-            if ('employment_verification' in a[0].value.body) {
-              setEmployment(a[0].value.body.employment_verification)
-              console.log('employment done')
-            } else {
-              if ('title_run' in a[0].value.body) {
-                seTitle_run(a[0].value.body.title_run)
-                console.log('title_run done')
-              } else {
-                if ('appraisal_amount' in a[0].value.body) {
-                  setAppraisal(a[0].value.body.appraisal_amount)
-                  console.log('appraisal done')
-                } else {
-                  if ('credit_score' in a[0].value.body) {
-                    setCredit(a[0].value.body.credit_score)
-                    console.log('credit check done')
-                  }
-                }
-              }
-            }
-          }
+          // if ('body' in a[0].value) {
+          //   if ('employment_verification' in a[0].value.body) {
+          //     setEmployment(a[0].value.body.employment_verification)
+          //     console.log('employment done')
+          //   } else {
+          //     if ('title_run' in a[0].value.body) {
+          //       seTitle_run(a[0].value.body.title_run)
+          //       console.log('title_run done')
+          //     } else {
+          //       if ('appraisal_amount' in a[0].value.body) {
+          //         setAppraisal(a[0].value.body.appraisal_amount)
+          //         console.log('appraisal done')
+          //       } else {
+          //         if ('credit_score' in a[0].value.body) {
+          //           setCredit(a[0].value.body.credit_score)
+          //           console.log('credit check done')
+          //         }
+          //       }
+          //     }
+          //   }
+          // }
 
           while (fileIdsFound === false) {
             if ('borrower_info' in a[0].value) {
@@ -226,58 +225,66 @@ const DecisionAnalysis = () => {
           )
           const response = await request.json()
           //console.log(response[0].confirmed)
-          if (typeof response[0].header.created !== 'undefined') {
+          if (typeof response[0].header?.created !== 'undefined') {
             if (i === 0) {
               //SET REQUEST DATES
               //credit_run
               setRequestDate((requestDate) => ({
                 ...requestDate,
-                credit: response[0].header.created,
+                credit: response[0].header?.created,
               }))
             } else {
               if (i === 1) {
                 //appraisal_run
                 setRequestDate((requestDate) => ({
                   ...requestDate,
-                  appraisal: response[0].header.created,
+                  appraisal: response[0].header?.created,
                 }))
               } else {
                 if (i === 2) {
                   setRequestDate((requestDate) => ({
                     ...requestDate,
-                    title_run: response[0].header.created,
+                    title_run: response[0].header?.created,
                   }))
                 } else {
                   if (i === 3) {
                     setRequestDate((requestDate) => ({
                       ...requestDate,
-                      employment: response[0].header.created,
+                      employment: response[0].header?.created,
                     }))
                   } else {
                     //DELIVERY DATES
                     if (i === 4) {
                       setDeliveryDate((deliveryDate) => ({
                         ...deliveryDate,
-                        credit_check_response: response[0].header.created,
+                        credit_check_response: response[0].header?.created,
                       }))
+                      setCredit(true)
                     } else {
                       if (i === 5) {
                         setDeliveryDate((deliveryDate) => ({
                           ...deliveryDate,
-                          appraisal_response: response[0].header.created,
+                          appraisal_response: response[0].header?.created,
                         }))
+                        if (typeof response !== 'undefined') {
+                          setAppraisal(true)
+                        }
                       } else {
                         if (i === 6) {
                           setDeliveryDate((deliveryDate) => ({
                             ...deliveryDate,
-                            title_run_response: response[0].header.created,
+                            title_run_response: response[0].header?.created,
                           }))
+                          if (typeof response !== 'undefined') {
+                            seTitle_run(true)
+                          }
                         } else {
                           if (i === 7) {
                             setDeliveryDate((deliveryDate) => ({
                               ...deliveryDate,
-                              employment_response: response[0].header.created,
+                              employment_response: response[0].header?.created,
                             }))
+                            setEmployment(true)
                           }
                         }
                       }
