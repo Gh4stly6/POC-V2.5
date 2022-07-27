@@ -224,67 +224,81 @@ const DecisionAnalysis = () => {
             requestOptions,
           )
           const response = await request.json()
-          //console.log(response[0].confirmed)
-          if (typeof response[0].header?.created !== 'undefined') {
-            if (i === 0) {
-              //SET REQUEST DATES
-              //credit_run
-              setRequestDate((requestDate) => ({
-                ...requestDate,
-                credit: response[0].header?.created,
-              }))
-            } else {
-              if (i === 1) {
-                //appraisal_run
+          console.log(response)
+
+          //call checkTask function
+          checkTask(response, i)
+          console.log(requestDate)
+        }
+
+        //function to check request and delivery time
+        function checkTask(response, i) {
+          setTimeout(function () {
+            if (typeof response[0].header?.created !== 'undefined') {
+              if (i === 0) {
+                //SET REQUEST DATES
+                //credit_run
                 setRequestDate((requestDate) => ({
                   ...requestDate,
-                  appraisal: response[0].header?.created,
+                  credit: response[0].header?.created,
                 }))
               } else {
-                if (i === 2) {
+                if (i === 1) {
+                  //appraisal_run
                   setRequestDate((requestDate) => ({
                     ...requestDate,
-                    title_run: response[0].header?.created,
+                    appraisal: response[0].header?.created,
                   }))
                 } else {
-                  if (i === 3) {
+                  if (i === 2) {
                     setRequestDate((requestDate) => ({
                       ...requestDate,
-                      employment: response[0].header?.created,
+                      title_run: response[0].header?.created,
                     }))
                   } else {
-                    //DELIVERY DATES
-                    if (i === 4) {
-                      setDeliveryDate((deliveryDate) => ({
-                        ...deliveryDate,
-                        credit_check_response: response[0].header?.created,
+                    if (i === 3) {
+                      setRequestDate((requestDate) => ({
+                        ...requestDate,
+                        employment: response[0].header?.created,
                       }))
-                      setCredit(true)
                     } else {
-                      if (i === 5) {
-                        setDeliveryDate((deliveryDate) => ({
-                          ...deliveryDate,
-                          appraisal_response: response[0].header?.created,
-                        }))
+                      //DELIVERY DATES
+                      if (i === 4) {
                         if (typeof response !== 'undefined') {
-                          setAppraisal(true)
-                        }
-                      } else {
-                        if (i === 6) {
                           setDeliveryDate((deliveryDate) => ({
                             ...deliveryDate,
-                            title_run_response: response[0].header?.created,
+                            credit_check_response: response[0].confirmed,
+                          }))
+
+                          setCredit(true)
+                          console.log(response[0].header?.created)
+                        }
+                      } else {
+                        if (i === 5) {
+                          setDeliveryDate((deliveryDate) => ({
+                            ...deliveryDate,
+                            appraisal_response: response[0].header?.created,
                           }))
                           if (typeof response !== 'undefined') {
-                            seTitle_run(true)
+                            setAppraisal(true)
                           }
                         } else {
-                          if (i === 7) {
+                          if (i === 6) {
                             setDeliveryDate((deliveryDate) => ({
                               ...deliveryDate,
-                              employment_response: response[0].header?.created,
+                              title_run_response: response[0].header?.created,
                             }))
-                            setEmployment(true)
+                            if (typeof response !== 'undefined') {
+                              seTitle_run(true)
+                            }
+                          } else {
+                            if (i === 7) {
+                              setDeliveryDate((deliveryDate) => ({
+                                ...deliveryDate,
+                                employment_response: response[0].header?.created,
+                              }))
+                              setEmployment(true)
+                            }
                           }
                         }
                       }
@@ -293,7 +307,7 @@ const DecisionAnalysis = () => {
                 }
               }
             }
-          }
+          }, 3000 * i)
         }
 
         console.log(requestDate)
@@ -592,7 +606,7 @@ const DecisionAnalysis = () => {
                         </td>
                       )}
 
-                      {deliveryDate.credit_check_response === '' ? (
+                      {deliveryDate.credit_check_response == '' ? (
                         <td className="cell">--</td>
                       ) : (
                         <td className="cell">
