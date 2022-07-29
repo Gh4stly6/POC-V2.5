@@ -1,7 +1,7 @@
 import React from 'react'
 
 const ThirdIntegration = () => {
-  return <div>TBP</div>
+  return <div>TBD</div>
 }
 
 export default ThirdIntegration
