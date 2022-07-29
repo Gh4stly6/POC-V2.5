@@ -11,6 +11,9 @@ import { AiFillBell } from 'react-icons/ai'
 import { AiFillMail } from 'react-icons/ai'
 import { AiFillApi } from 'react-icons/ai'
 import { AiOutlineAppstore } from 'react-icons/ai'
+import { GiHouse } from 'react-icons/gi'
+import { GiHouseKeys } from 'react-icons/gi'
+import { GiReceiveMoney } from 'react-icons/gi'
 
 const _nav = [
   {
@@ -50,6 +53,24 @@ const _nav = [
     name: 'Home Equity Application',
     to: '/homeequity',
     icon: <AiOutlineEdit className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'First Lien Purchase',
+    to: '/',
+    icon: <GiHouse className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'Second Lien',
+    to: '/',
+    icon: <GiHouseKeys className="nav-icon" />,
+  },
+  {
+    component: CNavItem,
+    name: 'First Lien Refinance ',
+    to: '/',
+    icon: <GiReceiveMoney className="nav-icon" />,
   },
   {
     component: CNavTitle,
