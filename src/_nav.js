@@ -57,19 +57,19 @@ const _nav = [
   {
     component: CNavItem,
     name: 'First Lien Purchase',
-    to: '/',
+    to: '/firstlienp',
     icon: <GiHouse className="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'First Lien Refinance ',
-    to: '/',
+    to: '/firstlienr',
     icon: <GiReceiveMoney className="nav-icon" />,
   },
   {
     component: CNavItem,
     name: 'Second Lien',
-    to: '/',
+    to: '/secondlien',
     icon: <GiHouseKeys className="nav-icon" />,
   },
 

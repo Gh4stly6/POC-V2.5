@@ -11,6 +11,9 @@ const Messages = React.lazy(() => import('./views/poc/Messages'))
 const Login = React.lazy(() => import('./views/poc/login/Login'))
 const Plaid = React.lazy(() => import('./views/poc/Plaid'))
 const Third = React.lazy(() => import('./views/poc/ThirdIntegration'))
+const FirstLienP = React.lazy(() => import('./views/poc/FirstLienP'))
+const FirstLienR = React.lazy(() => import('./views/poc/FirstLienR'))
+const SecondLien = React.lazy(() => import('./views/poc/SecondLien'))
 
 //const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
 //const Typography = React.lazy(() => import('./views/theme/typography/Typography'))
@@ -75,6 +78,9 @@ const routes = [
   { path: '/login', name: 'Login', element: Login },
   { path: '/plaid', name: 'Plaid', element: Plaid },
   { path: '/third', name: 'Third Integration', element: Third },
+  { path: '/firstlienp', name: 'First Lien Purchase', element: FirstLienP },
+  { path: '/firstlienr', name: 'Second Lien Refinance', element: FirstLienR },
+  { path: '/secondlien', name: 'Second Lien', element: SecondLien },
 
   /*{ path: '/theme', name: 'Theme', element: Colors, exact: true },
   { path: '/theme/colors', name: 'Colors', element: Colors },
