@@ -372,7 +372,7 @@ const DecisionAnalysis = () => {
         if (message.length >= 10) {
           setSpinner(false)
           setReload(false)
-          setFinalDecision(false)
+          //setFinalDecision(false)
           console.log('Loan successfully processed')
         } else {
           setReload(false)
@@ -468,6 +468,7 @@ const DecisionAnalysis = () => {
     } else {
       setShowNo(true)
     }
+    setFinalDecision(false)
   }
 
   return (
