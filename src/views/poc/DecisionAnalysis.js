@@ -618,8 +618,8 @@ const DecisionAnalysis = () => {
 
                       <td className="cell">Credit Report</td>
                       <td className="cell">Experian</td>
-                      {typeof deliveryDate.credit_check_response !== 'undefined' &&
-                        Object.keys(deliveryDate.credit_check_response).length > 0 && (
+                      {typeof deliveryDate.credit_response !== 'undefined' &&
+                        Object.keys(deliveryDate.credit_response).length > 0 && (
                           <td className="cell">
                             <a
                               className="download-link"
@@ -662,7 +662,7 @@ const DecisionAnalysis = () => {
                                 downloadFile(avm_file)
                               }}
                             >
-                              Appaisal AVM
+                              Appraisal AVM
                             </a>
                           </td>
                         )}
