@@ -687,7 +687,7 @@ const DecisionAnalysis = () => {
                       )}
 
                       <td className="cell">Title</td>
-                      <td className="cell">Voxture</td>
+                      <td className="cell">Voxtur</td>
                       {typeof deliveryDate.title_run_response !== 'undefined' &&
                         Object.keys(deliveryDate.title_run_response).length > 0 && (
                           <td className="cell">
@@ -697,7 +697,7 @@ const DecisionAnalysis = () => {
                                 downloadFile(title_file)
                               }}
                             >
-                              Voxture Title
+                              Voxtur
                             </a>
                           </td>
                         )}
