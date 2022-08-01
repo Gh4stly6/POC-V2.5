@@ -267,7 +267,7 @@ const DecisionAnalysis = () => {
                         if (typeof response !== 'undefined') {
                           setDeliveryDate((deliveryDate) => ({
                             ...deliveryDate,
-                            credit_check_response: response[0].confirmed,
+                            credit_response: response[0].confirmed,
                           }))
 
                           setCredit(true)
@@ -606,12 +606,12 @@ const DecisionAnalysis = () => {
                         </td>
                       )}
 
-                      {deliveryDate.credit_check_response == '' ? (
+                      {deliveryDate.credit_response == '' ? (
                         <td className="cell">--</td>
                       ) : (
                         <td className="cell">
                           <Moment format="MM-DD-YYYY HH:mm:ss">
-                            {deliveryDate.credit_check_response}
+                            {deliveryDate.credit_response}
                           </Moment>
                         </td>
                       )}
@@ -703,11 +703,11 @@ const DecisionAnalysis = () => {
                         )}
                     </tr>
                     <tr>
-                      {requestDate.credit === '' ? (
+                      {requestDate.employment === '' ? (
                         <td className="cell">--</td>
                       ) : (
                         <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
+                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.employment}</Moment>
                         </td>
                       )}
 
