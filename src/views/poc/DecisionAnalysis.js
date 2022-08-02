@@ -330,7 +330,7 @@ const DecisionAnalysis = () => {
                 }
               }
             }
-          }, 2000 * i)
+          }, 1000)
         }
 
         console.log(requestDate)
