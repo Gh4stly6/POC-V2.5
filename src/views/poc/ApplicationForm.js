@@ -998,20 +998,18 @@ const ApplicationForm = () => {
                         >
                           Back
                         </button>
+                        <button
+                          className="save-button"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            sendData()
+                          }}
+                        >
+                          Submit
+                        </button>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="end-button">
-                  <button
-                    className="save-button"
-                    onClick={(e) => {
-                      e.preventDefault()
-                      sendData()
-                    }}
-                  >
-                    Submit
-                  </button>
                 </div>
               </div>
             </CCardBody>
