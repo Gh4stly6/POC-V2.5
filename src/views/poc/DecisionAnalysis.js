@@ -97,6 +97,29 @@ const DecisionAnalysis = () => {
     get_topics()
   }, [])
 
+  //CLEAR LOAN IDS
+
+  // async function clearLoans(loanIDs) {
+  //   for (let i = 0; i < loanIDs.length; i++) {
+  //     let persisted_data = JSON.stringify({
+  //       vendor: 'store_result_in_blockchain',
+  //       decision: 'No',
+  //       uuid: loanIDs[i],
+  //     })
+
+  //     let Options = {
+  //       headers: { 'Content-Type': 'application/json' },
+  //       method: 'POST',
+  //       body: persisted_data,
+  //       redirect: 'follow',
+  //     }
+  //     const sendDecision = await fetch(
+  //       'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
+  //       Options,
+  //     )
+  //   }
+  // }
+
   //*DOWNLOAD PDF
   async function downloadFile(idFile) {
     const request = await fetch(
@@ -307,7 +330,7 @@ const DecisionAnalysis = () => {
                 }
               }
             }
-          }, 3000 * i)
+          }, 2000 * i)
         }
 
         console.log(requestDate)
@@ -432,13 +455,13 @@ const DecisionAnalysis = () => {
         setShowDecision(true)
       }
     }
-    var persisted_data = JSON.stringify({
+    let persisted_data = JSON.stringify({
       vendor: 'store_result_in_blockchain',
       decision: decision,
       uuid: uuid,
     })
 
-    var Options = {
+    let Options = {
       headers: { 'Content-Type': 'application/json' },
       method: 'POST',
       body: persisted_data,
@@ -480,6 +503,7 @@ const DecisionAnalysis = () => {
         <div className="container">
           <form action="">
             <div className="loan-info">
+              {/* <button onClick={clearLoans(loanList)}>Clear loan ID</button> */}
               <div>
                 <label className="form-label" htmlFor="loan_id">
                   Please, select a loan ID
@@ -794,193 +818,207 @@ const DecisionAnalysis = () => {
               <div className="table-scroll">
                 <div className="table-wrap">
                   <table className="main-table">
-                    {'borrower_info' in msg && (
-                      <tbody>
-                        <tr>
-                          <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
-                            Personal Information
-                          </th>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Name</th>
-                          <td className="cell">{msg.borrower_info.name}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Email</th>
-                          <td className="cell">{msg.borrower_info.email}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Phone</th>
-                          <td className="cell">{msg.borrower_info.phone}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Secondary Phone Number</th>
-                          <td className="cell">{msg.borrower_info.secondary_phone_number}</td>
-                        </tr>
+                    {'borrower_info' in msg &&
+                      ('decision' in msg['borrower_info'] ? (
+                        <tbody>
+                          <tr>
+                            <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                              Final Decision
+                            </th>
+                          </tr>
 
-                        <tr>
-                          <th className="headcol">Marital Status</th>
-                          <td className="cell">{msg.borrower_info.marital_status}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Co-applicant</th>
-                          <td className="cell">{msg.borrower_info.coapplicant}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Country of Citizenship</th>
-                          <td className="cell">{msg.borrower_info.country_of_citizenship}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Country of Residence</th>
-                          <td className="cell">{msg.borrower_info.country_of_residence}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">SSN</th>
-                          <td className="cell">{msg.borrower_info.social_security_number}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Date of Birth</th>
-                          <td className="cell">{msg.borrower_info.date_of_birth}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Best Time to Call</th>
-                          <td className="cell">{msg.borrower_info.best_time_to_call}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Preferred Language</th>
-                          <td className="cell">{msg.borrower_info.preferred_language}</td>
-                        </tr>
-                        <tr>
-                          <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
-                            Property Information
-                          </th>
-                        </tr>
+                          <tr>
+                            <th className="headcol">Decision</th>
+                            <td className="cell">{msg.borrower_info.decision}</td>
+                          </tr>
+                        </tbody>
+                      ) : (
+                        <tbody>
+                          <tr>
+                            <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                              Personal Information
+                            </th>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Name</th>
+                            <td className="cell">{msg.borrower_info.name}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Email</th>
+                            <td className="cell">{msg.borrower_info.email}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Phone</th>
+                            <td className="cell">{msg.borrower_info.phone}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Secondary Phone Number</th>
+                            <td className="cell">{msg.borrower_info.secondary_phone_number}</td>
+                          </tr>
 
-                        <tr>
-                          <th className="headcol">Address Line 1</th>
-                          <td className="cell">{msg.borrower_info.street}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Address Line 2</th>
-                          <td className="cell">{msg.borrower_info.street_2}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Property City</th>
-                          <td className="cell">{msg.borrower_info.property_city}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Property County</th>
-                          <td className="cell">{msg.borrower_info.property_country}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Property State</th>
-                          <td className="cell">{msg.borrower_info.property_state}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Property Zip Code</th>
-                          <td className="cell">{msg.borrower_info.property_zip_code}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Property Location</th>
-                          <td className="cell">{msg.borrower_info.property_location}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Property Use</th>
-                          <td className="cell">{msg.borrower_info.property_use}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Estimated Property Value</th>
-                          <td className="cell">{msg.borrower_info.property_value}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Line of Credit Amount</th>
-                          <td className="cell">{msg.borrower_info.line_of_credit}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Plans for the Funds</th>
-                          <td className="cell">{msg.borrower_info.plans_for_the_funds}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Loan used for Business</th>
-                          <td className="cell">{msg.borrower_info.loan_used_for_business}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Time at this Address</th>
-                          <td className="cell">{msg.borrower_info.time_at_address}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
-                            Income and Assets Information
-                          </th>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Employment Status</th>
-                          <td className="cell">{msg.borrower_info.employment_status}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Annual Income</th>
-                          <td className="cell">{msg.borrower_info.anual_income}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Date of Birth</th>
-                          <td className="cell">{msg.borrower_info.source_of_income}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol">Additional Income</th>
-                          <td className="cell">{msg.borrower_info.additional_income}</td>
-                        </tr>
-                        <tr>
-                          <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
-                            Underwriting Steps State
-                          </th>
-                        </tr>
+                          <tr>
+                            <th className="headcol">Marital Status</th>
+                            <td className="cell">{msg.borrower_info.marital_status}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Co-applicant</th>
+                            <td className="cell">{msg.borrower_info.coapplicant}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Country of Citizenship</th>
+                            <td className="cell">{msg.borrower_info.country_of_citizenship}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Country of Residence</th>
+                            <td className="cell">{msg.borrower_info.country_of_residence}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">SSN</th>
+                            <td className="cell">{msg.borrower_info.social_security_number}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Date of Birth</th>
+                            <td className="cell">{msg.borrower_info.date_of_birth}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Best Time to Call</th>
+                            <td className="cell">{msg.borrower_info.best_time_to_call}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Preferred Language</th>
+                            <td className="cell">{msg.borrower_info.preferred_language}</td>
+                          </tr>
+                          <tr>
+                            <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                              Property Information
+                            </th>
+                          </tr>
 
-                        {'employment_verification' in msg['borrower_info'] && (
                           <tr>
-                            <th className="headcol">
-                              <b>Employment Verification</b>
-                            </th>
-                            {msg.borrower_info.employment_verification ? (
-                              <td className="cell">Received</td>
-                            ) : (
-                              <td className="cell">Pending</td>
-                            )}
+                            <th className="headcol">Address Line 1</th>
+                            <td className="cell">{msg.borrower_info.street}</td>
                           </tr>
-                        )}
-                        {'title_run' in msg['borrower_info'] && (
                           <tr>
-                            <th className="headcol">
-                              <b>Title Run</b>
-                            </th>
-                            {msg.borrower_info.title_run ? (
-                              <td className="cell">Received</td>
-                            ) : (
-                              <td className="cell">Pending</td>
-                            )}
+                            <th className="headcol">Address Line 2</th>
+                            <td className="cell">{msg.borrower_info.street_2}</td>
                           </tr>
-                        )}
-                        {'credit_score' in msg['borrower_info'] && (
                           <tr>
-                            <th className="headcol">
-                              <b>Credit Score</b>
-                            </th>
-                            <td className="cell">{msg.borrower_info.credit_score}</td>
+                            <th className="headcol">Property City</th>
+                            <td className="cell">{msg.borrower_info.property_city}</td>
                           </tr>
-                        )}
-                        {'appraisal_amount' in msg['borrower_info'] && (
                           <tr>
-                            <th className="headcol">
-                              <b>Appraisal Ammount</b>
-                            </th>
-                            {msg.borrower_info.appraisal_amount ? (
-                              <td className="cell">Received</td>
-                            ) : (
-                              <td className="cell">Pending</td>
-                            )}
+                            <th className="headcol">Property County</th>
+                            <td className="cell">{msg.borrower_info.property_country}</td>
                           </tr>
-                        )}
-                      </tbody>
-                    )}
+                          <tr>
+                            <th className="headcol">Property State</th>
+                            <td className="cell">{msg.borrower_info.property_state}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Property Zip Code</th>
+                            <td className="cell">{msg.borrower_info.property_zip_code}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Property Location</th>
+                            <td className="cell">{msg.borrower_info.property_location}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Property Use</th>
+                            <td className="cell">{msg.borrower_info.property_use}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Estimated Property Value</th>
+                            <td className="cell">{msg.borrower_info.property_value}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Line of Credit Amount</th>
+                            <td className="cell">{msg.borrower_info.line_of_credit}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Plans for the Funds</th>
+                            <td className="cell">{msg.borrower_info.plans_for_the_funds}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Loan used for Business</th>
+                            <td className="cell">{msg.borrower_info.loan_used_for_business}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Time at this Address</th>
+                            <td className="cell">{msg.borrower_info.time_at_address}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
+                              Income and Assets Information
+                            </th>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Employment Status</th>
+                            <td className="cell">{msg.borrower_info.employment_status}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Annual Income</th>
+                            <td className="cell">{msg.borrower_info.anual_income}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Date of Birth</th>
+                            <td className="cell">{msg.borrower_info.source_of_income}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol">Additional Income</th>
+                            <td className="cell">{msg.borrower_info.additional_income}</td>
+                          </tr>
+                          <tr>
+                            <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
+                              Underwriting Steps State
+                            </th>
+                          </tr>
+
+                          {'employment_verification' in msg['borrower_info'] && (
+                            <tr>
+                              <th className="headcol">
+                                <b>Employment Verification</b>
+                              </th>
+                              {msg.borrower_info.employment_verification ? (
+                                <td className="cell">Received</td>
+                              ) : (
+                                <td className="cell">Pending</td>
+                              )}
+                            </tr>
+                          )}
+                          {'title_run' in msg['borrower_info'] && (
+                            <tr>
+                              <th className="headcol">
+                                <b>Title Run</b>
+                              </th>
+                              {msg.borrower_info.title_run ? (
+                                <td className="cell">Received</td>
+                              ) : (
+                                <td className="cell">Pending</td>
+                              )}
+                            </tr>
+                          )}
+                          {'credit_score' in msg['borrower_info'] && (
+                            <tr>
+                              <th className="headcol">
+                                <b>Credit Score</b>
+                              </th>
+                              <td className="cell">{msg.borrower_info.credit_score}</td>
+                            </tr>
+                          )}
+                          {'appraisal_amount' in msg['borrower_info'] && (
+                            <tr>
+                              <th className="headcol">
+                                <b>Appraisal Ammount</b>
+                              </th>
+                              {msg.borrower_info.appraisal_amount ? (
+                                <td className="cell">Received</td>
+                              ) : (
+                                <td className="cell">Pending</td>
+                              )}
+                            </tr>
+                          )}
+                        </tbody>
+                      ))}
                     {'body' in msg &&
                       ('employment_verification' in msg['body'] ? (
                         <tbody>
