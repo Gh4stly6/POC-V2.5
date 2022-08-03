@@ -120,6 +120,7 @@ h6.step-text{
 }
 
 a.download-link{
-	color: #312B59;
+	text-decoration: underline;
+	color: #0081CF !important;
 }
 
