@@ -41,10 +41,15 @@ const Step4 = () => {
   const reset = () => {
     fileRef.current.value = ''
   }
+  const SUPPORTED_FORMATS = ['image/jpg', 'image/jpeg', 'application/pdf', 'image/png']
   const validation = yup.object().shape({
-    document: yup.mixed().test('type', 'We only support pdf files', (value) => {
-      return value && value.type === 'application/pdf'
-    }),
+    document: yup
+      .mixed()
+      .test(
+        'type',
+        'Only support jpg, jpeg, png, pdf files',
+        (value) => value && SUPPORTED_FORMATS.includes(value.type),
+      ),
     type: yup.string().required('You must select a document type'),
   })
 
@@ -145,6 +150,7 @@ const Step4 = () => {
                         setShow(true)
                         setLoading(false)
                         resetForm()
+                        console.log('sent')
                         reset()
                       } catch (error) {
                         console.log('error', error)
@@ -198,7 +204,7 @@ const Step4 = () => {
                             className="mb-2"
                             name="document"
                             id="document"
-                            accept="application/pdf"
+                            accept="application/pdf ,image/png, image/jpeg"
                             onChange={(event) =>
                               formProps.setFieldValue('document', event.target.files[0])
                             }
