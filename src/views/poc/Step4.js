@@ -2,6 +2,7 @@ import { React, useState, useRef } from 'react'
 import './step4.css'
 import './errors.css'
 import Modal from './Modal'
+import { CFormCheck } from '@coreui/react'
 import {
   CContainer,
   CFormInput,
@@ -19,15 +20,18 @@ import {
 import * as yup from 'yup'
 import { Formik } from 'formik'
 import PlaidSignIn from '../poc/assets/img/PlaidSignIn.jpg'
-import swal from 'sweetalert'
+//import swal from 'sweetalert'
 
 //* Validate files
 export var filesid = new Array()
 export var income_files
+export let uploads = []
 const Step4 = () => {
   const [isDigital, setIsDigital] = useState(false)
   const [isManual, setIsManual] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [files, setFiles] = useState([]) //store the files uploaded to Kaleido
+  const [show, setShow] = useState(false)
 
   const fileRef = useRef()
   //* Scroll Height of step 4
@@ -38,9 +42,10 @@ const Step4 = () => {
     fileRef.current.value = ''
   }
   const validation = yup.object().shape({
-    paystubs: yup.mixed().test('type', 'We only support pdf files', (value) => {
+    document: yup.mixed().test('type', 'We only support pdf files', (value) => {
       return value && value.type === 'application/pdf'
     }),
+    type: yup.string().required('You must select a document type'),
   })
 
   return (
@@ -93,13 +98,17 @@ const Step4 = () => {
               <CCardBody>
                 <CCardTitle> Manual Verification of Income and Assets</CCardTitle>
                 <Formik
-                  initialValues={{ paystubs: '' }}
+                  initialValues={{ document: '', type: '' }}
                   onSubmit={(values, { resetForm }) => {
                     setLoading(true)
-                    console.log(values.paystubs['name'])
+                    setFiles((files) => [...files, values.document['name']])
+                    uploads.push(values.document['name'])
+                    console.log(uploads)
+
+                    setShow(true)
                     let data = new FormData()
                     data.append('autometa', 'true')
-                    data.append('file', values.paystubs)
+                    data.append('file', values.document)
 
                     var myHeaders = new Headers()
                     myHeaders.append(
@@ -113,6 +122,7 @@ const Step4 = () => {
                       body: data,
                       redirect: 'follow',
                     }
+                    //setLoading(false)
                     async function sendFile() {
                       try {
                         const response = await fetch(
@@ -124,12 +134,15 @@ const Step4 = () => {
                           data_uuid: res.id,
                           metadata: {
                             step: 'income_verification',
-                            filename: values.paystubs['name'],
+                            filename: values.document['name'],
+                            type: values.type,
                           },
                         }
                         filesid.push(file_metadata)
                         console.log(filesid)
-                        swal('Your file was uploaded')
+                        console.log(response.json())
+                        //swal('Your file was uploaded')
+                        setShow(true)
                         setLoading(false)
                         resetForm()
                         reset()
@@ -145,25 +158,56 @@ const Step4 = () => {
                     <CForm>
                       <CRow>
                         <CCol>
-                          <CFormLabel htmlFor="paystubs" className="required">
-                            Upload Pay stubs or Bank Statements
+                          <CFormLabel htmlFor="document" className="required">
+                            Choose a type of document to upload
                           </CFormLabel>
+
+                          <CFormCheck
+                            type="radio"
+                            name="type"
+                            id="type1"
+                            value="Bank Statement"
+                            label="Bank Statement"
+                            onChange={(e) => {
+                              formProps.setFieldValue('type', e.target.value)
+                              console.log(e.target.value)
+                            }}
+                          />
+                          <CFormCheck
+                            type="radio"
+                            name="type"
+                            id="type1"
+                            value="Pay Stub"
+                            label="Pay Stub"
+                            onChange={(e) => {
+                              formProps.setFieldValue('type', e.target.value)
+                              console.log(e.target.value)
+                            }}
+                          />
+                          {formProps.errors.type && (
+                            <div className="error">{formProps.errors.type}</div>
+                          )}
+                        </CCol>
+                      </CRow>
+                      <CRow>
+                        <CCol>
                           <CFormInput
                             ref={fileRef}
                             disabled={loading}
                             type="file"
                             className="mb-2"
-                            name="paystubs"
-                            id="paystubs"
+                            name="document"
+                            id="document"
                             accept="application/pdf"
                             onChange={(event) =>
-                              formProps.setFieldValue('paystubs', event.target.files[0])
+                              formProps.setFieldValue('document', event.target.files[0])
                             }
                           />
+
                           {
                             /* Show paystubs error */
-                            formProps.errors.paystubs && (
-                              <div className="error">{formProps.errors.paystubs}</div>
+                            formProps.errors.document && (
+                              <div className="error">{formProps.errors.document}</div>
                             )
                           }
                         </CCol>
@@ -191,11 +235,34 @@ const Step4 = () => {
                         </CCol>
                       </CRow>
                       <CRow>
-                        <CCol>
-                          <CButton disabled={loading} onClick={formProps.handleSubmit}>
+                        <CCol xs={12} style={{ textAlign: 'center' }}>
+                          <CButton
+                            disabled={loading}
+                            onClick={() => {
+                              formProps.handleSubmit()
+                            }}
+                          >
                             Upload File
                           </CButton>
                         </CCol>
+                      </CRow>
+                      <CRow>
+                        {show && (
+                          <CCol>
+                            <table>
+                              {/* <thead>
+                                <th>Uploaded files</th>
+                              </thead> */}
+                              <tbody>
+                                {uploads.map((item) => (
+                                  <tr key={item}>
+                                    <th style={{ color: '#B39CD0' }}>{item}</th>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </CCol>
+                        )}
                       </CRow>
                     </CForm>
                   )}

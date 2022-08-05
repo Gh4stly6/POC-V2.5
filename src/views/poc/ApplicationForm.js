@@ -12,6 +12,7 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Step4 from './Step4'
 import { filesid } from './Step4'
+import { uploads } from './Step4'
 
 const ApplicationForm = () => {
   //*USE STATE HOOKS
@@ -238,6 +239,8 @@ const ApplicationForm = () => {
           propertyInformation.handleReset()
           incomeInformation.handleReset()
           filesid.length = 0
+          uploads.length = 0
+          setIsVerificationOpen(false)
         } else {
           swal({
             title: 'Error',
@@ -978,7 +981,7 @@ const ApplicationForm = () => {
                     style={
                       isVerificationOpen
                         ? {
-                            height: '550px',
+                            height: '650px',
                           }
                         : {
                             height: '0px',
