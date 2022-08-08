@@ -126,7 +126,7 @@ const DecisionAnalysis = () => {
       `${URL}/api/v1/namespaces/default/data/${idFile}/blob`,
       requestOptions,
     )
-    console.log(dataids)
+    console.log(idFile)
     const blob = await request.blob()
     let file = new Blob([blob], { type: 'application/pdf' })
     let pdf = window.URL.createObjectURL(file)
@@ -727,54 +727,63 @@ const DecisionAnalysis = () => {
                           </td>
                         )}
                     </tr>
-                    <tr>
-                      {requestDate.employment === '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.employment}</Moment>
-                        </td>
-                      )}
+                    {borrowerFiles ? (
+                      dataids.map((id) => (
+                        <tr key={id.data_uuid}>
+                          {requestDate.employment === '' ? (
+                            <td className="cell">--</td>
+                          ) : (
+                            <td className="cell">
+                              <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.employment}</Moment>
+                            </td>
+                          )}
 
-                      {deliveryDate.employment_response === '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">
-                            {deliveryDate.employment_response}
-                          </Moment>
-                        </td>
-                      )}
-
-                      <td className="cell">Paystubs</td>
-                      {borrowerFiles ? (
-                        <td className="cell">Borrower</td>
-                      ) : (
-                        <td className="cell">Plaid</td>
-                      )}
-                      <td className="cell">
-                        {borrowerFiles ? (
-                          <select
-                            onChange={(e) => {
-                              if (e.target.value !== '') {
-                                console.log(dataids)
-                                downloadFile(e.target.value)
-                              }
-                            }}
-                            className="form-select form-select-sm "
-                            aria-label=".form-select-sm example"
-                          >
-                            <option selected value="">
-                              Select a File
-                            </option>
-                            {dataids.map((id) => (
-                              <option option key={id?.data_uuid} value={id?.data_uuid}>
-                                {id?.metadata?.filename}
-                              </option>
-                            ))}
-                          </select>
+                          {deliveryDate.employment_response === '' ? (
+                            <td className="cell">--</td>
+                          ) : (
+                            <td className="cell">
+                              <Moment format="MM-DD-YYYY HH:mm:ss">
+                                {deliveryDate.employment_response}
+                              </Moment>
+                            </td>
+                          )}
+                          <td className="cell">{id.metadata.type}</td>
+                          <td className="cell">Borrower</td>
+                          <td className="cell">
+                            <a
+                              className="download-link"
+                              key={id?.data_uuid}
+                              onClick={(e) => {
+                                downloadFile(id?.data_uuid)
+                              }}
+                            >
+                              {id?.metadata?.filename}
+                            </a>
+                          </td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        {requestDate.employment === '' ? (
+                          <td className="cell">--</td>
                         ) : (
-                          typeof deliveryDate.employment_response !== 'undefined' &&
+                          <td className="cell">
+                            <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.employment}</Moment>
+                          </td>
+                        )}
+
+                        {deliveryDate.employment_response === '' ? (
+                          <td className="cell">--</td>
+                        ) : (
+                          <td className="cell">
+                            <Moment format="MM-DD-YYYY HH:mm:ss">
+                              {deliveryDate.employment_response}
+                            </Moment>
+                          </td>
+                        )}
+                        <td className="cell">Paystub</td>
+                        <td className="cell">Plaid</td>
+                        {typeof deliveryDate.employment_response !== 'undefined' &&
                           Object.keys(deliveryDate.employment_response).length > 0 && (
                             <td className="cell">
                               <a
@@ -786,10 +795,9 @@ const DecisionAnalysis = () => {
                                 Plaid Paystub
                               </a>
                             </td>
-                          )
-                        )}
-                      </td>
-                    </tr>
+                          )}
+                      </tr>
+                    )}
                   </tbody>
                 </table>
               </div>
