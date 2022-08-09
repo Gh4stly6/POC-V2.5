@@ -556,6 +556,42 @@ const DecisionAnalysis = () => {
               </div>
             </div>
           )}
+          {isToggled && (
+            <div className="loading">
+              {spinner && (
+                <div>
+                  <label htmlFor="">Processing Loan</label>
+                  <br />
+                  <CProgress className="mb-3">
+                    <CProgressBar value={progress}>{progress}%</CProgressBar>
+                  </CProgress>
+                  <br />
+                  <label htmlFor="">
+                    Calling mutiple external vendors. Message has already been written to the
+                    Blockchain
+                  </label>
+                </div>
+              )}
+
+              {reload && (
+                <div className="loading">
+                  <button onClick={get_messages} className="btn btn-primary">
+                    Check again for this same loan ID
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {finalDecision && (
+            <button
+              id="final-decision"
+              onClick={persist_decision}
+              className="btn btn-primary btn-final"
+            >
+              Make final decision
+            </button>
+          )}
 
           {isToggled && (
             <div className="final-decision">
@@ -1042,43 +1078,6 @@ const DecisionAnalysis = () => {
                         )
                       ))}
                   </table>
-                </div>
-              </div>
-
-              {finalDecision && (
-                <button
-                  id="final-decision"
-                  onClick={persist_decision}
-                  className="btn btn-primary btn-final"
-                >
-                  Make final decision
-                </button>
-              )}
-
-              <CProgressBar now={progress} label={`${progress}%`} />
-
-              <div>
-                <div className="loading">
-                  {spinner && (
-                    <div>
-                      <label htmlFor="">Processing Loan</label>
-                      <br />
-                      <CProgress className="mb-3">
-                        <CProgressBar value={progress}>{progress}%</CProgressBar>
-                      </CProgress>
-                      <br />
-                      <label htmlFor="">
-                        Calling mutiple external vendors. Message has already been written to the
-                        Blockchain
-                      </label>
-                    </div>
-                  )}
-
-                  {reload && (
-                    <button onClick={get_messages} className="btn btn-primary">
-                      Check again for this same loan ID
-                    </button>
-                  )}
                 </div>
               </div>
             </div>
