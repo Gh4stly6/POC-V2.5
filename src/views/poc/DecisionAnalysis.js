@@ -567,7 +567,7 @@ const DecisionAnalysis = () => {
               <div>
                 {/*FILES TABLE */}
                 <h5>Underwriting Files</h5>
-                <table className="main-table">
+                <table className="main-table files">
                   <tr>
                     <th className="headcol">Request Date/Time</th>
                     <th className="headcol">Delivery Date/Time</th>
@@ -730,7 +730,7 @@ const DecisionAnalysis = () => {
                         )}
 
                         {deliveryDate.employment_response === '' ? (
-                          <td className="cell">--</td>
+                          <td className="cell ">--</td>
                         ) : (
                           <td className="cell">
                             <Moment format="MM-DD-YYYY HH:mm:ss">
