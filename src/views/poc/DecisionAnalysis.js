@@ -186,27 +186,6 @@ const DecisionAnalysis = () => {
             requestOptions,
           )
           let a = await r.json()
-          // if ('body' in a[0].value) {
-          //   if ('employment_verification' in a[0].value.body) {
-          //     setEmployment(a[0].value.body.employment_verification)
-          //     console.log('employment done')
-          //   } else {
-          //     if ('title_run' in a[0].value.body) {
-          //       seTitle_run(a[0].value.body.title_run)
-          //       console.log('title_run done')
-          //     } else {
-          //       if ('appraisal_amount' in a[0].value.body) {
-          //         setAppraisal(a[0].value.body.appraisal_amount)
-          //         console.log('appraisal done')
-          //       } else {
-          //         if ('credit_score' in a[0].value.body) {
-          //           setCredit(a[0].value.body.credit_score)
-          //           console.log('credit check done')
-          //         }
-          //       }
-          //     }
-          //   }
-          // }
 
           while (fileIdsFound === false) {
             if ('borrower_info' in a[0].value) {
@@ -581,36 +560,11 @@ const DecisionAnalysis = () => {
           {isToggled && (
             <div className="final-decision">
               <div>
-                {/* {typeof dataids !== 'undefined' && (
-                  <CForm>
-                    <CFormLabel>Select file</CFormLabel>
-                    <CFormSelect
-                      onChange={(e) => {
-                        setFile(e.target.value)
-                        console.log(dataids)
-                      }}
-                    >
-                      <option>Open this select menu</option>
-                      {dataids.map((id) => (
-                        <option key={id?.data_uuid} value={id?.data_uuid}>
-                          {id?.metadata?.filename}
-                        </option>
-                      ))}
-                    </CFormSelect>
-                    <CButton
-                      type="submit"
-                      className="mt-2"
-                      onClick={(e) => {
-                        e.preventDefault()
-                        console.log(file)
-                        downloadFile(file)
-                      }}
-                    >
-                      Download
-                    </CButton>
-                  </CForm>
-                )} */}
+                {showYes && <Result status="success" title="Approved Loan" />}
+                {showNo && <Result status="error" title="Declined Loan" />}
+              </div>
 
+              <div>
                 {/*FILES TABLE */}
                 <h5>Underwriting Files</h5>
                 <table className="main-table">
@@ -749,17 +703,20 @@ const DecisionAnalysis = () => {
                           )}
                           <td className="cell">{id.metadata.type}</td>
                           <td className="cell">Borrower</td>
-                          <td className="cell">
-                            <a
-                              className="download-link"
-                              key={id?.data_uuid}
-                              onClick={(e) => {
-                                downloadFile(id?.data_uuid)
-                              }}
-                            >
-                              {id?.metadata?.filename}
-                            </a>
-                          </td>
+                          {typeof deliveryDate.employment_response !== 'undefined' &&
+                            Object.keys(deliveryDate.employment_response).length > 0 && (
+                              <td className="cell">
+                                <a
+                                  className="download-link"
+                                  key={id?.data_uuid}
+                                  onClick={(e) => {
+                                    downloadFile(id?.data_uuid)
+                                  }}
+                                >
+                                  {id?.metadata?.filename}
+                                </a>
+                              </td>
+                            )}
                         </tr>
                       ))
                     ) : (
@@ -801,6 +758,7 @@ const DecisionAnalysis = () => {
                   </tbody>
                 </table>
               </div>
+
               <div className="alert alert-info" role="alert">
                 Message IDs will keep changing the loan automatically progresses
               </div>
@@ -1121,11 +1079,6 @@ const DecisionAnalysis = () => {
                       Check again for this same loan ID
                     </button>
                   )}
-                </div>
-
-                <div>
-                  {showYes && <Result status="success" title="Approved Loan" />}
-                  {showNo && <Result status="error" title="Declined Loan" />}
                 </div>
               </div>
             </div>
