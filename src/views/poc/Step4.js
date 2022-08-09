@@ -19,7 +19,8 @@ import {
 } from '@coreui/react'
 import * as yup from 'yup'
 import { Formik } from 'formik'
-import PlaidSignIn from '../poc/assets/img/PlaidSignIn.jpg'
+import PLaidSS from '../poc/assets/img/PlaidSS.png'
+import { BlockOutlined } from '@ant-design/icons'
 //import swal from 'sweetalert'
 
 //* Validate files
@@ -90,7 +91,12 @@ const Step4 = () => {
                 <Modal
                   buttonLabel="Connect to Plaid"
                   title="Plaid"
-                  body={<img src={PlaidSignIn} />}
+                  body={
+                    <img
+                      src={PLaidSS}
+                      style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }}
+                    />
+                  }
                 />
               </CCardBody>
             </CCard>
