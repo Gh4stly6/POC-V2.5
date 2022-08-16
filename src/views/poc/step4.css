@@ -217,8 +217,36 @@ button.income-button:hover {
 /*required inputs*/
 .required::after {
 	content: " *";
-	color: red;;
+	color: red;
 }
+
+.dropzone{
+	border: 2px;
+	border-color: #92BBFF;
+	text-align: center;
+	width: 100%;
+	border-style: dashed;
+	margin: auto;
+	padding: 20px;
+}
+/*dropzone button*/
+
+.btnDropzone {
+	border: none;
+	text-align: center;
+	background-color: rgb(218, 216, 216);
+	height: 50px;
+	border-radius: 12px;
+	color: black;
+	font-weight: bold;
+	transition-duration: 0.6s;
+	padding-left: 5px;
+	padding-right: 5px;
+  }
+  .btnDropzone:hover {
+	background-color: blue;
+	color: aliceblue;
+  }
 
 /*MEDIA QUERIES*/
 @media (max-width: 600px) {

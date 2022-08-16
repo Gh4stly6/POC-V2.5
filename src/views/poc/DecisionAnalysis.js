@@ -637,7 +637,7 @@ const DecisionAnalysis = () => {
                         Object.keys(deliveryDate.credit_response).length > 0 && (
                           <td className="cell">
                             <a
-                              className="download-link"
+                              className="download-link text-wrap"
                               onClick={() => {
                                 downloadFile(creditReportId)
                               }}
@@ -743,7 +743,7 @@ const DecisionAnalysis = () => {
                             Object.keys(deliveryDate.employment_response).length > 0 && (
                               <td className="cell">
                                 <a
-                                  className="download-link"
+                                  className="download-link text-wrap"
                                   key={id?.data_uuid}
                                   onClick={(e) => {
                                     downloadFile(id?.data_uuid)
@@ -780,7 +780,7 @@ const DecisionAnalysis = () => {
                           Object.keys(deliveryDate.employment_response).length > 0 && (
                             <td className="cell">
                               <a
-                                className="download-link"
+                                className="download-link text-wrap"
                                 onClick={() => {
                                   downloadFile(paystub_file)
                                 }}

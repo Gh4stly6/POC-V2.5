@@ -11,8 +11,8 @@ import { CRow, CCol, CCard, CCardBody } from '@coreui/react'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import Step4 from './Step4'
-import { filesid } from './Step4'
-import { uploads } from './Step4'
+import { filesid } from './Dropzone'
+import { uploads } from './Dropzone'
 
 const ApplicationForm = () => {
   //*USE STATE HOOKS
@@ -981,7 +981,7 @@ const ApplicationForm = () => {
                     style={
                       isVerificationOpen
                         ? {
-                            height: '650px',
+                            height: 'auto',
                           }
                         : {
                             height: '0px',
