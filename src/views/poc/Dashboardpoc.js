@@ -17,10 +17,10 @@ import {
 } from '@coreui/react'
 import { CChartPie } from '@coreui/react-chartjs'
 import './dashboard.css'
-import contactform from './assets/img/contact-form.png'
+import application from './assets/img/application.png'
 import idea from './assets/img/idea.png'
-import laptop from './assets/img/laptop.png'
-import speech from './assets/img/speech-bubble.png'
+import report from './assets/img/report.png'
+import email from './assets/img/email.png'
 import submit from './assets/img/submit.png'
 import process from './assets/img/process.png'
 import feature from './assets/img/feature.png'
@@ -32,109 +32,102 @@ const Dashboardpoc = () => {
       <CContainer>
         <CRow>
           <CCol xs={12} className="mb-3">
-            <CCard>
-              <CCardBody>
-                <div className="shortcut-buttons">
-                  <CNavLink to="/homeequity" component={NavLink}>
-                    <CButton shape="rounded-pill" variant="ghost">
-                      <div className="button-content">
-                        <div className="button-icon">
-                          <img src={contactform} />
-                        </div>
-                        <div className="button-text">Home Equity Application</div>
-                      </div>
-                    </CButton>
-                  </CNavLink>
+            <div className="shortcut-buttons">
+              <CNavLink to="/homeequity" component={NavLink}>
+                <button className="shortcuts">
+                  <div className="button-content">
+                    <div className="button-icon">
+                      <img src={application} height={50} />
+                    </div>
+                    <div className="button-text">Home Equity Application</div>
+                  </div>
+                </button>
+              </CNavLink>
 
-                  <CNavLink to="/underwritinganalysis" component={NavLink}>
-                    <CButton shape="rounded-pill" variant="ghost">
-                      <div className="button-content">
-                        <div className="button-icon">
-                          <img src={idea} />
-                        </div>
-                        <div className="button-text">Underwriting Analysis</div>
-                      </div>
-                    </CButton>
-                  </CNavLink>
+              <CNavLink to="/underwritinganalysis" component={NavLink}>
+                <button className="shortcuts">
+                  <div className="button-content">
+                    <div className="button-icon">
+                      <img src={idea} height={50} />
+                    </div>
+                    <div className="button-text">Underwriting Analysis</div>
+                  </div>
+                </button>
+              </CNavLink>
 
-                  <CNavLink to="/reporting" component={NavLink}>
-                    <CButton shape="rounded-pill" variant="ghost">
-                      <div className="button-content">
-                        <div className="button-icon">
-                          <img src={laptop} />
-                        </div>
-                        <div className="button-text">Reporting</div>
-                      </div>
-                    </CButton>
-                  </CNavLink>
+              <CNavLink to="/reporting" component={NavLink}>
+                <button className="shortcuts">
+                  <div className="button-content">
+                    <div className="button-icon">
+                      <img src={report} height={50} />
+                    </div>
+                    <div className="button-text">Reporting</div>
+                  </div>
+                </button>
+              </CNavLink>
 
-                  <CNavLink to="/messages" component={NavLink}>
-                    <CButton shape="rounded-pill" variant="ghost">
-                      <div className="button-content">
-                        <div className="button-icon">
-                          <img src={speech} />
-                        </div>
-                        <div className="button-text">Messages</div>
-                      </div>
-                    </CButton>
-                  </CNavLink>
-                </div>
-              </CCardBody>
-            </CCard>
+              <CNavLink to="/messages" component={NavLink}>
+                <button className="shortcuts">
+                  <div className="button-content">
+                    <div className="button-icon">
+                      <img src={email} height={50} />
+                    </div>
+                    <div className="button-text">Messages</div>
+                  </div>
+                </button>
+              </CNavLink>
+            </div>
+            <hr />
           </CCol>
         </CRow>
 
         <CRow>
           <CCol className="mb-3" xs={4}>
-            <CCard className="text-center mb-3 border-top-2">
-              {/*Pie Chart*/}
-              <CRow>
-                <CCardBody>
-                  <CCol>
-                    <CCardTitle>Pipeline Summary</CCardTitle>
-                    <CChartPie
-                      data={{
-                        labels: ['Point of Sale', 'In process', 'Underwrited'],
-                        datasets: [
-                          {
-                            data: [300, 50, 100],
-                            backgroundColor: [
-                              'rgba(194, 159, 250,1)',
-                              'rgba(163, 112, 247,1)',
-                              'rgb(133, 64, 245, 1)',
-                            ],
-                            hoverBackgroundColor: [
-                              'rgba(194, 159, 250,0.9)',
-                              'rgba(163, 112, 247,0.9)',
-                              'rgb(133, 64, 245,0.9)',
-                            ],
-                          },
+            {/*Pie Chart*/}
+            <CRow>
+              <CCol>
+                <CCardTitle>Pipeline Summary</CCardTitle>
+                <CChartPie
+                  data={{
+                    labels: ['Point of Sale', 'In process', 'Underwrited'],
+                    datasets: [
+                      {
+                        data: [300, 50, 100],
+                        backgroundColor: [
+                          'rgba(9,109,217,1)',
+                          'rgba(24,144,255,1)',
+                          'rgb(64,169,255, 1)',
                         ],
-                        options: {
-                          tooltips: {
-                            callbacks: {
-                              label: function (tooltipItem, data) {
-                                return (
-                                  data['labels'][tooltipItem['index']] +
-                                  ': ' +
-                                  data['datasets'][0]['data'][tooltipItem['index']] +
-                                  '%'
-                                )
-                              },
-                            },
+                        hoverBackgroundColor: [
+                          'rgba(9,109,217,0.9)',
+                          'rgba(24,144,255,0.9)',
+                          'rgb(64,169,255,0.9)',
+                        ],
+                      },
+                    ],
+                    options: {
+                      tooltips: {
+                        callbacks: {
+                          label: function (tooltipItem, data) {
+                            return (
+                              data['labels'][tooltipItem['index']] +
+                              ': ' +
+                              data['datasets'][0]['data'][tooltipItem['index']] +
+                              '%'
+                            )
                           },
                         },
-                      }}
-                    />
-                  </CCol>
-                </CCardBody>
-              </CRow>
-            </CCard>
+                      },
+                    },
+                  }}
+                />
+              </CCol>
+            </CRow>
           </CCol>
           <CCol xs={8} className="mb-3">
             <CCard>
               <CCardBody>
-                <CCardText> Loan Application Pipeline Percentages</CCardText>
+                <CCardTitle> Loan Application Pipeline Percentages</CCardTitle>
                 <CWidgetStatsF
                   className="mb-3"
                   padding={false}
@@ -163,12 +156,9 @@ const Dashboardpoc = () => {
 
         <CRow>
           <CCol sm={12}>
-            <CCard className="mb-3 border-top-2">
-              <CCardHeader>
-                <h5>Loan Details</h5>
-              </CCardHeader>
-
+            <CCard className="mb-3 border-top-1">
               <CCardBody>
+                <CCardTitle className="mx-auto">Loan Details</CCardTitle>
                 <TableAntd />
               </CCardBody>
             </CCard>

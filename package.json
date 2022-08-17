@@ -26,6 +26,7 @@
     "coreui_library_short_version": "4.1"
   },
   "dependencies": {
+    "@ant-design/colors": "^6.0.0",
     "@ant-design/icons": "^4.7.0",
     "@coreui/chartjs": "^3.0.0",
     "@coreui/coreui": "^4.1.4",

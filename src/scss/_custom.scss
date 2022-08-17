@@ -4,3 +4,34 @@ $indigo-dark: rgb(20,3,48);
 .Header{
     background: $indigo-dark;
 }
+
+
+.btn.btn-primary{
+  
+
+}
+
+.card-title{
+    color:#1b64b3 ;
+}
+
+.sidebar-nav::-webkit-scrollbar {
+    background: transparent;
+    width: .5em;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: transparent;
+    margin-block: .5em;
+    margin-right: 10em;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: lightgray;
+    border-radius: 10px;
+}
+
+.sidebar-nav::-webkit-scrollbar-corner {
+    border-radius: 10px;
+    background: lightgray;
+}

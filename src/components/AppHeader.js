@@ -37,7 +37,7 @@ const AppHeader = () => {
         </CHeaderBrand>
         <CNavbarText className="mx-auto">
           <span>
-            <h3 style={{ color: 'white' }}>Welcome User</h3>
+            <h5 style={{ color: 'white', textAlign: 'left' }}>Welcome User</h5>
           </span>
         </CNavbarText>
         <CHeaderNav>

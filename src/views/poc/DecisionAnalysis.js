@@ -128,13 +128,14 @@ const DecisionAnalysis = () => {
     )
     console.log(idFile)
     const blob = await request.blob()
+    console.log(blob)
     let file = new Blob([blob], { type: 'application/pdf' })
     let pdf = window.URL.createObjectURL(file)
     window.open(pdf, '_blank')
     let a = document.createElement('a')
     a.href = window.URL.createObjectURL(file)
     a.target = '_blank'
-    a.onclick = `window.open('mypdf.pdf', '_blank')`
+    a.onclick = `window.open('', '_blank')`
     a.click()
   }
 

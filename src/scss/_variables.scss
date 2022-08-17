@@ -26,15 +26,16 @@
  $indigo-700: #3D0A91;
  $indigo-800: #290661;
  $indigo-900: #140330;
- $blue-100: #CFE2FF;
- $blue-200: #9EC5FE;
- $blue-300: #6EA8FE;
- $blue-400: #3D8BFD;
- $blue-500: #0D6EFD;
- $blue-600: #0A58CA;
- $blue-700: #084298;
- $blue-800: #052C65;
- $blue-900: #031633;
+ $blue-100: #f0fbff;
+ $blue-200: #e3f6ff;
+ $blue-300: #bae7ff;
+ $blue-400: #91d5ff;
+ $blue-500: #69c0ff;
+ $blue-600: #40a9ff;
+ $blue-700: #2b85d9;
+ $blue-800: #1b64b3;
+ $blue-900: #0e478c;
+ $blue-1000: #093066;
 
 
 // scss-docs-end gray-color-variables
@@ -56,7 +57,7 @@
 // fusv-enable
 
 // $high-emphasis:            rgba(shift-color($gray-base, +26), .95) !default;
- $medium-emphasis:          indigo;
+ $medium-emphasis:          #595959;
 // $disabled:                 rgba(shift-color($gray-base, +26), .38) !default;
 
 // $high-emphasis-inverse:    rgba($white, .87) !default;
@@ -148,8 +149,8 @@
  //scss-docs-end theme-color-variables
 
 // scss-docs-start theme-colors-map
-// $theme-colors: (
-//   "primary":    $primary,
+ $theme-colors: (
+   "primary":    $blue-100,
 //   "secondary":  $secondary,
 //   "success":    $success,
 //   "info":       $info,
@@ -157,7 +158,7 @@
 //   "danger":     $danger,
 //   "light":      $light,
 //   "dark":       $dark
-// ) !default;
+ ) !default;
 // scss-docs-end theme-colors-map
 
 // The contrast ratio to reach against white, to determine if color changes from "light" to "dark". Acceptable values for WCAG 2.0 are 3, 4.5 and 7.
@@ -494,7 +495,7 @@
 
 // scss-docs-start font-variables
 // stylelint-disable value-keyword-case
- $font-family-sans-serif:     'Heebo', sans-serif;
+ //$font-family-sans-serif:     'Heebo', sans-serif;
 // $font-family-monospace:       SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace !default;
 // stylelint-enable value-keyword-case
 // $font-family-base:            var(--#{$variable-prefix}font-sans-serif) !default;
@@ -542,11 +543,11 @@
 
 // scss-docs-start headings-variables
 // $headings-margin-bottom:      $spacer / 2 !default;
- $headings-font-family:        'Heebo', sans-serif;
+ //$headings-font-family:        'Heebo', sans-serif;
 // $headings-font-style:         null !default;
 // $headings-font-weight:        500 !default;
 // $headings-line-height:        1.2 !default;
- $headings-color:             $gray-900;
+ $headings-color:             $blue-800;
 // scss-docs-end headings-variables
 
 // scss-docs-start display-headings
@@ -752,8 +753,8 @@
 // $btn-active-border-shade-amount:  25% !default;
 // $btn-active-border-tint-amount:   10% !default;
 
-// $button-variants: (
-//   "primary": btn-color-map($primary, $primary),
+ //$button-variants: (
+   //"primary": btn-color-map($primary, $primary),
 //   "secondary": btn-color-map($secondary, $secondary),
 //   "success": btn-color-map($success, $success),
 //   "danger": btn-color-map($danger, $danger),
@@ -763,8 +764,8 @@
 //   "dark": btn-color-map($dark, $dark)
 // ) !default;
 
-// $button-outline-ghost-variants: (
-//   "primary": btn-outline-color-map($primary),
+ //$button-outline-ghost-variants: (
+ //  "primary": btn-outline-color-map($primary),
 //   "secondary": btn-outline-color-map($secondary),
 //   "success": btn-outline-color-map($success),
 //   "danger": btn-outline-color-map($danger),
@@ -772,7 +773,7 @@
 //   "info": btn-outline-color-map($info),
 //   "light": btn-outline-color-map($light),
 //   "dark": btn-outline-color-map($dark)
-// ) !default;
+ //) !default;
 // scss-docs-end btn-variables
 
 
@@ -1050,7 +1051,7 @@
 // $nav-link-font-size:                null !default;
 // $nav-link-font-weight:              null !default;
 // $nav-link-color:                    $link-color !default;
-// $nav-link-hover-color:              $link-hover-color !default;
+ //$nav-link-hover-color:              $link-hover-color !default;
 // $nav-link-transition:               color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out !default;
 // $nav-link-disabled-color:           $gray-600 !default;
 
@@ -1099,7 +1100,7 @@
 // $navbar-dark-toggler-icon-bg:       url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'><path stroke='#{$navbar-dark-color}' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/></svg>") !default;
 // $navbar-dark-toggler-border-color:  rgba($white, .1) !default;
 
- $navbar-light-color:                $indigo-800;
+ $navbar-light-color:                $blue-800;
  $navbar-light-hover-color:          $white;
 // $navbar-light-active-color:         $high-emphasis !default;
 // $navbar-light-disabled-color:       $disabled !default;
@@ -1220,7 +1221,7 @@
 // $card-cap-bg:                       rgba($black, .03) !default;
 // $card-cap-color:                    unset !default;
 // $card-height:                       null !default;
- $card-color:                       $indigo-800;
+ $card-color:                       #262626;
 // $card-bg:                           $white !default;
 // $card-img-overlay-padding:          $spacer !default;
 // $card-group-margin:                 $grid-gutter-width / 2 !default;
@@ -1521,16 +1522,16 @@
 
 // Header
 // scss-docs-start header-variables
-// $header-min-height:             4rem !default;
+ $header-min-height:             3rem !default;
 // $header-padding-y:              $spacer / 2 !default;
 // $header-padding-x:              $spacer / 2 !default;
 // $header-brand-font-size:        $font-size-lg !default;
  $header-color:                  $white;
- $header-bg:                     #312B59;
- $header-border-color:           $gray-900;
-// $header-border-width:           1px !default;
- $header-hover-color:            $gray-400;
- $header-active-color:           #E2D9F3;
+ $header-bg:                     $blue-800;
+ $header-border-color:           $white;
+ $header-border-width:           0.5px !default;
+ $header-hover-color:            $white;
+ $header-active-color:           $white;
 // $header-disabled-color:         $disabled !default;
 
 // Compute the header-brand padding-y so the header-brand will have the same height as header-text and nav-link
@@ -1549,14 +1550,14 @@
 // $header-toggler-border:         0 !default;
 // $header-toggler-border-radius:  $btn-border-radius !default;
 
-// $header-toggler-icon-bg:        url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$header-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
+ $header-toggler-icon-bg:        url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$blue-100}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
  $header-toggler-hover-icon-bg:  url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$header-hover-color}' stroke-width='2.25' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
 // $header-toggler-border-color:   rgba($black, .1) !default;
 
 // $header-nav-link-padding-x:     .5rem !default;
 
 // $header-divider-border-width:   1px !default;
- $header-divider-border-color:   #160D27;
+ $header-divider-border-color:   #d3d3d3;
 // scss-docs-end header-variables
 
 // Subheader
@@ -1607,9 +1608,9 @@
 // $breadcrumb-padding-x:              0 !default;
 // $breadcrumb-item-padding-x:         .5rem !default;
 // $breadcrumb-margin-bottom:          1rem !default;
- $breadcrumb-bg:                     #312B59;
- $breadcrumb-divider-color:          $gray-200 !default;
- $breadcrumb-active-color:           #E2D9F3;
+ $breadcrumb-bg:                     $blue-800;
+ $breadcrumb-divider-color:          $white !default;
+ $breadcrumb-active-color:           $blue-600;
 // $breadcrumb-divider:                quote("/") !default;
 // $breadcrumb-divider-flipped:        $breadcrumb-divider !default;
 // $breadcrumb-border-radius:          null !default;
@@ -1660,14 +1661,14 @@
 // $sidebar-padding-y:                        0 !default;
 // $sidebar-padding-x:                        0 !default;
 // $sidebar-color:                            $high-emphasis-inverse !default;
- $sidebar-bg:                               #181362;
+ $sidebar-bg:                               $blue-800;
 // $sidebar-border-width:                     0 !default;
 // $sidebar-border-color:                     transparent !default;
 // $sidebar-transition:                       margin-left .15s, margin-right .15s, box-shadow .075s, transform .15s, width .15s, z-index 0s ease .15s !default;
 
 // $sidebar-brand-height:                     4rem !default;
 // $sidebar-brand-color:                      $high-emphasis-inverse !default;
- $sidebar-brand-bg:                         rgba($black, .2) !default;
+ $sidebar-brand-bg:                         rgba($blue,0) !default;
 
 // $sidebar-header-height:                    4rem !default;
 // $sidebar-header-padding-y:                 .75rem !default;
@@ -1689,7 +1690,7 @@
 
 // $sidebar-nav-link-padding-y:               .8445rem !default;
 // $sidebar-nav-link-padding-x:               1rem !default;
-// $sidebar-nav-link-color:                   $medium-emphasis-inverse !default;
+ $sidebar-nav-link-color:                   $white !default;
 // $sidebar-nav-link-bg:                      transparent !default;
 // $sidebar-nav-link-transition:              background .15s ease, color .15s ease !default;
 // $sidebar-nav-link-icon-color:              $medium-emphasis-inverse !default;

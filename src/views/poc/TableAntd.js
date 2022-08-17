@@ -263,13 +263,11 @@ const TableAntd = () => {
   ]
 
   return (
-    <div>
-      <Table
-        style={{ display: 'flex', flex: 1, margin: 10 }}
-        dataSource={dataSource}
-        columns={columns}
-      />
-    </div>
+    <Table
+      style={{ display: 'flex', flex: 1, margin: 10 }}
+      dataSource={dataSource}
+      columns={columns}
+    />
   )
 }
 
