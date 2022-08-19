@@ -5,14 +5,32 @@ $indigo-dark: rgb(20,3,48);
     background: $indigo-dark;
 }
 
-
-.btn.btn-primary{
-  
-
+.fs-6.fw-semibold.text-primary{
+    color: #096dd9;
 }
 
+
+.btn.btn-primary{
+//   background-color: #1b64b3;
+//   border-color: #1b64b3;
+//border-color: #096dd9
+//   color: white;
+}
+.btn.btn-primary:hover{
+   background-color: #096dd9;
+   color: white;
+}
+
+.btn.btn-ghost-primary{
+    border-color: #096dd9;
+}
+.btn.btn-ghost-primary:hover{
+    background-color: #096dd9;
+   border-color: #096dd9;
+   color: white;;
+}
 .card-title{
-    color:#1b64b3 ;
+    color:#096dd9 ;
 }
 
 .sidebar-nav::-webkit-scrollbar {

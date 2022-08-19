@@ -63,6 +63,7 @@ const DecisionAnalysis = () => {
   const URL = 'https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io'
   const requestOptions = {
     method: 'GET',
+    //mode: 'no-cors',
     headers: {
       Authorization:
         'Basic dTBqbW1mam12NTphNGV3WjZuNVh1bHBSVElmMXNKX2FWa1pYQjZ3RGtLaFVhSVFUMEVNbVJF',

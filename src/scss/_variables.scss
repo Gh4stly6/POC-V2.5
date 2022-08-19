@@ -35,7 +35,7 @@
  $blue-700: #2b85d9;
  $blue-800: #1b64b3;
  $blue-900: #0e478c;
- $blue-1000: #093066;
+ $blue-1000: #152238;
 
 
 // scss-docs-end gray-color-variables
@@ -60,8 +60,8 @@
  $medium-emphasis:          #595959;
 // $disabled:                 rgba(shift-color($gray-base, +26), .38) !default;
 
-// $high-emphasis-inverse:    rgba($white, .87) !default;
-// $medium-emphasis-inverse:  rgba($white, .6) !default;
+ $high-emphasis-inverse:    rgba($gray-800, .87) !default;
+ $medium-emphasis-inverse:  rgba($gray-900, .6) !default;
 // $disabled-inverse:         rgba($white, .38) !default;
 
  //scss-docs-start color-variables
@@ -97,7 +97,7 @@
 
 // fusv-disable
 // $primary-dark:  #1f1498 !default;
-// $primary-base:  #321fdb !default;
+ $primary-base:   #096dd9 !default;
 // $primary-50:    #988fed !default;
 // $primary-25:    #ccc7f6 !default;
 
@@ -126,10 +126,10 @@
 // $danger-50:    #f2a9a9 !default;
 // $danger-25:    #f9d4d4 !default;
 
- $light-dark:     $gray-100 !default;
- $light-base:     $gray-100 !default;
- $light-50:       shift-color($light-base, -70) !default;
- $light-25:       shift-color($light-base, -80) !default;
+//  $light-dark:     $gray-100 !default;
+//  $light-base:     $gray-100 !default;
+//  $light-50:       shift-color($light-base, -70) !default;
+//  $light-25:       shift-color($light-base, -80) !default;
 
 // $dark-dark:      $gray-900 !default;
 // $dark-base:      $gray-900 !default;
@@ -138,7 +138,7 @@
 // fusv-enable
 
  //scss-docs-start theme-color-variables
- //$primary:       $primary-base !default;
+ $primary:       $primary-base !default;
 // $secondary:     $secondary-base !default;
 // $success:       $success-base !default;
 // $info:          $info-base !default;
@@ -156,7 +156,7 @@
 //   "info":       $info,
 //   "warning":    $warning,
 //   "danger":     $danger,
-//   "light":      $light,
+ //  "light":      $light,
 //   "dark":       $dark
  ) !default;
 // scss-docs-end theme-colors-map
@@ -287,7 +287,7 @@
 // $enable-caret:                      true !default;
 // $enable-rounded:                    true !default;
 // $enable-shadows:                    false !default;
-// $enable-gradients:                  false !default;
+$enable-gradients:                  true !default;
 // $enable-transitions:                true !default;
 // $enable-reduced-motion:             true !default;
 // $enable-smooth-scroll:              true !default;
@@ -316,7 +316,7 @@
 // The gradient which is added to components if `$enable-gradients` is `true`
 // This gradient is also added to elements with `.bg-gradient`
 // scss-docs-start variable-gradient
-// $gradient: linear-gradient(180deg, rgba($white, .15), rgba($white, 0)) !default;
+ $gradient: linear-gradient(180deg, rgba(#E7E6E2, .15), rgba($gray-200, 0)) !default;
 // scss-docs-end variable-gradient
 
 // Spacing
@@ -464,7 +464,7 @@
 // scss-docs-end box-shadow-variables
 
 // $component-active-color:      $high-emphasis-inverse !default;
-// $component-active-bg:         $primary !default;
+$component-active-bg:         $primary;
 
 // scss-docs-start caret-variables
 // $caret-width:                 .3em !default;
@@ -547,7 +547,7 @@
 // $headings-font-style:         null !default;
 // $headings-font-weight:        500 !default;
 // $headings-line-height:        1.2 !default;
- $headings-color:             $blue-800;
+ $headings-color:             $blue-600;
 // scss-docs-end headings-variables
 
 // scss-docs-start display-headings
@@ -658,20 +658,20 @@
 
 // $table-caption-color:         $text-muted !default;
 
-// $table-bg-scale:              -80% !default;
+ $table-bg-scale:              -80% !default;
 // scss-docs-end table-variables
 
 // scss-docs-start table-loop
-// $table-variants: (
-//   "primary":    table-color-map(shift-color($primary, $table-bg-scale)),
+ //$table-variants: (
+ //  "primary":    table-color-map(shift-color($primary, $table-bg-scale)),
 //   "secondary":  table-color-map(shift-color($secondary, $table-bg-scale)),
 //   "success":    table-color-map(shift-color($success, $table-bg-scale)),
 //   "danger":     table-color-map(shift-color($danger, $table-bg-scale)),
 //   "warning":    table-color-map(shift-color($warning, $table-bg-scale)),
-//   "info":       table-color-map(shift-color($info, $table-bg-scale)),
+ //  "info":       table-color-map(shift-color($info, $table-bg-scale)),
 //   "light":      table-color-map(shift-color($light, $table-bg-scale)),
 //   "dark":       table-color-map(shift-color($dark, $table-bg-scale))
-// ) !default;
+ //) !default;
 // scss-docs-end table-loop
 
 
@@ -686,11 +686,11 @@
 // $input-btn-font-size:         $font-size-base !default;
 // $input-btn-line-height:       $line-height-base !default;
 
-// $input-btn-focus-width:         .25rem !default;
-// $input-btn-focus-color-opacity: .25 !default;
-// $input-btn-focus-color:         rgba($component-active-bg, $input-btn-focus-color-opacity) !default;
-// $input-btn-focus-blur:          0 !default;
-// $input-btn-focus-box-shadow:    0 0 $input-btn-focus-blur $input-btn-focus-width $input-btn-focus-color !default;
+ $input-btn-focus-width:         .25rem !default;
+ $input-btn-focus-color-opacity: .25 !default;
+ $input-btn-focus-color:         rgba($blue-600, $input-btn-focus-color-opacity) !default;
+ $input-btn-focus-blur:          0 !default;
+ $input-btn-focus-box-shadow:    0 0 $input-btn-focus-blur $input-btn-focus-width $input-btn-focus-color !default;
 
 // $input-btn-padding-y-sm:      .25rem !default;
 // $input-btn-padding-x-sm:      .5rem !default;
@@ -764,16 +764,16 @@
 //   "dark": btn-color-map($dark, $dark)
 // ) !default;
 
- //$button-outline-ghost-variants: (
- //  "primary": btn-outline-color-map($primary),
-//   "secondary": btn-outline-color-map($secondary),
+//  $button-outline-ghost-variants: (
+//    "primary": btn-outline-color-map($primary),
+//    "secondary": btn-outline-color-map($secondary),
 //   "success": btn-outline-color-map($success),
 //   "danger": btn-outline-color-map($danger),
 //   "warning": btn-outline-color-map($warning),
 //   "info": btn-outline-color-map($info),
 //   "light": btn-outline-color-map($light),
 //   "dark": btn-outline-color-map($dark)
- //) !default;
+ //);
 // scss-docs-end btn-variables
 
 
@@ -825,10 +825,10 @@
 // $input-border-radius-lg:                $border-radius-lg !default;
 
 // $input-focus-bg:                        $input-bg !default;
-// $input-focus-border-color:              tint-color($component-active-bg, 50%) !default;
+// $input-focus-border-color:              tint-color($component-active-bg, 50%);
 // $input-focus-color:                     $input-color !default;
-// $input-focus-width:                     $input-btn-focus-width !default;
-// $input-focus-box-shadow:                $input-btn-focus-box-shadow !default;
+// $input-focus-width:                     $//input-btn-focus-width !default;
+ $input-focus-box-shadow:                $input-btn-focus-box-shadow !default;
 
 // $input-placeholder-color:               $gray-600 !default;
 // $input-plaintext-color:                 $body-color !default;
@@ -1048,10 +1048,10 @@
 // scss-docs-start nav-variables
 // $nav-link-padding-y:                .5rem !default;
 // $nav-link-padding-x:                1rem !default;
-// $nav-link-font-size:                null !default;
+ $nav-link-font-size:                 .9rem;
 // $nav-link-font-weight:              null !default;
 // $nav-link-color:                    $link-color !default;
- //$nav-link-hover-color:              $link-hover-color !default;
+ $nav-link-hover-color:              $blue-800 !default;
 // $nav-link-transition:               color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out !default;
 // $nav-link-disabled-color:           $gray-600 !default;
 
@@ -1452,16 +1452,16 @@
 // $callout-border-color:              $border-color !default;
 // $callout-border-left-width:         (4 * $callout-border-width) !default;
 
-// $callout-variants: (
-//   "primary":    $primary,
+ $callout-variants: (
+   "primary":    $primary,
 //   "secondary":  $secondary,
 //   "success":    $success,
 //   "danger":     $danger,
 //   "warning":    $warning,
 //   "info":       $info,
-//   "light":      $light,
+ //  "light":      $light,
 //   "dark":       $dark
-// ) !default;
+ ) !default;
 // scss-docs-end callout-variables
 
 
@@ -1526,9 +1526,10 @@
 // $header-padding-y:              $spacer / 2 !default;
 // $header-padding-x:              $spacer / 2 !default;
 // $header-brand-font-size:        $font-size-lg !default;
- $header-color:                  $white;
- $header-bg:                     $blue-800;
- $header-border-color:           $white;
+ $header-color:                  $gray-800;
+ $header-bg:                     $white;
+ //linear-gradient(180deg, rgba(#FFFFFF, 1), rgba(#E5E6E4, 1)) !default;
+ $header-border-color:           #ECECEB;
  $header-border-width:           0.5px !default;
  $header-hover-color:            $white;
  $header-active-color:           $white;
@@ -1557,7 +1558,7 @@
 // $header-nav-link-padding-x:     .5rem !default;
 
 // $header-divider-border-width:   1px !default;
- $header-divider-border-color:   #d3d3d3;
+ $header-divider-border-color:   #ECECEB;
 // scss-docs-end header-variables
 
 // Subheader
@@ -1608,8 +1609,8 @@
 // $breadcrumb-padding-x:              0 !default;
 // $breadcrumb-item-padding-x:         .5rem !default;
 // $breadcrumb-margin-bottom:          1rem !default;
- $breadcrumb-bg:                     $blue-800;
- $breadcrumb-divider-color:          $white !default;
+ $breadcrumb-bg:                     $header-bg;
+ $breadcrumb-divider-color:          $gray-500 !default;
  $breadcrumb-active-color:           $blue-600;
 // $breadcrumb-divider:                quote("/") !default;
 // $breadcrumb-divider-flipped:        $breadcrumb-divider !default;
@@ -1660,15 +1661,15 @@
 // ) !default;
 // $sidebar-padding-y:                        0 !default;
 // $sidebar-padding-x:                        0 !default;
-// $sidebar-color:                            $high-emphasis-inverse !default;
- $sidebar-bg:                               $blue-800;
+ $sidebar-color:                            $blue-600!default;
+ $sidebar-bg:                               linear-gradient(180deg, rgba(#E5E6E4, .15), rgba($white, 0)) !default;;
 // $sidebar-border-width:                     0 !default;
 // $sidebar-border-color:                     transparent !default;
 // $sidebar-transition:                       margin-left .15s, margin-right .15s, box-shadow .075s, transform .15s, width .15s, z-index 0s ease .15s !default;
 
 // $sidebar-brand-height:                     4rem !default;
-// $sidebar-brand-color:                      $high-emphasis-inverse !default;
- $sidebar-brand-bg:                         rgba($blue,0) !default;
+ $sidebar-brand-color:                      $high-emphasis-inverse !default;
+ $sidebar-brand-bg:                         radial-gradient(180deg, rgba($gray-700, .15), rgba($gray-200, 1)) !default;
 
 // $sidebar-header-height:                    4rem !default;
 // $sidebar-header-padding-y:                 .75rem !default;
@@ -1685,30 +1686,30 @@
 // $sidebar-nav-title-padding-y:              .75rem !default;
 // $sidebar-nav-title-padding-x:              1rem !default;
 // $sidebar-nav-title-margin-top:             1rem !default;
-// $sidebar-nav-title-color:                  $medium-emphasis-inverse !default;
+ $sidebar-nav-title-color:                  $blue-700 !default;
 // $sidebar-nav-title-transition:             height .15s, margin .15s !default;
 
 // $sidebar-nav-link-padding-y:               .8445rem !default;
 // $sidebar-nav-link-padding-x:               1rem !default;
- $sidebar-nav-link-color:                   $white !default;
+ $sidebar-nav-link-color:                   $gray-800 !default;
 // $sidebar-nav-link-bg:                      transparent !default;
 // $sidebar-nav-link-transition:              background .15s ease, color .15s ease !default;
-// $sidebar-nav-link-icon-color:              $medium-emphasis-inverse !default;
+ $sidebar-nav-link-icon-color:              $medium-emphasis-inverse !default;
 
-// $sidebar-nav-link-hover-color:             $high-emphasis-inverse !default;
-// $sidebar-nav-link-hover-bg:                rgba($white, .05) !default;
-// $sidebar-nav-link-hover-icon-color:        $high-emphasis-inverse !default;
+ $sidebar-nav-link-hover-color:             $blue-800 !default;
+ $sidebar-nav-link-hover-bg:                rgba($gray-900, .05) !default;
+ $sidebar-nav-link-hover-icon-color:        $blue-800;
 
-// $sidebar-nav-link-active-color:            $high-emphasis-inverse !default;
-// $sidebar-nav-link-active-bg:               rgba($white, .05) !default;
-// $sidebar-nav-link-active-icon-color:       $high-emphasis-inverse !default;
+ $sidebar-nav-link-active-color:            $blue-800 !default;
+ $sidebar-nav-link-active-bg:               rgba($gray-900, .05) !default;
+ $sidebar-nav-link-active-icon-color:       $blue-800 !default;
 
 // $sidebar-nav-link-disabled-color:          $disabled-inverse !default;
 // $sidebar-nav-link-disabled-icon-color:     $sidebar-nav-link-icon-color !default;
 
 // $sidebar-nav-icon-width:                   4rem !default;
-// $sidebar-nav-icon-height:                  1.25rem !default;
-// $sidebar-nav-icon-font-size:               $sidebar-nav-icon-height !default;
+ $sidebar-nav-icon-height:                  1.15rem !default;
+ $sidebar-nav-icon-font-size:               $sidebar-nav-icon-height !default;
 
 // $sidebar-nav-group-bg:                     rgba(0, 0, 0, .2) !default;
 // $sidebar-nav-group-transition:             background .15s ease-in-out !default;
@@ -1728,7 +1729,7 @@
 // $sidebar-footer-height-transition:         height .15s, padding .15s !default;
 
 // $sidebar-toggler-height:                   3rem !default;
-// $sidebar-toggler-bg:                       rgba($black, .2) !default;
+ $sidebar-toggler-bg:                       rgba($black, .1) !default;
 // $sidebar-toggler-transition:               transform .15s !default;
 
 // $sidebar-toggler-indicator-width:          4rem !default;

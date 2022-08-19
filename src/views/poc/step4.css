@@ -142,7 +142,7 @@ input[type="select"].form-select {
 	width: 50%;
 }
 
-.end-button button,
+/* .end-button button,
 .income-button button {
 	padding: 3px;
 	border-width: 1.5px;
@@ -157,44 +157,44 @@ input[type="select"].form-select {
 	margin-top: 2rem;
 	margin-right: 3rem;
 	outline: none;
-}
+} */
 
-.income-button button:hover,
+/* .income-button button:hover,
 .end-button button:hover {
 	border-color: #067bf9;
 	color: #067bf9;
-}
+} */
 
 /*button:focus {
 	box-shadow: blue;
 	background-color: blue;
 }*/
 
-button.save-button,
+/* button.save-button,
 button.end-button {
-	/* background: rgb(14, 12, 176);
+	background: rgb(14, 12, 176);
 	background: linear-gradient(
 		180deg,
 		rgba(14, 12, 176, 1) 0%,
 		rgba(27, 21, 73, 1) 100%
-	); */
+	);
 	color: white;
 	font-weight: normal;
 	border: unset;
-}
+} */
 
-button.save-button:hover,
+/* button.save-button:hover,
 button.income-button:hover {
 	background: #1a168c;
-	/*background: linear-gradient(
+	background: linear-gradient(
 		0deg,
 		rgba(44, 115, 210) 0%,
 		rgba(75, 123, 185) 100%
-	);*/
+	);
 	color: white;
 	font-weight: normal;
 	border: unset;
-}
+} */
 
 .end-button {
 	display: flex;

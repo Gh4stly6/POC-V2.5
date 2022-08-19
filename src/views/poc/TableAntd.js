@@ -171,9 +171,9 @@ const TableAntd = () => {
       sorter: (a, b) => a.title_run.localeCompare(b.title_run),
       render: (tag) =>
         tag === 'In process' ? (
-          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="red" />
+          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#096dd9" />
         ) : (
-          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
+          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#096dd9" />
         ),
     },
     {
@@ -183,9 +183,9 @@ const TableAntd = () => {
       sorter: (a, b) => a.appraisal.localeCompare(b.appraisal),
       render: (tag) =>
         tag === 'In process' ? (
-          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="red" />
+          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#096dd9" />
         ) : (
-          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
+          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#096dd9" />
         ),
     },
     {
@@ -195,9 +195,9 @@ const TableAntd = () => {
       sorter: (a, b) => a.employment_status.localeCompare(b.employment_status),
       render: (tag) =>
         tag === 'In process' ? (
-          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="red" />
+          <CloseCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#096dd9" />
         ) : (
-          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#52c41a" />
+          <CheckCircleTwoTone style={{ fontSize: '20px' }} twoToneColor="#096dd9" />
         ),
     },
     {

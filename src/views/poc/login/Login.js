@@ -53,7 +53,6 @@ const Login = () => {
                             type="submit"
                             color="primary"
                             className="btn btn-block text-uppercase mb-2 rounded-pill shadow-sm"
-                            variant="ghost"
                           >
                             Sign in
                           </CButton>
