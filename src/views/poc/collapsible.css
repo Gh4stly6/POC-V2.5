@@ -161,16 +161,16 @@ input[type='select'].form-select {
   justify-content: flex-start;
   padding: 3px;
   border-width: 1.5px;
-  border-color: #171ea6;
+  border-color: #1B64B3;
   cursor: pointer;
   background-color: white;
   border-radius: 6px;
-  color: #1b1567;
+  color: #1B64B3;
   width: 8rem;
   font-size: 1rem;
   font-weight: lighter;
   margin-top: 2rem;
-  /* margin-right: 3rem; */
+  margin-right: 3rem;
   outline: none;
 }
 
@@ -195,7 +195,7 @@ button.end-button {
 
 button.save-button:hover,
 button.income-button:hover {
-  background: #1a168c;
+  background: #1B64B3;
   /*background: linear-gradient(
 		0deg,
 		rgba(44, 115, 210) 0%,

@@ -1,6 +1,6 @@
 import React from 'react'
 import { CChartLine, CChartBar } from '@coreui/react-chartjs'
-import { CContainer, CCard, CCardBody, CCardTitle, CRow, CCol, CWidgetStatsE } from '@coreui/react'
+import { CContainer, CCard, CCardBody, CRow, CCol, CWidgetStatsE } from '@coreui/react'
 const Statistics = () => (
   <div>
     <CContainer>
@@ -33,7 +33,7 @@ const Statistics = () => (
                     ],
                     datasets: [
                       {
-                        backgroundColor: '#321fdb',
+                        backgroundColor: '#096dd9',
                         borderColor: 'transparent',
                         borderWidth: 1,
                         data: [41, 78, 51, 66, 74, 42, 89, 97, 87, 84, 78, 88, 67, 45, 47],
@@ -89,7 +89,7 @@ const Statistics = () => (
                     ],
                     datasets: [
                       {
-                        backgroundColor: '#321fdb',
+                        backgroundColor: '#096dd9',
                         borderColor: 'transparent',
                         borderWidth: 1,
                         data: [41, 78, 51, 66, 74, 42, 89, 97, 87, 84, 78, 88, 67, 45, 47],
@@ -128,7 +128,7 @@ const Statistics = () => (
                   datasets: [
                     {
                       label: 'GitHub Commits',
-                      backgroundColor: '#AB9FD7',
+                      backgroundColor: '#40a9ff',
                       data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
                     },
                   ],
@@ -149,17 +149,18 @@ const Statistics = () => (
                   datasets: [
                     {
                       label: 'My First dataset',
-                      backgroundColor: 'rgba(220, 220, 220, 0.2)',
-                      borderColor: 'rgba(224, 207, 252, 0.5)',
-                      pointBackgroundColor: 'rgba(220, 220, 220, 0.1)',
-                      pointBorderColor: '#C29FFA',
+                      backgroundColor: 'rgba(0,58,140, 0.2)',
+                      borderColor: 'rgba(24,144,255, 0.5)',
+                      pointBackgroundColor: 'rgba(0,58,140, 0.1)',
+                      pointBorderColor: '#69C0FF',
                       data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
                     },
                     {
                       label: 'My Second dataset',
-                      borderColor: 'rgba(24,19,98, 0.6)',
-                      pointBackgroundColor: 'rgba(24, 19, 98, 0.6)',
-                      pointBorderColor: '#181362',
+                      backgroundColor: 'rgba(105,192,255, 0.2)',
+                      borderColor: 'rgba(145,213,255, 0.6)',
+                      pointBackgroundColor: 'rgba(105,192,255, 0.6)',
+                      pointBorderColor: '#91d5ff',
                       data: [50, 12, 28, 29, 7, 25, 12, 70, 60],
                     },
                   ],

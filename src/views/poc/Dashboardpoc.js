@@ -99,7 +99,7 @@ const Dashboardpoc = () => {
                           'rgb(1,170,201, 1)',
                         ],
                         hoverBackgroundColor: [
-                          'rgba(0,113,207,.5)',
+                          'rgba(0,113,207,.8)',
                           'rgba(0,168,225,.5)',
                           'rgb(1,170,201, .5)',
                         ],
