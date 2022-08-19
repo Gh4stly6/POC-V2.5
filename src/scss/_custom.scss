@@ -29,8 +29,18 @@ $indigo-dark: rgb(20,3,48);
    border-color: #096dd9;
    color: white;;
 }
+
+.btn.btn-primary:focus{
+    color: white;
+
+}
 .card-title{
     color:#096dd9 ;
+    border-color: rgb(37,126,222);
+}
+
+.header-toggler:hover{
+    color: white;
 }
 
 .sidebar-nav::-webkit-scrollbar {

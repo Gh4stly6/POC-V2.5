@@ -14,6 +14,9 @@
 	padding: 30px;
 	gap: 20px;
 }
+#final-decision{
+	margin-left: 20px;
+}
 
 .loan-info {
 	display: flex;
@@ -45,7 +48,7 @@ button.btn-final {
 	border: 1px solid #eaeaeb;
 	width: 100%;
 	white-space: nowrap;
-	background-color: #F5ECFF;
+	background-color: #e6f7ff;
 }
 
 th.headcol {
@@ -58,7 +61,7 @@ th.headcol {
 	text-overflow: ellipsis;
 	white-space: pre-line;
 	position: sticky;
-	background-color: #62598B;
+	background-color: #096dd9;
 	z-index: 2;
 	text-align: left;
 	padding-left: 3pt;
@@ -86,7 +89,7 @@ td.cell {
 
 h6.step-text{
 	font-weight: bold;
-	color: #312B59;
+	color: #003a8c;
 	padding-bottom: 10px;
 }
 

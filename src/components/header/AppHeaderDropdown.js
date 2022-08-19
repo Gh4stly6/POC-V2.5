@@ -25,14 +25,14 @@ const AppHeaderDropdown = () => {
         <CDropdownItem href="#/notifications">
           <CIcon icon={cilBell} className="me-2" />
           Notifications
-          <CBadge color="info" className="ms-2">
+          <CBadge color="primary" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>
         <CDropdownItem href="#/messages">
           <CIcon icon={cilEnvelopeOpen} className="me-2" />
           Messages
-          <CBadge color="success" className="ms-2">
+          <CBadge color="primary" className="ms-2">
             42
           </CBadge>
         </CDropdownItem>

@@ -521,6 +521,23 @@ const DecisionAnalysis = () => {
           </form>
           {isToggled && (
             <div>
+              {reload && (
+                <div className="loading">
+                  <button onClick={get_messages} className="btn btn-primary">
+                    Check again for this same loan ID
+                  </button>
+                </div>
+              )}
+              {finalDecision && (
+                <button
+                  id="final-decision"
+                  onClick={persist_decision}
+                  className="btn btn-primary btn-final"
+                >
+                  Make final decision
+                </button>
+              )}
+
               <div className="verification">
                 <div className="credit-check">
                   <h6 className="step-text">Credit Check</h6>
@@ -556,6 +573,10 @@ const DecisionAnalysis = () => {
                   )}
                 </div>
               </div>
+              <div className="response">
+                {showYes && <Result status="success" title="Approved Loan" />}
+                {showNo && <Result status="error" title="Declined Loan" />}
+              </div>
             </div>
           )}
           {isToggled && (
@@ -574,34 +595,11 @@ const DecisionAnalysis = () => {
                   </label>
                 </div>
               )}
-
-              {reload && (
-                <div className="loading">
-                  <button onClick={get_messages} className="btn btn-primary">
-                    Check again for this same loan ID
-                  </button>
-                </div>
-              )}
             </div>
-          )}
-
-          {finalDecision && (
-            <button
-              id="final-decision"
-              onClick={persist_decision}
-              className="btn btn-primary btn-final"
-            >
-              Make final decision
-            </button>
           )}
 
           {isToggled && (
             <div className="final-decision">
-              <div>
-                {showYes && <Result status="success" title="Approved Loan" />}
-                {showNo && <Result status="error" title="Declined Loan" />}
-              </div>
-
               <div>
                 {/*FILES TABLE */}
                 <h5>Underwriting Files</h5>
