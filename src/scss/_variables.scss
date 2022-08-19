@@ -1526,10 +1526,10 @@ $component-active-bg:         $primary;
 // $header-padding-y:              $spacer / 2 !default;
 // $header-padding-x:              $spacer / 2 !default;
 // $header-brand-font-size:        $font-size-lg !default;
- $header-color:                  $gray-800;
- $header-bg:                     $white;
+ $header-color:                  $gray-200;
+ $header-bg:                     $blue-800;
  //linear-gradient(180deg, rgba(#FFFFFF, 1), rgba(#E5E6E4, 1)) !default;
- $header-border-color:           #ECECEB;
+ $header-border-color:           $header-bg;
  $header-border-width:           0.5px !default;
  $header-hover-color:            $white;
  $header-active-color:           $white;
@@ -1558,7 +1558,7 @@ $component-active-bg:         $primary;
 // $header-nav-link-padding-x:     .5rem !default;
 
 // $header-divider-border-width:   1px !default;
- $header-divider-border-color:   #ECECEB;
+ $header-divider-border-color:   $blue-1000;
 // scss-docs-end header-variables
 
 // Subheader
@@ -1609,7 +1609,7 @@ $component-active-bg:         $primary;
 // $breadcrumb-padding-x:              0 !default;
 // $breadcrumb-item-padding-x:         .5rem !default;
 // $breadcrumb-margin-bottom:          1rem !default;
- $breadcrumb-bg:                     $header-bg;
+ $breadcrumb-bg:                     $body-bg;
  $breadcrumb-divider-color:          $gray-500 !default;
  $breadcrumb-active-color:           $blue-600;
 // $breadcrumb-divider:                quote("/") !default;
