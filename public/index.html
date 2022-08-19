@@ -8,22 +8,25 @@
 -->
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="CoreUI for React - Open Source Bootstrap Admin Template">
-    <meta name="author" content="Łukasz Holeczek">
-    <meta name="keyword" content="Bootstrap,Admin,Template,Open,Source,CSS,SCSS,HTML,RWD,Dashboard,React">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="CoreUI for React - Open Source Bootstrap Admin Template" />
+    <meta name="author" content="Łukasz Holeczek" />
+    <meta
+      name="keyword"
+      content="Bootstrap,Admin,Template,Open,Source,CSS,SCSS,HTML,RWD,Dashboard,React"
+    />
     <title>Dashboard</title>
     <!--
       manifest.json provides metadata used when your web app is added to the
       homescreen on Android. See https://developers.google.com/web/fundamentals/engage-and-retain/web-app-manifest/
     -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <!--Fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -36,9 +39,30 @@
     -->
   </head>
   <body>
-    <noscript>
-      You need to enable JavaScript to run this app.
-    </noscript>
+    <script type="text/javascript">
+      ;(function (w, d, x, id) {
+        s = d.createElement('script')
+        s.src = 'https://dtn7rvxwwlhud.cloudfront.net/amazon-connect-chat-interface-client.js'
+        s.async = 1
+        s.id = id
+        d.getElementsByTagName('head')[0].appendChild(s)
+        w[x] =
+          w[x] ||
+          function () {
+            ;(w[x].ac = w[x].ac || []).push(arguments)
+          }
+      })(window, document, 'amazon_connect', '19bcc270-6163-4465-987c-cdf7ee5881a9')
+      amazon_connect('styles', {
+        openChat: { color: 'white', backgroundColor: '#123456' },
+        closeChat: { color: 'white', backgroundColor: '#123456' },
+      })
+      amazon_connect(
+        'snippetId',
+        'QVFJREFIaUczMG9CY2pZeGVON3dIRFJwVkJlRHFKcW1kTTRlazcxajNHMVd5VzM1ZWdGQ3huNFlJSnRzUGNOSGp4QVdPdlVTQUFBQWJqQnNCZ2txaGtpRzl3MEJCd2FnWHpCZEFnRUFNRmdHQ1NxR1NJYjNEUUVIQVRBZUJnbGdoa2dCWlFNRUFTNHdFUVFNUFFHcWdVaUxOVUkyUHFuNUFnRVFnQ3RsM1YzOGNJMjhXWXpmNDVHdkpBWmgyNGVhdi9NeGhpQjA5VjVyeTFJODRYdm15KzJndE9jU1RDa2g6OmFBWlZwWm51dEhDMm1SMDQ2dnZPUEtLeDFjaTlENGpDTmJHNVFxM0F1cC82b1gwSjJYUjdkbW8rKy9rbG00TnRYSXJ0eWE5VjlQYm40QnhtK1RPbDRiTS9LclUwaXBZc0NlMm4yWHlDTTdWUXhDM2d1U3g3SXU5UVFXVktySjM5MHlZbGwrVHFsckcwN05ZVVNud3NKU2ZKYWNsdDVwcz0=',
+      )
+      amazon_connect('supportedMessagingContentTypes', ['text/plain', 'text/markdown'])
+    </script>
+    <noscript> You need to enable JavaScript to run this app. </noscript>
     <div id="root"></div>
     <!--
       This HTML file is a template.
