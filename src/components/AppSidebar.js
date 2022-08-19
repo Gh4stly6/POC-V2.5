@@ -6,7 +6,7 @@ import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/r
 
 import { AppSidebarNav } from './AppSidebarNav'
 
-//import { logoNegative } from 'src/assets/brand/logo-negative.js'
+import { logoNegative } from 'src/assets/brand/logo-negative'
 import { sygnet } from 'src/assets/brand/sygnet'
 
 import SimpleBar from 'simplebar-react'
@@ -30,7 +30,7 @@ const AppSidebar = () => {
       }}
     >
       <CSidebarBrand className="d-none d-md-flex" to="/">
-        <CIcon className="sidebar-brand-full" CIcon={cibAcm} />
+        <CIcon className="sidebar-brand-full" CIcon={logoNegative} height={35} width={35} />
         <CIcon className="sidebar-brand-narrow" CIcon={sygnet} height={35} />
       </CSidebarBrand>
       <CSidebarNav>

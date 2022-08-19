@@ -4,7 +4,7 @@ import { CFooter } from '@coreui/react'
 const AppFooter = () => {
   return (
     <CFooter>
-      <div>
+      <div className="ms-auto">
         <a href="https://www.zventus.com/" target="_blank" rel="noopener noreferrer">
           Zventus
         </a>

@@ -1,7 +1,7 @@
-export const logoNegative = [
+export const logoGeneric = [
   '608 134',
   `
-  <?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -289,5 +289,5 @@ export const logoNegative = [
   >
 </svg
 >
-    `,
+`,
 ]
