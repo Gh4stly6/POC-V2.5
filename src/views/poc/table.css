@@ -1,1 +1,13 @@
-.ant-table-column-sorters{}
+.ant-table-thead > tr >th{
+    color: white !important;
+    background: #1B64B3 !important;
+    word-break: keep-all;
+  }
+
+  .ant-table-wrapper{
+      width: 100%;
+  }
+
+  .ant-table{
+    width: 95%;
+  }
