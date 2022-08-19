@@ -1,5 +1,5 @@
 import React from 'react'
-import 'antd/dist/antd.variable.min.css'
+import 'antd/lib/table/style/css'
 import { Table, Button, Input, Space } from 'antd'
 import { SearchOutlined, RollbackOutlined, DeleteOutlined } from '@ant-design/icons'
 import { CButton, CContainer, CRow, CCol, CCard, CCardBody, CTooltip } from '@coreui/react'
