@@ -205,6 +205,15 @@ const ApplicationForm = () => {
     })
 
     //?HEADER OPTIONS
+    const requestDynamoOptions = {
+      method: 'GET',
+      //mode: 'no-cors',
+      headers: {
+        Authorization:
+          'Basic dTBqbW1mam12NTphNGV3WjZuNVh1bHBSVElmMXNKX2FWa1pYQjZ3RGtLaFVhSVFUMEVNbVJF',
+        'Content-Type': 'application/json',
+      },
+    }
     var requestOptions = {
       method: 'POST',
       headers: myHeaders,
@@ -216,17 +225,36 @@ const ApplicationForm = () => {
 
     //?SEND FORM TO AWS
     ;(async function () {
+      //check if the loan Id exists
       try {
+        const dynamo = await fetch(
+          `https://rrjkbunuf0.execute-api.us-east-1.amazonaws.com/prod/loan_data
+  
+          `,
+          requestDynamoOptions,
+        )
+
+        const loanVerification = await dynamo.json()
+        for (let i = 0; i < loanVerification.length; i++) {
+          //if there is a loan id with the same uuid submit again the application
+          if (loanVerification[i]['loan_data'] == personalInformation.values.topics) {
+            swal(
+              'Loan ID already exists',
+              'Refresh the page and submit your application again',
+              'error',
+            )
+            return
+          }
+        }
+
+        //if not submit application to aws
         const response = await fetch(
           'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
           requestOptions,
         )
+
+        //if response was successful show verification messages
         if (response.ok) {
-          // swal({
-          //   title: 'Success',
-          //   text: `Your applicattion form has been saved and sumitted succesfully`,
-          //   icon: 'success',
-          // })
           swal({
             title: 'Loan ID',
             text: `${personalInformation.values.topics}`,

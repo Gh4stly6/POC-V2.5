@@ -112,7 +112,7 @@
 // $success-25:    #cbedd6 !default;
 
 // $info-dark:  #2982cc !default;
-// $info-base:  #39f !default;
+ $info-base:  #39f !default;
 // $info-50:    #80c6ff !default;
 // $info-25:    #c0e6ff !default;
 
@@ -141,7 +141,7 @@
  $primary:       $primary-base !default;
 // $secondary:     $secondary-base !default;
 // $success:       $success-base !default;
-// $info:          $info-base !default;
+ $info:          $info-base !default;
 // $warning:       $warning-base !default;
 // $danger:        $danger-base !default;
 // $light:         $light-base !default;
@@ -153,7 +153,7 @@
    "primary":    $blue-100,
 //   "secondary":  $secondary,
 //   "success":    $success,
-//   "info":       $info,
+   "info":       $info,
 //   "warning":    $warning,
 //   "danger":     $danger,
  //  "light":      $light,

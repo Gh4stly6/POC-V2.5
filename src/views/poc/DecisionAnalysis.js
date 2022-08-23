@@ -2,7 +2,7 @@ import './decision.css'
 import { React, useState, useEffect } from 'react'
 import { CProgressBar } from '@coreui/react'
 import swal from 'sweetalert'
-import { CProgress } from '@coreui/react'
+import { CProgress, CSpinner } from '@coreui/react'
 import { BsCheck2Circle, BsXCircleFill } from 'react-icons/bs'
 import { Result } from 'antd'
 import { Collapse } from 'antd'
@@ -24,7 +24,7 @@ const DecisionAnalysis = () => {
   const [progress, setProgress] = useState(0)
   const [msg, setMsg] = useState([])
   const [finalDecision, setFinalDecision] = useState(false)
-  const [spinner, setSpinner] = useState(true)
+  const [spinner, setSpinner] = useState()
   const [reload, setReload] = useState(false)
   const [showYes, setShowYes] = useState(false)
   const [showNo, setShowNo] = useState(false)
@@ -34,10 +34,10 @@ const DecisionAnalysis = () => {
   const [employment, setEmployment] = useState(false)
   const [appraisal, setAppraisal] = useState(false)
   const [showDecision, setShowDecision] = useState(false)
+  const [spin, setSpin] = useState()
   const [CreditScore, setCreditScore] = useState()
   const [employmentStatus, setEmploymentStatus] = useState()
   const [isLoading, setIsLoading] = useState(true)
-  const [file, setFile] = useState('')
   const [dataids, setDataIds] = useState([])
   const [requestDate, setRequestDate] = useState({
     credit: '',
@@ -74,6 +74,8 @@ const DecisionAnalysis = () => {
   //Check all the message we have
   useEffect(() => {
     //Get all the messages
+    console.log(spin)
+
     async function get_topics() {
       setIsLoading(true)
       const dynamo = await fetch(
@@ -98,28 +100,14 @@ const DecisionAnalysis = () => {
     get_topics()
   }, [])
 
-  //CLEAR LOAN IDS
-
-  // async function clearLoans(loanIDs) {
-  //   for (let i = 0; i < loanIDs.length; i++) {
-  //     let persisted_data = JSON.stringify({
-  //       vendor: 'store_result_in_blockchain',
-  //       decision: 'No',
-  //       uuid: loanIDs[i],
-  //     })
-
-  //     let Options = {
-  //       headers: { 'Content-Type': 'application/json' },
-  //       method: 'POST',
-  //       body: persisted_data,
-  //       redirect: 'follow',
-  //     }
-  //     const sendDecision = await fetch(
-  //       'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
-  //       Options,
-  //     )
-  //   }
-  // }
+  function showSpinner() {
+    setSpin(true)
+    setIsToggled(false)
+    setTimeout(() => {
+      setIsToggled(true)
+      setSpin(false)
+    }, 4000)
+  }
 
   //*DOWNLOAD PDF
   async function downloadFile(idFile) {
@@ -143,13 +131,23 @@ const DecisionAnalysis = () => {
   //*get the uuid typed by de user and saving it in UUID hook
 
   function handle_uuid(e) {
+    console.log(e.target.value)
     setUuid(e.target.value)
   }
+
   let url = `https://u0p3relmmh-u0rmzykamc-firefly-os.us0-aws-ws.kaleido.io/api/v1/namespaces/default/messages?topics=${uuid}&limit=25`
 
   async function get_messages(e) {
+    // verify that the user selected a loan ID
     e.preventDefault()
-    setIsLoading(true)
+
+    if (typeof uuid === 'undefined') {
+      console.log('select loan')
+      swal('Select a loan ID', '', 'warning')
+      return
+    }
+    showSpinner()
+    setIsLoading(false)
     //This is the base endpoint to get the total number of messages associated with a
     //uuid (which maps exactly to a uuid)
 
@@ -376,6 +374,7 @@ const DecisionAnalysis = () => {
         if (message.length >= 10) {
           setSpinner(false)
           setReload(false)
+          setFinalDecision(false)
           //setFinalDecision(false)
           console.log('Loan successfully processed')
         } else {
@@ -497,7 +496,7 @@ const DecisionAnalysis = () => {
                   id="loan_id"
                   onChange={handle_uuid}
                 >
-                  <option selected disabled hidden>
+                  <option selected disabled hidden value="">
                     Select a loan ID
                   </option>
                   {loanList.map((item) => (
@@ -507,579 +506,588 @@ const DecisionAnalysis = () => {
                   ))}
                 </select>
               </div>
-              {apply === 'true' && (
-                <button
-                  type="submit"
-                  onClick={get_messages}
-                  className="btn btn-primary btn-apply"
-                  disabled={isLoading}
-                >
-                  Apply
-                </button>
-              )}
+              <button
+                type="submit"
+                onClick={get_messages}
+                className="btn btn-primary btn-apply"
+                disabled={isLoading}
+              >
+                Apply
+              </button>
             </div>
           </form>
-          {isToggled && (
+          {spin ? (
+            <div className="spin">
+              <CSpinner color="info" />
+            </div>
+          ) : (
             <div>
-              {reload && (
-                <div className="loading">
-                  <button onClick={get_messages} className="btn btn-primary">
-                    Check again for this same loan ID
-                  </button>
-                </div>
-              )}
-              {finalDecision && (
-                <button
-                  id="final-decision"
-                  onClick={persist_decision}
-                  className="btn btn-primary btn-final"
-                >
-                  Make final decision
-                </button>
-              )}
-
-              <div className="verification">
-                <div className="credit-check">
-                  <h6 className="step-text">Credit Check</h6>
-                  {credit === true ? (
-                    <BsCheck2Circle color="green" size={35} />
-                  ) : (
-                    <BsXCircleFill color="red" size={35} />
-                  )}
-                </div>
-                <div className="appraisal">
-                  <h6 className="step-text">Appraisal</h6>
-                  {appraisal === true ? (
-                    <BsCheck2Circle color="green" size={35} />
-                  ) : (
-                    <BsXCircleFill color="red" size={35} />
-                  )}
-                </div>
-                <div className="title-run">
-                  <h6 className="step-text">Title Run</h6>
-                  {title_run === true ? (
-                    <BsCheck2Circle color="green" size={35} />
-                  ) : (
-                    <BsXCircleFill color="red" size={35} />
-                  )}
-                </div>
-
-                <div className="employment">
-                  <h6 className="step-text">VOI/E/A</h6>
-                  {employment === true ? (
-                    <BsCheck2Circle color="green" size={35} />
-                  ) : (
-                    <BsXCircleFill color="red" size={35} />
-                  )}
-                </div>
-              </div>
-              <div className="response">
-                {showYes && <Result status="success" title="Approved Loan" />}
-                {showNo && <Result status="error" title="Declined Loan" />}
-              </div>
-            </div>
-          )}
-          {isToggled && (
-            <div className="loading">
-              {spinner && (
+              {isToggled && (
                 <div>
-                  <label htmlFor="">Processing Loan</label>
-                  <br />
-                  <CProgress className="mb-3">
-                    <CProgressBar value={progress}>{progress}%</CProgressBar>
-                  </CProgress>
-                  <br />
-                  <label htmlFor="">
-                    Calling mutiple external vendors. Message has already been written to the
-                    Blockchain
-                  </label>
+                  {reload && (
+                    <div className="loading">
+                      <button onClick={get_messages} className="btn btn-primary">
+                        Check again for this same loan ID
+                      </button>
+                    </div>
+                  )}
+                  {finalDecision && (
+                    <button
+                      id="final-decision"
+                      onClick={persist_decision}
+                      className="btn btn-primary btn-final"
+                    >
+                      Make final decision
+                    </button>
+                  )}
+
+                  <div className="verification">
+                    <div className="credit-check">
+                      <h6 className="step-text">Credit Check</h6>
+                      {credit === true ? (
+                        <BsCheck2Circle color="green" size={35} />
+                      ) : (
+                        <BsXCircleFill color="red" size={35} />
+                      )}
+                    </div>
+                    <div className="appraisal">
+                      <h6 className="step-text">Appraisal</h6>
+                      {appraisal === true ? (
+                        <BsCheck2Circle color="green" size={35} />
+                      ) : (
+                        <BsXCircleFill color="red" size={35} />
+                      )}
+                    </div>
+                    <div className="title-run">
+                      <h6 className="step-text">Title Run</h6>
+                      {title_run === true ? (
+                        <BsCheck2Circle color="green" size={35} />
+                      ) : (
+                        <BsXCircleFill color="red" size={35} />
+                      )}
+                    </div>
+
+                    <div className="employment">
+                      <h6 className="step-text">VOI/E/A</h6>
+                      {employment === true ? (
+                        <BsCheck2Circle color="green" size={35} />
+                      ) : (
+                        <BsXCircleFill color="red" size={35} />
+                      )}
+                    </div>
+                  </div>
+                  <div className="response">
+                    {showYes && <Result status="success" title="Approved Loan" />}
+                    {showNo && <Result status="error" title="Declined Loan" />}
+                  </div>
                 </div>
               )}
-            </div>
-          )}
-
-          {isToggled && (
-            <div className="final-decision">
-              <div>
-                {/*FILES TABLE */}
-                <h5>Underwriting Files</h5>
-                <table className="main-table files">
-                  <tr>
-                    <th className="headcol">Request Date/Time</th>
-                    <th className="headcol">Delivery Date/Time</th>
-                    <th className="headcol">Type</th>
-                    <th className="headcol">Vendor</th>
-                    <th className="headcol">Link</th>
-                  </tr>
-                  <tbody>
-                    <tr>
-                      {requestDate.credit === '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
-                        </td>
-                      )}
-
-                      {deliveryDate.credit_response == '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">
-                            {deliveryDate.credit_response}
-                          </Moment>
-                        </td>
-                      )}
-
-                      <td className="cell">Credit Report</td>
-                      <td className="cell">Experian</td>
-                      {typeof deliveryDate.credit_response !== 'undefined' &&
-                        Object.keys(deliveryDate.credit_response).length > 0 && (
-                          <td className="cell">
-                            <a
-                              className="download-link text-wrap"
-                              onClick={() => {
-                                downloadFile(creditReportId)
-                              }}
-                            >
-                              Experian Credit Report
-                            </a>
-                          </td>
-                        )}
-                    </tr>
-                    <tr>
-                      {requestDate.appraisal === '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.appraisal}</Moment>
-                        </td>
-                      )}
-
-                      {deliveryDate.appraisal_response === '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">
-                            {deliveryDate.appraisal_response}
-                          </Moment>
-                        </td>
-                      )}
-
-                      <td className="cell">AVM</td>
-                      <td className="cell">UCS</td>
-                      {typeof deliveryDate.appraisal_response !== 'undefined' &&
-                        Object.keys(deliveryDate.appraisal_response).length > 0 && (
-                          <td className="cell">
-                            <a
-                              className="download-link"
-                              onClick={() => {
-                                downloadFile(avm_file)
-                              }}
-                            >
-                              Appraisal AVM
-                            </a>
-                          </td>
-                        )}
-                    </tr>
-                    <tr>
-                      {requestDate.title_run === '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.title_run}</Moment>
-                        </td>
-                      )}
-
-                      {deliveryDate.title_run_response === '' ? (
-                        <td className="cell">--</td>
-                      ) : (
-                        <td className="cell">
-                          <Moment format="MM-DD-YYYY HH:mm:ss">
-                            {deliveryDate.title_run_response}
-                          </Moment>
-                        </td>
-                      )}
-
-                      <td className="cell">Title</td>
-                      <td className="cell">Voxtur</td>
-                      {typeof deliveryDate.title_run_response !== 'undefined' &&
-                        Object.keys(deliveryDate.title_run_response).length > 0 && (
-                          <td className="cell">
-                            <a
-                              className="download-link"
-                              onClick={() => {
-                                downloadFile(title_file)
-                              }}
-                            >
-                              Voxtur
-                            </a>
-                          </td>
-                        )}
-                    </tr>
-                    {borrowerFiles ? (
-                      dataids.map((id) => (
-                        <tr key={id.data_uuid}>
-                          {requestDate.employment === '' ? (
+              {isToggled && (
+                <div className="loading">
+                  {spinner && (
+                    <div>
+                      <label htmlFor="">Processing Loan</label>
+                      <br />
+                      <CProgress className="mb-3">
+                        <CProgressBar value={progress}>{progress}%</CProgressBar>
+                      </CProgress>
+                      <br />
+                      <label htmlFor="">
+                        Calling mutiple external vendors. Message has already been written to the
+                        Blockchain
+                      </label>
+                    </div>
+                  )}
+                </div>
+              )}
+              {isToggled && (
+                <div className="final-decision">
+                  <div>
+                    {/*FILES TABLE */}
+                    <h5>Underwriting Files</h5>
+                    <table className="main-table files">
+                      <tr>
+                        <th className="headcol">Request Date/Time</th>
+                        <th className="headcol">Delivery Date/Time</th>
+                        <th className="headcol">Type</th>
+                        <th className="headcol">Vendor</th>
+                        <th className="headcol">Link</th>
+                      </tr>
+                      <tbody>
+                        <tr>
+                          {requestDate.credit === '' ? (
                             <td className="cell">--</td>
                           ) : (
                             <td className="cell">
-                              <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.employment}</Moment>
+                              <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.credit}</Moment>
                             </td>
                           )}
 
-                          {deliveryDate.employment_response === '' ? (
+                          {deliveryDate.credit_response == '' ? (
                             <td className="cell">--</td>
                           ) : (
                             <td className="cell">
                               <Moment format="MM-DD-YYYY HH:mm:ss">
-                                {deliveryDate.employment_response}
+                                {deliveryDate.credit_response}
                               </Moment>
                             </td>
                           )}
-                          <td className="cell">{id.metadata.type}</td>
-                          <td className="cell">Borrower</td>
-                          {typeof deliveryDate.employment_response !== 'undefined' &&
-                            Object.keys(deliveryDate.employment_response).length > 0 && (
+
+                          <td className="cell">Credit Report</td>
+                          <td className="cell">Experian</td>
+                          {typeof deliveryDate.credit_response !== 'undefined' &&
+                            Object.keys(deliveryDate.credit_response).length > 0 && (
                               <td className="cell">
                                 <a
                                   className="download-link text-wrap"
-                                  key={id?.data_uuid}
-                                  onClick={(e) => {
-                                    downloadFile(id?.data_uuid)
+                                  onClick={() => {
+                                    downloadFile(creditReportId)
                                   }}
                                 >
-                                  {id?.metadata?.filename}
+                                  Experian Credit Report
                                 </a>
                               </td>
                             )}
                         </tr>
-                      ))
-                    ) : (
-                      <tr>
-                        {requestDate.employment === '' ? (
-                          <td className="cell">--</td>
-                        ) : (
-                          <td className="cell">
-                            <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.employment}</Moment>
-                          </td>
-                        )}
-
-                        {deliveryDate.employment_response === '' ? (
-                          <td className="cell ">--</td>
-                        ) : (
-                          <td className="cell">
-                            <Moment format="MM-DD-YYYY HH:mm:ss">
-                              {deliveryDate.employment_response}
-                            </Moment>
-                          </td>
-                        )}
-                        <td className="cell">Paystub</td>
-                        <td className="cell">Plaid</td>
-                        {typeof deliveryDate.employment_response !== 'undefined' &&
-                          Object.keys(deliveryDate.employment_response).length > 0 && (
+                        <tr>
+                          {requestDate.appraisal === '' ? (
+                            <td className="cell">--</td>
+                          ) : (
                             <td className="cell">
-                              <a
-                                className="download-link text-wrap"
-                                onClick={() => {
-                                  downloadFile(paystub_file)
-                                }}
-                              >
-                                Plaid Paystub
-                              </a>
+                              <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.appraisal}</Moment>
                             </td>
                           )}
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-              </div>
 
-              <div className="alert alert-info" role="alert">
-                Message IDs will keep changing the loan automatically progresses
-              </div>
-              <select
-                type="select"
-                className="form-select"
-                name=""
-                id=""
-                onChange={(e) => {
-                  handleSelect(e)
-                  console.log(msg)
-                }}
-              >
-                <option value="" disabled hidden selected>
-                  Select a message
-                </option>
-                {select.map((item) => (
-                  <option key={item.header.id} value={item.header.id}>
-                    {item.header.id}
-                  </option>
-                ))}
-              </select>
-              <div className="table-scroll">
-                <div className="table-wrap">
-                  <table className="main-table">
-                    {'borrower_info' in msg &&
-                      ('decision' in msg['borrower_info'] ? (
-                        <tbody>
-                          <tr>
-                            <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
-                              Final Decision
-                            </th>
-                          </tr>
-
-                          <tr>
-                            <th className="headcol">Decision</th>
-                            <td className="cell">{msg.borrower_info.decision}</td>
-                          </tr>
-                        </tbody>
-                      ) : (
-                        <tbody>
-                          <tr>
-                            <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
-                              Personal Information
-                            </th>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Name</th>
-                            <td className="cell">{msg.borrower_info.name}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Email</th>
-                            <td className="cell">{msg.borrower_info.email}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Phone</th>
-                            <td className="cell">{msg.borrower_info.phone}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Secondary Phone Number</th>
-                            <td className="cell">{msg.borrower_info.secondary_phone_number}</td>
-                          </tr>
-
-                          <tr>
-                            <th className="headcol">Marital Status</th>
-                            <td className="cell">{msg.borrower_info.marital_status}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Co-applicant</th>
-                            <td className="cell">{msg.borrower_info.coapplicant}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Country of Citizenship</th>
-                            <td className="cell">{msg.borrower_info.country_of_citizenship}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Country of Residence</th>
-                            <td className="cell">{msg.borrower_info.country_of_residence}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">SSN</th>
-                            <td className="cell">{msg.borrower_info.social_security_number}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Date of Birth</th>
-                            <td className="cell">{msg.borrower_info.date_of_birth}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Best Time to Call</th>
-                            <td className="cell">{msg.borrower_info.best_time_to_call}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Preferred Language</th>
-                            <td className="cell">{msg.borrower_info.preferred_language}</td>
-                          </tr>
-                          <tr>
-                            <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
-                              Property Information
-                            </th>
-                          </tr>
-
-                          <tr>
-                            <th className="headcol">Address Line 1</th>
-                            <td className="cell">{msg.borrower_info.street}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Address Line 2</th>
-                            <td className="cell">{msg.borrower_info.street_2}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Property City</th>
-                            <td className="cell">{msg.borrower_info.property_city}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Property County</th>
-                            <td className="cell">{msg.borrower_info.property_country}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Property State</th>
-                            <td className="cell">{msg.borrower_info.property_state}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Property Zip Code</th>
-                            <td className="cell">{msg.borrower_info.property_zip_code}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Property Location</th>
-                            <td className="cell">{msg.borrower_info.property_location}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Property Use</th>
-                            <td className="cell">{msg.borrower_info.property_use}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Estimated Property Value</th>
-                            <td className="cell">{msg.borrower_info.property_value}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Line of Credit Amount</th>
-                            <td className="cell">{msg.borrower_info.line_of_credit}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Plans for the Funds</th>
-                            <td className="cell">{msg.borrower_info.plans_for_the_funds}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Loan used for Business</th>
-                            <td className="cell">{msg.borrower_info.loan_used_for_business}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Time at this Address</th>
-                            <td className="cell">{msg.borrower_info.time_at_address}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
-                              Income and Assets Information
-                            </th>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Employment Status</th>
-                            <td className="cell">{msg.borrower_info.employment_status}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Annual Income</th>
-                            <td className="cell">{msg.borrower_info.anual_income}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Date of Birth</th>
-                            <td className="cell">{msg.borrower_info.source_of_income}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol">Additional Income</th>
-                            <td className="cell">{msg.borrower_info.additional_income}</td>
-                          </tr>
-                          <tr>
-                            <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
-                              Underwriting Steps State
-                            </th>
-                          </tr>
-
-                          {'employment_verification' in msg['borrower_info'] && (
-                            <tr>
-                              <th className="headcol">
-                                <b>Employment Verification</b>
-                              </th>
-                              {msg.borrower_info.employment_verification ? (
-                                <td className="cell">Received</td>
-                              ) : (
-                                <td className="cell">Pending</td>
-                              )}
-                            </tr>
+                          {deliveryDate.appraisal_response === '' ? (
+                            <td className="cell">--</td>
+                          ) : (
+                            <td className="cell">
+                              <Moment format="MM-DD-YYYY HH:mm:ss">
+                                {deliveryDate.appraisal_response}
+                              </Moment>
+                            </td>
                           )}
-                          {'title_run' in msg['borrower_info'] && (
-                            <tr>
-                              <th className="headcol">
-                                <b>Title Run</b>
-                              </th>
-                              {msg.borrower_info.title_run ? (
-                                <td className="cell">Received</td>
-                              ) : (
-                                <td className="cell">Pending</td>
-                              )}
-                            </tr>
-                          )}
-                          {'credit_score' in msg['borrower_info'] && (
-                            <tr>
-                              <th className="headcol">
-                                <b>Credit Score</b>
-                              </th>
-                              <td className="cell">{msg.borrower_info.credit_score}</td>
-                            </tr>
-                          )}
-                          {'appraisal_amount' in msg['borrower_info'] && (
-                            <tr>
-                              <th className="headcol">
-                                <b>Appraisal Ammount</b>
-                              </th>
-                              {msg.borrower_info.appraisal_amount ? (
-                                <td className="cell">Received</td>
-                              ) : (
-                                <td className="cell">Pending</td>
-                              )}
-                            </tr>
-                          )}
-                        </tbody>
-                      ))}
-                    {'body' in msg &&
-                      ('employment_verification' in msg['body'] ? (
-                        <tbody>
-                          <tr>
-                            <th className="headcol">
-                              <b>Employment Verification</b>
-                            </th>
-                            {msg.body.employment_verification ? (
-                              <td className="cell">Received</td>
-                            ) : (
-                              <td className="cell">Pending</td>
+
+                          <td className="cell">AVM</td>
+                          <td className="cell">UCS</td>
+                          {typeof deliveryDate.appraisal_response !== 'undefined' &&
+                            Object.keys(deliveryDate.appraisal_response).length > 0 && (
+                              <td className="cell">
+                                <a
+                                  className="download-link"
+                                  onClick={() => {
+                                    downloadFile(avm_file)
+                                  }}
+                                >
+                                  Appraisal AVM
+                                </a>
+                              </td>
                             )}
-                          </tr>
-                        </tbody>
-                      ) : 'title_run' in msg['body'] ? (
-                        <tbody>
-                          <tr>
-                            <th className="headcol">
-                              <b>Title Run</b>
-                            </th>
-                            {msg.body.title_run ? (
-                              <td className="cell">Received</td>
-                            ) : (
-                              <td className="cell">Pending</td>
+                        </tr>
+                        <tr>
+                          {requestDate.title_run === '' ? (
+                            <td className="cell">--</td>
+                          ) : (
+                            <td className="cell">
+                              <Moment format="MM-DD-YYYY HH:mm:ss">{requestDate.title_run}</Moment>
+                            </td>
+                          )}
+
+                          {deliveryDate.title_run_response === '' ? (
+                            <td className="cell">--</td>
+                          ) : (
+                            <td className="cell">
+                              <Moment format="MM-DD-YYYY HH:mm:ss">
+                                {deliveryDate.title_run_response}
+                              </Moment>
+                            </td>
+                          )}
+
+                          <td className="cell">Title</td>
+                          <td className="cell">Voxtur</td>
+                          {typeof deliveryDate.title_run_response !== 'undefined' &&
+                            Object.keys(deliveryDate.title_run_response).length > 0 && (
+                              <td className="cell">
+                                <a
+                                  className="download-link"
+                                  onClick={() => {
+                                    downloadFile(title_file)
+                                  }}
+                                >
+                                  Voxtur
+                                </a>
+                              </td>
                             )}
-                          </tr>
-                        </tbody>
-                      ) : 'appraisal_amount' in msg['body'] ? (
-                        <tbody>
-                          <tr>
-                            <th className="headcol">
-                              <b>Appraisal Ammount</b>
-                            </th>
-                            {msg.body.appraisal_amount ? (
-                              <td className="cell">Received</td>
-                            ) : (
-                              <td className="cell">Pending</td>
-                            )}
-                          </tr>
-                        </tbody>
-                      ) : (
-                        'credit_score' in msg['body'] && (
-                          <tbody>
-                            <tr>
-                              <th className="headcol">
-                                <b>Credit Score</b>
-                              </th>
-                              {msg.body.credit_score ? (
-                                <td className="cell">Received</td>
+                        </tr>
+                        {borrowerFiles ? (
+                          dataids.map((id) => (
+                            <tr key={id.data_uuid}>
+                              {requestDate.employment === '' ? (
+                                <td className="cell">--</td>
                               ) : (
-                                <td className="cell">Pending</td>
+                                <td className="cell">
+                                  <Moment format="MM-DD-YYYY HH:mm:ss">
+                                    {requestDate.employment}
+                                  </Moment>
+                                </td>
                               )}
+
+                              {deliveryDate.employment_response === '' ? (
+                                <td className="cell">--</td>
+                              ) : (
+                                <td className="cell">
+                                  <Moment format="MM-DD-YYYY HH:mm:ss">
+                                    {deliveryDate.employment_response}
+                                  </Moment>
+                                </td>
+                              )}
+                              <td className="cell">{id.metadata.type}</td>
+                              <td className="cell">Borrower</td>
+                              {typeof deliveryDate.employment_response !== 'undefined' &&
+                                Object.keys(deliveryDate.employment_response).length > 0 && (
+                                  <td className="cell">
+                                    <a
+                                      className="download-link text-wrap"
+                                      key={id?.data_uuid}
+                                      onClick={(e) => {
+                                        downloadFile(id?.data_uuid)
+                                      }}
+                                    >
+                                      {id?.metadata?.filename}
+                                    </a>
+                                  </td>
+                                )}
                             </tr>
-                          </tbody>
-                        )
-                      ))}
-                  </table>
+                          ))
+                        ) : (
+                          <tr>
+                            {requestDate.employment === '' ? (
+                              <td className="cell">--</td>
+                            ) : (
+                              <td className="cell">
+                                <Moment format="MM-DD-YYYY HH:mm:ss">
+                                  {requestDate.employment}
+                                </Moment>
+                              </td>
+                            )}
+
+                            {deliveryDate.employment_response === '' ? (
+                              <td className="cell ">--</td>
+                            ) : (
+                              <td className="cell">
+                                <Moment format="MM-DD-YYYY HH:mm:ss">
+                                  {deliveryDate.employment_response}
+                                </Moment>
+                              </td>
+                            )}
+                            <td className="cell">Paystub</td>
+                            <td className="cell">Plaid</td>
+                            {typeof deliveryDate.employment_response !== 'undefined' &&
+                              Object.keys(deliveryDate.employment_response).length > 0 && (
+                                <td className="cell">
+                                  <a
+                                    className="download-link text-wrap"
+                                    onClick={() => {
+                                      downloadFile(paystub_file)
+                                    }}
+                                  >
+                                    Plaid Paystub
+                                  </a>
+                                </td>
+                              )}
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+
+                  <div className="alert alert-info" role="alert">
+                    Message IDs will keep changing the loan automatically progresses
+                  </div>
+                  <select
+                    type="select"
+                    className="form-select"
+                    name=""
+                    id=""
+                    onChange={(e) => {
+                      handleSelect(e)
+                      console.log(msg)
+                    }}
+                  >
+                    <option value="" disabled hidden selected>
+                      Select a message
+                    </option>
+                    {select.map((item) => (
+                      <option key={item.header.id} value={item.header.id}>
+                        {item.header.id}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="table-scroll">
+                    <div className="table-wrap">
+                      <table className="main-table">
+                        {'borrower_info' in msg &&
+                          ('decision' in msg['borrower_info'] ? (
+                            <tbody>
+                              <tr>
+                                <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                                  Final Decision
+                                </th>
+                              </tr>
+
+                              <tr>
+                                <th className="headcol">Decision</th>
+                                <td className="cell">{msg.borrower_info.decision}</td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              <tr>
+                                <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                                  Personal Information
+                                </th>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Name</th>
+                                <td className="cell">{msg.borrower_info.name}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Email</th>
+                                <td className="cell">{msg.borrower_info.email}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Phone</th>
+                                <td className="cell">{msg.borrower_info.phone}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Secondary Phone Number</th>
+                                <td className="cell">{msg.borrower_info.secondary_phone_number}</td>
+                              </tr>
+
+                              <tr>
+                                <th className="headcol">Marital Status</th>
+                                <td className="cell">{msg.borrower_info.marital_status}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Co-applicant</th>
+                                <td className="cell">{msg.borrower_info.coapplicant}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Country of Citizenship</th>
+                                <td className="cell">{msg.borrower_info.country_of_citizenship}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Country of Residence</th>
+                                <td className="cell">{msg.borrower_info.country_of_residence}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">SSN</th>
+                                <td className="cell">{msg.borrower_info.social_security_number}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Date of Birth</th>
+                                <td className="cell">{msg.borrower_info.date_of_birth}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Best Time to Call</th>
+                                <td className="cell">{msg.borrower_info.best_time_to_call}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Preferred Language</th>
+                                <td className="cell">{msg.borrower_info.preferred_language}</td>
+                              </tr>
+                              <tr>
+                                <th colSpan="2" className="headcol" style={{ textAlign: 'center' }}>
+                                  Property Information
+                                </th>
+                              </tr>
+
+                              <tr>
+                                <th className="headcol">Address Line 1</th>
+                                <td className="cell">{msg.borrower_info.street}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Address Line 2</th>
+                                <td className="cell">{msg.borrower_info.street_2}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Property City</th>
+                                <td className="cell">{msg.borrower_info.property_city}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Property County</th>
+                                <td className="cell">{msg.borrower_info.property_country}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Property State</th>
+                                <td className="cell">{msg.borrower_info.property_state}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Property Zip Code</th>
+                                <td className="cell">{msg.borrower_info.property_zip_code}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Property Location</th>
+                                <td className="cell">{msg.borrower_info.property_location}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Property Use</th>
+                                <td className="cell">{msg.borrower_info.property_use}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Estimated Property Value</th>
+                                <td className="cell">{msg.borrower_info.property_value}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Line of Credit Amount</th>
+                                <td className="cell">{msg.borrower_info.line_of_credit}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Plans for the Funds</th>
+                                <td className="cell">{msg.borrower_info.plans_for_the_funds}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Loan used for Business</th>
+                                <td className="cell">{msg.borrower_info.loan_used_for_business}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Time at this Address</th>
+                                <td className="cell">{msg.borrower_info.time_at_address}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
+                                  Income and Assets Information
+                                </th>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Employment Status</th>
+                                <td className="cell">{msg.borrower_info.employment_status}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Annual Income</th>
+                                <td className="cell">{msg.borrower_info.anual_income}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Date of Birth</th>
+                                <td className="cell">{msg.borrower_info.source_of_income}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol">Additional Income</th>
+                                <td className="cell">{msg.borrower_info.additional_income}</td>
+                              </tr>
+                              <tr>
+                                <th className="headcol" colSpan="2" style={{ textAlign: 'center' }}>
+                                  Underwriting Steps State
+                                </th>
+                              </tr>
+
+                              {'employment_verification' in msg['borrower_info'] && (
+                                <tr>
+                                  <th className="headcol">
+                                    <b>Employment Verification</b>
+                                  </th>
+                                  {msg.borrower_info.employment_verification ? (
+                                    <td className="cell">Received</td>
+                                  ) : (
+                                    <td className="cell">Pending</td>
+                                  )}
+                                </tr>
+                              )}
+                              {'title_run' in msg['borrower_info'] && (
+                                <tr>
+                                  <th className="headcol">
+                                    <b>Title Run</b>
+                                  </th>
+                                  {msg.borrower_info.title_run ? (
+                                    <td className="cell">Received</td>
+                                  ) : (
+                                    <td className="cell">Pending</td>
+                                  )}
+                                </tr>
+                              )}
+                              {'credit_score' in msg['borrower_info'] && (
+                                <tr>
+                                  <th className="headcol">
+                                    <b>Credit Score</b>
+                                  </th>
+                                  <td className="cell">{msg.borrower_info.credit_score}</td>
+                                </tr>
+                              )}
+                              {'appraisal_amount' in msg['borrower_info'] && (
+                                <tr>
+                                  <th className="headcol">
+                                    <b>Appraisal Ammount</b>
+                                  </th>
+                                  {msg.borrower_info.appraisal_amount ? (
+                                    <td className="cell">Received</td>
+                                  ) : (
+                                    <td className="cell">Pending</td>
+                                  )}
+                                </tr>
+                              )}
+                            </tbody>
+                          ))}
+                        {'body' in msg &&
+                          ('employment_verification' in msg['body'] ? (
+                            <tbody>
+                              <tr>
+                                <th className="headcol">
+                                  <b>Employment Verification</b>
+                                </th>
+                                {msg.body.employment_verification ? (
+                                  <td className="cell">Received</td>
+                                ) : (
+                                  <td className="cell">Pending</td>
+                                )}
+                              </tr>
+                            </tbody>
+                          ) : 'title_run' in msg['body'] ? (
+                            <tbody>
+                              <tr>
+                                <th className="headcol">
+                                  <b>Title Run</b>
+                                </th>
+                                {msg.body.title_run ? (
+                                  <td className="cell">Received</td>
+                                ) : (
+                                  <td className="cell">Pending</td>
+                                )}
+                              </tr>
+                            </tbody>
+                          ) : 'appraisal_amount' in msg['body'] ? (
+                            <tbody>
+                              <tr>
+                                <th className="headcol">
+                                  <b>Appraisal Ammount</b>
+                                </th>
+                                {msg.body.appraisal_amount ? (
+                                  <td className="cell">Received</td>
+                                ) : (
+                                  <td className="cell">Pending</td>
+                                )}
+                              </tr>
+                            </tbody>
+                          ) : (
+                            'credit_score' in msg['body'] && (
+                              <tbody>
+                                <tr>
+                                  <th className="headcol">
+                                    <b>Credit Score</b>
+                                  </th>
+                                  {msg.body.credit_score ? (
+                                    <td className="cell">Received</td>
+                                  ) : (
+                                    <td className="cell">Pending</td>
+                                  )}
+                                </tr>
+                              </tbody>
+                            )
+                          ))}
+                      </table>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           )}
         </div>
