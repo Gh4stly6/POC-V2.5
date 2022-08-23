@@ -106,7 +106,7 @@ const DecisionAnalysis = () => {
     setTimeout(() => {
       setIsToggled(true)
       setSpin(false)
-    }, 4000)
+    }, 2000)
   }
 
   //*DOWNLOAD PDF
@@ -152,6 +152,20 @@ const DecisionAnalysis = () => {
     //uuid (which maps exactly to a uuid)
 
     try {
+      setDeliveryDate((deliveryDate) => ({
+        ...deliveryDate,
+        employment_response: '',
+        credit_response: '',
+        appraisal_response: '',
+        title_run_response: '',
+      }))
+      setRequestDate((requestDate) => ({
+        ...requestDate,
+        employment: '',
+        credit: '',
+        title_run: '',
+        appraisal: '',
+      }))
       const response = await fetch(url, requestOptions)
       //We get back a list with multiple messsages in the form of JSONs
       const message = await response.json()
