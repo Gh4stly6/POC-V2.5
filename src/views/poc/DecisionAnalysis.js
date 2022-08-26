@@ -24,7 +24,7 @@ const DecisionAnalysis = () => {
   const [progress, setProgress] = useState(0)
   const [msg, setMsg] = useState([])
   const [finalDecision, setFinalDecision] = useState(false)
-  const [spinner, setSpinner] = useState()
+  const [spinner, setSpinner] = useState(true)
   const [reload, setReload] = useState(false)
   const [showYes, setShowYes] = useState(false)
   const [showNo, setShowNo] = useState(false)
@@ -128,6 +128,23 @@ const DecisionAnalysis = () => {
     a.click()
   }
 
+  function cleanTable() {
+    setDeliveryDate((deliveryDate) => ({
+      ...deliveryDate,
+      employment_response: '',
+      credit_response: '',
+      appraisal_response: '',
+      title_run_response: '',
+    }))
+    setRequestDate((requestDate) => ({
+      ...requestDate,
+      employment: '',
+      credit: '',
+      title_run: '',
+      appraisal: '',
+    }))
+  }
+
   //*get the uuid typed by de user and saving it in UUID hook
 
   function handle_uuid(e) {
@@ -152,20 +169,6 @@ const DecisionAnalysis = () => {
     //uuid (which maps exactly to a uuid)
 
     try {
-      setDeliveryDate((deliveryDate) => ({
-        ...deliveryDate,
-        employment_response: '',
-        credit_response: '',
-        appraisal_response: '',
-        title_run_response: '',
-      }))
-      setRequestDate((requestDate) => ({
-        ...requestDate,
-        employment: '',
-        credit: '',
-        title_run: '',
-        appraisal: '',
-      }))
       const response = await fetch(url, requestOptions)
       //We get back a list with multiple messsages in the form of JSONs
       const message = await response.json()
@@ -397,7 +400,7 @@ const DecisionAnalysis = () => {
           setTimeout(() => {
             setSpinner(false)
             setReload(true)
-          }, 3000)
+          }, 5000)
         }
       }
     } catch (error) {
@@ -522,7 +525,10 @@ const DecisionAnalysis = () => {
               </div>
               <button
                 type="submit"
-                onClick={get_messages}
+                onClick={(e) => {
+                  cleanTable()
+                  get_messages(e)
+                }}
                 className="btn btn-primary btn-apply"
                 disabled={isLoading}
               >
@@ -538,23 +544,6 @@ const DecisionAnalysis = () => {
             <div>
               {isToggled && (
                 <div>
-                  {reload && (
-                    <div className="loading">
-                      <button onClick={get_messages} className="btn btn-primary">
-                        Check again for this same loan ID
-                      </button>
-                    </div>
-                  )}
-                  {finalDecision && (
-                    <button
-                      id="final-decision"
-                      onClick={persist_decision}
-                      className="btn btn-primary btn-final"
-                    >
-                      Make final decision
-                    </button>
-                  )}
-
                   <div className="verification">
                     <div className="credit-check">
                       <h6 className="step-text">Credit Check</h6>
@@ -596,6 +585,23 @@ const DecisionAnalysis = () => {
                   </div>
                 </div>
               )}
+              {reload && (
+                <div className="loading">
+                  <button onClick={get_messages} className="btn btn-primary">
+                    Check again for this same loan ID
+                  </button>
+                </div>
+              )}
+              {finalDecision && (
+                <button
+                  id="final-decision"
+                  onClick={persist_decision}
+                  className="btn btn-primary btn-final"
+                >
+                  Make final decision
+                </button>
+              )}
+
               {isToggled && (
                 <div className="loading">
                   {spinner && (
@@ -606,6 +612,7 @@ const DecisionAnalysis = () => {
                         <CProgressBar value={progress}>{progress}%</CProgressBar>
                       </CProgress>
                       <br />
+                      <CSpinner color="info" />
                       <label htmlFor="">
                         Calling mutiple external vendors. Message has already been written to the
                         Blockchain
