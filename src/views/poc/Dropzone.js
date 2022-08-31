@@ -18,6 +18,7 @@ function Dropzone() {
   const { getRootProps, getInputProps, acceptedFiles, isDragActive, fileRejections } = useDropzone({
     accept: { 'image/*': ['.png', '.jpg'], 'application/pdf': [] },
   })
+  var fileFormat
 
   const files = acceptedFiles.map((file) => (
     <li key={file.path}>
@@ -26,11 +27,11 @@ function Dropzone() {
   ))
 
   //store files in fileObjects
-
   let formData = new FormData()
 
   const fileObjects = acceptedFiles.map((file) => {
     console.log(file)
+    fileFormat = file.type
     formData.append('autometa', 'true')
     formData.append('file', file)
   })
@@ -90,6 +91,7 @@ function Dropzone() {
           metadata: {
             step: 'income_verification',
             filename: response.value.filename,
+            mimeType: fileFormat,
             type: Type,
           },
         }

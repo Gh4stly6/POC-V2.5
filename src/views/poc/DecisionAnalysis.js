@@ -109,8 +109,33 @@ const DecisionAnalysis = () => {
     }, 2000)
   }
 
+  //CLEAR LOAN LIST
+
+  async function clearLoans(loanList) {
+    for (let i = 0; i < loanList.length; i++) {
+      let persisted_data = JSON.stringify({
+        vendor: 'store_result_in_blockchain',
+        decision: 'No',
+        uuid: loanList[i],
+      })
+      let Options = {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: persisted_data,
+        redirect: 'follow',
+      }
+
+      const sendDecision = await fetch(
+        'https://mr9w0zhxw7.execute-api.us-east-1.amazonaws.com/prod',
+        Options,
+      )
+
+      console.log(await sendDecision.json())
+    }
+  }
+
   //*DOWNLOAD PDF
-  async function downloadFile(idFile) {
+  async function downloadFile(idFile, type) {
     const request = await fetch(
       `${URL}/api/v1/namespaces/default/data/${idFile}/blob`,
       requestOptions,
@@ -118,7 +143,9 @@ const DecisionAnalysis = () => {
     console.log(idFile)
     const blob = await request.blob()
     console.log(blob)
-    let file = new Blob([blob], { type: 'application/pdf' })
+    let file = new Blob([blob], {
+      type: `${type}`,
+    })
     let pdf = window.URL.createObjectURL(file)
     window.open(pdf, '_blank')
     let a = document.createElement('a')
@@ -500,7 +527,14 @@ const DecisionAnalysis = () => {
         <div className="container">
           <form action="">
             <div className="loan-info">
-              {/* <button onClick={clearLoans(loanList)}>Clear loan ID</button> */}
+              {/* <button
+                onClick={(e) => {
+                  e.preventDefault()
+                  clearLoans(loanList)
+                }}
+              >
+                Clear loan ID
+              </button> */}
               <div>
                 <label className="form-label" htmlFor="loan_id">
                   Please, select a loan ID
@@ -771,7 +805,7 @@ const DecisionAnalysis = () => {
                                       className="download-link text-wrap"
                                       key={id?.data_uuid}
                                       onClick={(e) => {
-                                        downloadFile(id?.data_uuid)
+                                        downloadFile(id?.data_uuid, id?.metadata.mimeType)
                                       }}
                                     >
                                       {id?.metadata?.filename}
