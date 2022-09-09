@@ -135,7 +135,7 @@ const DecisionAnalysis = () => {
   }
 
   //*DOWNLOAD PDF
-  async function downloadFile(idFile, type) {
+  async function downloadFile(idFile, type, name) {
     const request = await fetch(
       `${URL}/api/v1/namespaces/default/data/${idFile}/blob`,
       requestOptions,
@@ -696,7 +696,7 @@ const DecisionAnalysis = () => {
                                 <a
                                   className="download-link text-wrap"
                                   onClick={() => {
-                                    downloadFile(creditReportId)
+                                    downloadFile(creditReportId, 'application/pdf')
                                   }}
                                 >
                                   Experian Credit Report
@@ -731,7 +731,7 @@ const DecisionAnalysis = () => {
                                 <a
                                   className="download-link"
                                   onClick={() => {
-                                    downloadFile(avm_file)
+                                    downloadFile(avm_file, 'application/pdf')
                                   }}
                                 >
                                   Appraisal AVM
@@ -766,7 +766,7 @@ const DecisionAnalysis = () => {
                                 <a
                                   className="download-link"
                                   onClick={() => {
-                                    downloadFile(title_file)
+                                    downloadFile(title_file, 'application/pdf')
                                   }}
                                 >
                                   Voxtur
@@ -805,7 +805,11 @@ const DecisionAnalysis = () => {
                                       className="download-link text-wrap"
                                       key={id?.data_uuid}
                                       onClick={(e) => {
-                                        downloadFile(id?.data_uuid, id?.metadata.mimeType)
+                                        downloadFile(
+                                          id?.data_uuid,
+                                          id?.metadata.mimeType,
+                                          id?.metadata?.filename,
+                                        )
                                       }}
                                     >
                                       {id?.metadata?.filename}
@@ -843,7 +847,7 @@ const DecisionAnalysis = () => {
                                   <a
                                     className="download-link text-wrap"
                                     onClick={() => {
-                                      downloadFile(paystub_file)
+                                      downloadFile(paystub_file, 'application/pdf')
                                     }}
                                   >
                                     Plaid Paystub
